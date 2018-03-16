@@ -109,7 +109,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         catImage.setOnClickListener(TextUtils.isEmpty(category.getImage()) ? null : thumbListener);
         if (!TextUtils.isEmpty(image)) {
             if (image.startsWith("http")) {
-                Picasso.with(context)
+                Picasso.get()
                         .load(image)
                         .error(R.color.mass_audit_grey)
                         .into(catImage);
@@ -190,7 +190,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         thumb.setOnClickListener(TextUtils.isEmpty(product.getImage()) ? null : thumbListener);
         if (!TextUtils.isEmpty(image)) {
             if (image.startsWith("http")) {
-                Picasso.with(context)
+                Picasso.get()
                         .load(image)
                         .error(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey)
                         .into(thumb);

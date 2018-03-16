@@ -60,7 +60,7 @@ public class PaymentInfoImageView extends RelativeLayout {
 
     private void setIcon() {
         if (!TextUtils.isEmpty(paymentField.getIcon()))
-            Picasso.with(getContext())
+            Picasso.get()
                     .load(paymentField.getIcon())
                     .error(R.drawable.cam)
                     .into(icon);
@@ -70,7 +70,7 @@ public class PaymentInfoImageView extends RelativeLayout {
         if (!TextUtils.isEmpty(paymentField.getValue())) {
             rePhotoButton.setVisibility(GONE);
             photo.setVisibility(VISIBLE);
-            Picasso.with(getContext())
+            Picasso.get()
                     .load(paymentField.getValue())
                     .resize(800, 0)
                     .onlyScaleDown()
@@ -83,7 +83,7 @@ public class PaymentInfoImageView extends RelativeLayout {
                         }
 
                         @Override
-                        public void onError() {
+                        public void onError(Exception e) {
                             rePhotoButton.setVisibility(GONE);
                             paymentField.setValue(null);
                         }

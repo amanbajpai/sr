@@ -251,7 +251,7 @@ public class MyAccountFragment extends BaseFragment implements MyAccountMvpView,
 
     private void showAvatar(String photoUrl) {
         if (!TextUtils.isEmpty(photoUrl))
-            Picasso.with(getActivity())
+            Picasso.get()
                     .load(photoUrl)
                     .error(R.drawable.cam)
                     .into(photoImageView);

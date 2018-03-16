@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.FileProcessingManager;
@@ -29,6 +30,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.StorageManager;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
+import com.squareup.picasso.Picasso;
 
 import org.apache.commons.io.FileUtils;
 
@@ -45,7 +47,6 @@ import java.util.Random;
 import de.greenrobot.event.EventBus;
 
 import static com.ros.smartrocket.utils.image.RequestCodeImageHelper.getLittlePart;
-import static com.squareup.picasso.Picasso.with;
 
 public class SelectImageManager {
     public static final String EXTRA_PREFIX = "com.ros.smartrocket.EXTRA_PREFIX";
@@ -200,7 +201,7 @@ public class SelectImageManager {
             }
 
 //            if (rotateByExif) {
-            resultBitmap = rotateByExif(f.getAbsolutePath(), resultBitmap);
+            resultBitmap = rotateByExif(f, resultBitmap);
 //            }
         } catch (Exception e) {
             L.e(TAG, "PrepareBitmap error" + e.getMessage(), e);
@@ -292,7 +293,7 @@ public class SelectImageManager {
                     }
 
                     if (imagePath.startsWith("http")) {
-                        Bitmap image = with(context).load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX).get();
+                        Bitmap image = Picasso.get().load(imagePath).resize(MAX_SIZE_IN_PX, MAX_SIZE_IN_PX).get();
                         lastFile = saveBitmapToFile(context, image, prefix);
                         image.recycle();
 
@@ -406,16 +407,17 @@ public class SelectImageManager {
         return sourceBitmap;
     }
 
-    private static Bitmap rotateByExif(String imagePath, Bitmap bitmap) {
+    private static Bitmap rotateByExif(File file, Bitmap bitmap) {
         try {
-            ExifInterface oldExif = new ExifInterface(imagePath);
+            ExifInterface oldExif = new ExifInterface(file.getAbsolutePath());
             final int rotation = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
             final int rotationInDegrees = exifToDegrees(rotation);
             Matrix matrix = new Matrix();
             if (rotationInDegrees != 0) {
                 matrix.preRotate(rotationInDegrees);
             }
-
+            Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            saveBitmapToFile(result, file);
             return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
         } catch (Exception e) {
             L.e(TAG, "RotateByExif error" + e.getMessage(), e);
@@ -469,7 +471,7 @@ public class SelectImageManager {
         return resultFile;
     }
 
-    private static File saveBitmapToFile(Context context, Bitmap bitmap, @Nullable String prefix) {
+    public static File saveBitmapToFile(Context context, Bitmap bitmap, @Nullable String prefix) {
         File resultFile = getTempFile(context, prefix);
 
         try {
@@ -484,6 +486,17 @@ public class SelectImageManager {
         }
 
         return resultFile;
+    }
+
+    public static void saveBitmapToFile(Bitmap bitmap, File file) {
+        try {
+            FileOutputStream fos = new FileOutputStream(file, false);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 
     /// ======================================================================================================= ///

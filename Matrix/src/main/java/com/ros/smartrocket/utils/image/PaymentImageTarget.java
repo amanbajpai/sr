@@ -1,6 +1,7 @@
 package com.ros.smartrocket.utils.image;
 
-import android.app.Activity;
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.widget.ImageView;
@@ -8,19 +9,22 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
-public class WaveTypeIconTarget implements Target {
-    private Activity activity;
+import java.io.File;
+
+public class PaymentImageTarget implements Target {
+    private Context context;
     private ImageView imageView;
 
-    public WaveTypeIconTarget(Activity activity, ImageView imageView) {
-        this.activity = activity;
+    public PaymentImageTarget(Context context, ImageView imageView) {
+        this.context = context;
         this.imageView = imageView;
     }
 
     @Override
     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-        if (activity != null)
-            activity.runOnUiThread(() -> imageView.setImageBitmap(bitmap));
+        File file = SelectImageManager.saveBitmapToFile(context, bitmap, "");
+        Bitmap result = SelectImageManager.prepareBitmap(file, 500, 0);
+        imageView.setImageBitmap(result);
     }
 
     @Override
@@ -30,6 +34,6 @@ public class WaveTypeIconTarget implements Target {
 
     @Override
     public void onPrepareLoad(Drawable placeHolderDrawable) {
-        // do nothing
+
     }
 }

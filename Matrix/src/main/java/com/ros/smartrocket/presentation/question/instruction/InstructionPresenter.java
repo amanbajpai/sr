@@ -57,21 +57,8 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
             getMvpView().setImageInstruction(getBitmap(file), file.getPath());
         } else {
             getMvpView().showLoading(true);
-            MediaDownloader md = new MediaDownloader(FileProcessingManager.FileType.IMAGE, new MediaDownloader.OnFileLoadCompleteListener() {
-                @Override
-                public void onFileLoadComplete(File result) {
-                    if (isViewAttached()) {
-                        getMvpView().hideLoading();
-                        getMvpView().setImageInstruction(getBitmap(result), result.getPath());
-                    }
-                }
 
-                @Override
-                public void onFileLoadError() {
-                    if (isViewAttached()) getMvpView().hideLoading();
-                }
-            });
-            md.getMediaFileAsync(question.getPhotoUrl());
+
         }
     }
 

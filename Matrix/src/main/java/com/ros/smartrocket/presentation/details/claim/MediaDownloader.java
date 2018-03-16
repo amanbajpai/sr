@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.details.claim;
 
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -9,6 +10,7 @@ import com.ros.smartrocket.db.entity.question.Category;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.utils.FileProcessingManager;
+import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import org.apache.commons.io.FileUtils;
 
@@ -24,12 +26,17 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 public final class MediaDownloader {
-    private OnFileLoadCompleteListener listener;
+    private OnFileLoadCompleteListener fileListener;
+    private OnImageLoadCompleteListener imageLoadCompleteListener;
     private FileProcessingManager.FileType type = FileProcessingManager.FileType.OTHER;
 
-    public MediaDownloader(FileProcessingManager.FileType type, OnFileLoadCompleteListener listener) {
+    public MediaDownloader(FileProcessingManager.FileType type, OnFileLoadCompleteListener fileListener) {
         this.type = type;
-        this.listener = listener;
+        this.fileListener = fileListener;
+    }
+
+    public MediaDownloader(OnImageLoadCompleteListener listener) {
+        this.imageLoadCompleteListener = listener;
     }
 
     private static int downloadInstructionQuestionFile(List<Question> questions) {
@@ -128,6 +135,12 @@ public final class MediaDownloader {
         void onFileLoadError();
     }
 
+    public interface OnImageLoadCompleteListener {
+        void onImageLoadComplete(Bitmap result);
+
+        void onImageLoadError();
+    }
+
     public void getMediaFileAsync(String url) {
         Observable.fromCallable(() -> getFile(url))
                 .subscribeOn(Schedulers.io())
@@ -136,11 +149,11 @@ public final class MediaDownloader {
     }
 
     private void onComplete(File file) {
-        if (listener != null) listener.onFileLoadComplete(file);
+        if (fileListener != null) fileListener.onFileLoadComplete(file);
     }
 
     private void onError(Throwable t) {
-        if (listener != null) listener.onFileLoadError();
+        if (fileListener != null) fileListener.onFileLoadError();
         Log.e("MediaDownloader", "Video loading error", t);
     }
 
@@ -150,5 +163,34 @@ public final class MediaDownloader {
             return resultFile;
         resultFile = downloadFileSync(fileUrl, resultFile);
         return resultFile;
+    }
+
+    public void loadImageAsync(String url) {
+        Observable.fromCallable(() -> getImage(url))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onImageLoadingComplete, this::onImageLoadingError);
+    }
+
+    private Bitmap getImage(String fileUrl) throws IOException {
+        File resultFile = FileProcessingManager.getTempFile(type, fileUrl, true);
+        if (resultFile.exists())
+            return getBitmapFromFile(resultFile);
+        resultFile = downloadFileSync(fileUrl, resultFile);
+        return getBitmapFromFile(resultFile);
+    }
+
+    private Bitmap getBitmapFromFile(File f) {
+        return SelectImageManager.prepareBitmap(f, SelectImageManager.SIZE_IN_PX_2_MP, 0);
+    }
+
+    private void onImageLoadingComplete(Bitmap bitmap) {
+        if (imageLoadCompleteListener != null)
+            imageLoadCompleteListener.onImageLoadComplete(bitmap);
+    }
+
+    private void onImageLoadingError(Throwable t) {
+        if (imageLoadCompleteListener != null) imageLoadCompleteListener.onImageLoadError();
+        Log.e("MediaDownloader", "Video loading error", t);
     }
 }
