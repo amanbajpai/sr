@@ -114,7 +114,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
                         .error(R.color.mass_audit_grey)
                         .into(catImage);
             } else {
-                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB);
                 catImage.setImageBitmap(bitmap);
             }
         }
@@ -195,7 +195,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
                         .error(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey)
                         .into(thumb);
             } else {
-                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB, 0);
+                Bitmap bitmap = SelectImageManager.prepareBitmap(new File(image), SelectImageManager.SIZE_THUMB);
                 thumb.setImageBitmap(bitmap);
             }
         }

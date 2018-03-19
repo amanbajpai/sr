@@ -63,6 +63,6 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
     }
 
     private Bitmap getBitmap(File file) {
-        return SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        return SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP);
     }
 }

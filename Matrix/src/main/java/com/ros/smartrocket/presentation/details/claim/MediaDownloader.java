@@ -181,7 +181,7 @@ public final class MediaDownloader {
     }
 
     private Bitmap getBitmapFromFile(File f) {
-        return SelectImageManager.prepareBitmap(f, SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        return SelectImageManager.prepareBitmap(f, SelectImageManager.SIZE_IN_PX_2_MP);
     }
 
     private void onImageLoadingComplete(Bitmap bitmap) {
