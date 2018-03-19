@@ -193,7 +193,7 @@ public class SelectImageManager {
         Bitmap resultBitmap = null;
         try {
             resultBitmap = getScaledBitmapByPxSize(f, maxSizeInPx);
-            resultBitmap = rotateByExif(f, resultBitmap, false);
+            resultBitmap = rotateByExif(f, resultBitmap);
         } catch (Exception e) {
             L.e(TAG, "PrepareBitmap error" + e.getMessage(), e);
         }
@@ -258,7 +258,7 @@ public class SelectImageManager {
                         if (is != null) {
                             Bitmap pictureBitmap = BitmapFactory.decodeStream(is);
                             lastFile = saveBitmapToFile(context, pictureBitmap, prefix);
-                            rotateByExif(lastFile, pictureBitmap, true);
+                            rotateByExif(lastFile, pictureBitmap);
                             pictureBitmap.recycle();
                             resultBitmap = prepareBitmap(lastFile, SIZE_IN_PX_2_MP);
                             return new ImageFileClass(resultBitmap, lastFile);
@@ -286,7 +286,7 @@ public class SelectImageManager {
                     if (imagePath.startsWith("http")) {
                         Bitmap image = Picasso.get().load(imagePath).resize(SIZE_IN_PX_2_MP, SIZE_IN_PX_2_MP).get();
                         lastFile = saveBitmapToFile(context, image, prefix);
-                        rotateByExif(lastFile, image, true);
+                        rotateByExif(lastFile, image);
                         image.recycle();
                         resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX);
                     } else {
@@ -300,7 +300,7 @@ public class SelectImageManager {
                     parcelFileDescriptor.close();
 
                     lastFile = saveBitmapToFile(context, image, prefix);
-                    rotateByExif(lastFile, image, true);
+                    rotateByExif(lastFile, image);
                     image.recycle();
                     resultBitmap = prepareBitmap(lastFile, MAX_SIZE_IN_PX);
                 }
@@ -399,18 +399,16 @@ public class SelectImageManager {
         return sourceBitmap;
     }
 
-    private static Bitmap rotateByExif(File file, Bitmap bitmap, boolean shouldSave) {
+    private static Bitmap rotateByExif(File file, Bitmap bitmap) {
         try {
             ExifInterface oldExif = new ExifInterface(file.getAbsolutePath());
             final int rotation = Integer.valueOf(oldExif.getAttribute(ExifInterface.TAG_ORIENTATION));
             final int rotationInDegrees = exifToDegrees(rotation);
             Matrix matrix = new Matrix();
-            if (rotationInDegrees != 0) {
-                matrix.preRotate(rotationInDegrees);
-            }
+            if (rotationInDegrees != 0) matrix.preRotate(rotationInDegrees);
             Bitmap result = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-            if (shouldSave) saveBitmapToFile(result, file);
-            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            if (rotationInDegrees != 0) saveBitmapToFile(result, file);
+            return result;
         } catch (Exception e) {
             L.e(TAG, "RotateByExif error" + e.getMessage(), e);
         }
