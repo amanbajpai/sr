@@ -196,8 +196,8 @@ android {
             dimension "mode"
         }
         cdnStaging {
-            buildConfigField "String", "WEB_SERVICE_URL", "\"http://192.168.0.88/MatrixApi/\""
-            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://192.168.0.88/MatrixApi\""
+            buildConfigField "String", "WEB_SERVICE_URL", "\"http://matrixapi.cdnsolutionsgroup.com/\""
+            buildConfigField "String", "PROFILE_PAGE_URL", "\"http://matrixagent.cdnsolutionsgroup.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
             buildConfigField "boolean", "CHINESE", "false"
             dimension "mode"

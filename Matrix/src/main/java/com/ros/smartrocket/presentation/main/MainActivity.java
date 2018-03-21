@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 
@@ -21,13 +22,18 @@ import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.LogOutAction;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.nio.channels.FileChannel;
+
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
 
 public class MainActivity extends BaseSlidingMenuActivity {
+    private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
     private FragmentHelper fragmentHelper = new FragmentHelper();
     private boolean doubleBackToExitPressedOnce = false;
-    private static final int DOUBLE_PRESS_INTERVAL_MILLISECONDS = 2000;
     private ResponseReceiver localReceiver;
 
     @Override
@@ -37,6 +43,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         startServices();
         initPushMessaging();
         initReceiver();
+        exportDBTest();
     }
 
     @Override
@@ -72,13 +79,6 @@ public class MainActivity extends BaseSlidingMenuActivity {
             CommonUtilities.registerGCMInBackground();
         else
             JPushInterface.init(getApplicationContext());
-    }
-
-    public class ResponseReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Keys.FINISH_MAIN_ACTIVITY)) finish();
-        }
     }
 
     public void startFragment(Fragment fragment) {
@@ -131,5 +131,34 @@ public class MainActivity extends BaseSlidingMenuActivity {
         finish();
     }
 
+    private void exportDBTest() {
+        try {
+            File sd = Environment.getExternalStorageDirectory();
+            File data = Environment.getDataDirectory();
+
+            if (sd.canWrite()) {
+                String currentDBPath = "//data//com.ros.smartrocket//databases//matrix_db";
+                String backupDBPath = "matrix_db";
+                File currentDB = new File(data, currentDBPath);
+                File backupDB = new File(sd, backupDBPath);
+
+                if (currentDB.exists()) {
+                    FileChannel src = new FileInputStream(currentDB).getChannel();
+                    FileChannel dst = new FileOutputStream(backupDB).getChannel();
+                    dst.transferFrom(src, 0, src.size());
+                    src.close();
+                    dst.close();
+                }
+            }
+        } catch (Exception e) {
+        }
+    }
+
+    public class ResponseReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(Keys.FINISH_MAIN_ACTIVITY)) finish();
+        }
+    }
 
 }
