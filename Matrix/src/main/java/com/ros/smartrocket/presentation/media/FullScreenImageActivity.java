@@ -36,9 +36,9 @@ public class FullScreenImageActivity extends BaseActivity {
 
     private void loadImage(String photoUri) {
         if (photoUri.startsWith("http")) {
-            Picasso.with(this).load(photoUri).into(bitmapTarget);
+            Picasso.get().load(photoUri).into(bitmapTarget);
         } else {
-            Picasso.with(this).load(new File(photoUri)).into(bitmapTarget);
+            Picasso.get().load(new File(photoUri)).into(bitmapTarget);
         }
     }
 
@@ -63,7 +63,7 @@ public class FullScreenImageActivity extends BaseActivity {
             }
 
             @Override
-            public void onBitmapFailed(Drawable errorDrawable) {
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
                 showError();
             }
 

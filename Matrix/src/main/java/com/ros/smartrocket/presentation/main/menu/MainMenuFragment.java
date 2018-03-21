@@ -139,7 +139,7 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
 
     private void showLevelIcon(String levelIconUrl) {
         if (!TextUtils.isEmpty(levelIconUrl))
-            Picasso.with(getActivity())
+            Picasso.get()
                     .load(levelIconUrl)
                     .error(R.drawable.cam)
                     .into(levelIcon);
@@ -147,7 +147,7 @@ public class MainMenuFragment extends BaseFragment implements OnClickListener, A
 
     private void showAvatar(String photoUrl) {
         if (!TextUtils.isEmpty(photoUrl))
-            Picasso.with(getActivity())
+            Picasso.get()
                     .load(photoUrl)
                     .error(R.drawable.cam)
                     .into(photoImageView);
