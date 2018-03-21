@@ -58,11 +58,11 @@ public class IdCardActivity extends Activity {
             userPhoto.setVisibility(View.GONE);
         } else {
             userPhoto.setVisibility(View.VISIBLE);
-            Picasso.with(getApplicationContext()).load(myAccount.getPhotoUrl()).into(userPhoto);
+            Picasso.get().load(myAccount.getPhotoUrl()).into(userPhoto);
         }
 
         if (!TextUtils.isEmpty(wave.getIdCardLogo()))
-            Picasso.with(getApplicationContext()).load(wave.getIdCardLogo()).into(logo);
+            Picasso.get().load(wave.getIdCardLogo()).into(logo);
 
 
         if (!TextUtils.isEmpty(wave.getIdCardText())) {

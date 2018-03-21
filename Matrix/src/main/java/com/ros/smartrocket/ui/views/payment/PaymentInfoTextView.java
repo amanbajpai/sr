@@ -52,7 +52,7 @@ public class PaymentInfoTextView extends RelativeLayout {
 
     private void setIcon(PaymentField paymentField) {
         if (!TextUtils.isEmpty(paymentField.getIcon()))
-            Picasso.with(getContext())
+            Picasso.get()
                     .load(paymentField.getIcon())
                     .error(R.drawable.cam)
                     .into(icon);

@@ -169,7 +169,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     }
 
     private void saveAnswer(Location location, int photoPos) {
-        File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile, SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile, SelectImageManager.SIZE_IN_PX_2_MP);
         if (resultImageFile.exists() && question.getAnswers().size() > photoPos) {
             Answer answer = question.getAnswers().get(photoPos);
             boolean needAddEmptyAnswer = !answer.getChecked();

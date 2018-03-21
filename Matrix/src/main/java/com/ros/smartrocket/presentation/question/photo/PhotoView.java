@@ -140,10 +140,10 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
     private void addItemToGallery(final int position, Answer answer) {
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_photo_gallery, null);
-        ImageView photo = (ImageView) convertView.findViewById(R.id.image);
-        ImageView imageFrame = (ImageView) convertView.findViewById(R.id.imageFrame);
+        ImageView photo = convertView.findViewById(R.id.image);
+        ImageView imageFrame = convertView.findViewById(R.id.imageFrame);
         if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
-            Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100, 0);
+            Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100);
             photo.setImageBitmap(bitmap);
         } else {
             photo.setBackgroundResource(R.drawable.camera_icon);

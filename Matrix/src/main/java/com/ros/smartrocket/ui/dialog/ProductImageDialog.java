@@ -81,8 +81,7 @@ public final class ProductImageDialog extends DialogFragment {
     };
 
     public void setImageInstructionFile(final File file) {
-        MyLog.v("ProductImageDialog.setImageInstructionFile", file);
-        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP, 0);
+        Bitmap bitmap = SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP);
         imageView.setImageBitmap(bitmap);
         imageView.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(file.getPath())) {

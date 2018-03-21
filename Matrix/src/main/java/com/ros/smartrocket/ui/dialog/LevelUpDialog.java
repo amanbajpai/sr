@@ -44,7 +44,7 @@ public class LevelUpDialog extends Dialog implements View.OnClickListener {
 
         String levelIconUrl = account.getLevelIconUrl();
         if (!TextUtils.isEmpty(levelIconUrl)) {
-            Picasso.with(App.getInstance()).load(levelIconUrl)
+            Picasso.get().load(levelIconUrl)
                     .into((ImageView) findViewById(R.id.levelIcon));
         }
         findViewById(R.id.okButton).setOnClickListener(this);

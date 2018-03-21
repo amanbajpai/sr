@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -130,6 +131,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private int viewItemId = 0;
     private boolean isFirstStart = true;
     private boolean isNeedRefresh = true;
+    private static View view;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -139,10 +141,17 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_map, null);
-        LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
-        if (savedInstanceState == null && mapLayout.findViewById(R.id.map) == null) {
+        if (view != null) {
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if (parent != null)
+                parent.removeView(view);
+        }
+        try {
+            view = inflater.inflate(R.layout.fragment_map, null);
+            LinearLayout mapLayout = view.findViewById(R.id.mapLayout);
             setUpMap(mapLayout);
+        } catch (InflateException e) {
+            /* map is already there, just return view as it is */
         }
         unbinder = ButterKnife.bind(this, view);
         initUI();

@@ -25,8 +25,8 @@ public class ActionBarIconTarget implements Target {
     }
 
     @Override
-    public void onBitmapFailed(Drawable errorDrawable) {
-        // do nothing
+    public void onBitmapFailed(Exception e, Drawable errorDrawable) {
+
     }
 
     @Override
