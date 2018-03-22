@@ -35,7 +35,7 @@ public class PaymentField implements Serializable {
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
@@ -43,7 +43,7 @@ public class PaymentField implements Serializable {
     }
 
     public String getInstructions() {
-        return instructions;
+        return instructions == null ? "" : instructions;
     }
 
     public void setInstructions(String instructions) {
