@@ -30,6 +30,8 @@ public class PaymentInfoImageView extends RelativeLayout {
     CustomTextView description;
     @BindView(R.id.rePhotoButton)
     ImageButton rePhotoButton;
+    @BindView(R.id.name)
+    CustomTextView name;
 
     private PaymentField paymentField;
     private PhotoActionsListener listener;
@@ -56,6 +58,7 @@ public class PaymentInfoImageView extends RelativeLayout {
         setIcon();
         setImage();
         description.setText(paymentField.getInstructions());
+        name.setText(paymentField.getName());
     }
 
     private void setIcon() {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -15,7 +15,6 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="15dp"
         android:adjustViewBounds="true"
-        android:background="@color/grey_light"
         android:tint="@color/grey_dark"
         tools:src="@drawable/menu_account" />
 
@@ -25,11 +24,26 @@
         android:layout_height="60dp"
         android:layout_marginBottom="10dp"
         android:layout_marginEnd="5dp"
-        android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:layout_toEndOf="@id/icon"
         android:adjustViewBounds="true"
         custom:srcCompat="@drawable/camera_icon" />
+
+    <com.ros.smartrocket.ui.views.CustomTextView
+        android:id="@+id/name"
+        android:layout_alignBaseline="@id/icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/photo"
+        android:layout_alignBottom="@id/photo"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:layout_alignEnd="@+id/rePhotoButton"
+        android:layout_marginEnd="50dp"
+        android:layout_toEndOf="@id/photo"
+        android:textColor="@color/grey_dark"
+        android:textSize="@dimen/text_size_14sp" />
 
     <ImageButton
         android:id="@+id/rePhotoButton"
@@ -54,14 +68,13 @@
         android:padding="10dp"
         android:textColor="@color/black"
         android:textSize="@dimen/text_size_14sp"
-        custom:textStyle="bold"
-        tools:text="Some very cool text" />
+        custom:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_alignParentBottom="true"
         android:layout_below="@id/description"
-        android:layerType="software"
-        android:background="@drawable/dash_line" />
-</merge>
+        android:background="@drawable/dash_line"
+        android:layerType="software" />
+</RelativeLayout>
