@@ -385,9 +385,16 @@
             android:enabled="true"
             android:process=":remote" />
 
+        <!--  For Ciklum
+         <meta-data
+              android:name="com.crashlytics.ApiKey"
+              android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />-->
+
+        <!--For CDN Sol-->
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />
+            android:value="0b2a50fa30c096f0b61aae2622ab361081013c2f" />
+
         <!-- JPUSH Required SDK [START] -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
