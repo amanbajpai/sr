@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.main;
 
+import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.main.menu.MainMenuFragment;
 
+@SuppressLint("Registered")
 public class BaseSlidingMenuActivity extends BaseActivity {
     private DrawerLayout mDrawerLayout;
     private FrameLayout leftDrawer;

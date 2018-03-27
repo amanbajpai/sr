@@ -515,11 +515,13 @@ public class UIUtils {
     }
 
     public static void showWaveTypeActionBarIcon(final BaseActivity activity, String url) {
-        Picasso.get().load(url).into(new ActionBarIconTarget(activity));
+        if (!TextUtils.isEmpty(url))
+            Picasso.get().load(url).into(new ActionBarIconTarget(activity));
     }
 
     public static void showWaveTypeIcon(final Activity activity, final ImageView iconImageView, String url) {
-        Picasso.get().load(url).into(new WaveTypeIconTarget(activity, iconImageView));
+        if (!TextUtils.isEmpty(url))
+            Picasso.get().load(url).into(new WaveTypeIconTarget(activity, iconImageView));
     }
 
     public static String getBalanceOrPrice(Double balance, String symbol, Integer precision, Integer roundingMode) {
