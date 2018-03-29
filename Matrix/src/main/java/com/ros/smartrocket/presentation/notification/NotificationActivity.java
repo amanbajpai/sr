@@ -16,12 +16,15 @@ import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.MatrixContextWrapper;
+import com.ros.smartrocket.utils.eventbus.CloseNotificationAction;
+import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.eventbus.QuitQuestionFlowAction;
 
 import java.util.Locale;
 
 import de.greenrobot.event.EventBus;
 
+import static com.ros.smartrocket.presentation.notification.NotificationActivity.NotificationType.mission_deadline;
 import static com.ros.smartrocket.presentation.notification.NotificationActivity.NotificationType.mission_expired;
 
 public class NotificationActivity extends Activity implements OnClickListener {
@@ -107,7 +110,20 @@ public class NotificationActivity extends Activity implements OnClickListener {
         } else {
             rightButton.setVisibility(View.GONE);
         }
+        if (getNotificationType(notificationTypeId) == mission_expired)
+            EventBus.getDefault().post(new CloseNotificationAction(mission_deadline, taskId));
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -188,5 +204,14 @@ public class NotificationActivity extends Activity implements OnClickListener {
         Locale newLocale = LocaleUtils.getCurrentLocale();
         Context context = MatrixContextWrapper.wrap(newBase, newLocale);
         super.attachBaseContext(context);
+    }
+
+    @SuppressWarnings("unused")
+    public void onEventMainThread(CloseNotificationAction event) {
+        if (getNotificationType(notificationTypeId) == event.getType()
+                && event.getTaskId() != null
+                && event.getTaskId().equals(taskId))
+            finish();
+
     }
 }
