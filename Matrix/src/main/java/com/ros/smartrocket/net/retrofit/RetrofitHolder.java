@@ -22,7 +22,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHolder {
-    private static final int TIMEOUT = 24;
+    private static final int TIMEOUT = 120;
     private static final String DEVICE_UNIQUE_HEADER = "device-unique";
     private static final String DEVICE_TYPE_HEADER = "device-type";
     private static final String DEVICE_OS_VERSION_HEADER = "device-os-version";
@@ -57,9 +57,10 @@ public class RetrofitHolder {
 
     private OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        builder.readTimeout(TIMEOUT, TimeUnit.SECONDS);
-        builder.connectTimeout(TIMEOUT, TimeUnit.SECONDS);
-        builder.addInterceptor(chain -> chain.proceed(getRequestWithHeaders(chain)));
+        builder.readTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(chain -> chain.proceed(getRequestWithHeaders(chain)));
         if (BuildConfig.DEBUG) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
