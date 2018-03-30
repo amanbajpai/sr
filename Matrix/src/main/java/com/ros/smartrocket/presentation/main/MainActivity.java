@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
@@ -133,6 +134,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
     private void exportDBTest() {
         try {
+            Log.v("Tag", "DB Exported");
             File sd = Environment.getExternalStorageDirectory();
             File data = Environment.getDataDirectory();
 
@@ -151,6 +153,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
                 }
             }
         } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
