@@ -35,8 +35,8 @@ public class ValidationLocalPresenter<V extends ValidationLocalMvpView> extends 
                 .subscribeOn(Schedulers.io())
                 .doOnNext(this::handleTask)
                 .observeOn(AndroidSchedulers.mainThread())
-                .doOnError(this::showNetworkError)
-                .subscribe(this::onTaskLoaded, t->{}));
+                .doOnError(t -> onTaskNotLoaded())
+                .subscribe(this::onTaskLoaded, t -> onTaskNotLoaded()));
     }
 
     private void handleTask(Task task) {
@@ -58,7 +58,7 @@ public class ValidationLocalPresenter<V extends ValidationLocalMvpView> extends 
         addDisposable(QuestionsBL.closingStatementQuestionObservable(task)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onQuestionsRetrieved));
+                .subscribe(this::onQuestionsRetrieved, this::onError));
     }
 
     @Override
@@ -128,5 +128,9 @@ public class ValidationLocalPresenter<V extends ValidationLocalMvpView> extends 
                 }
             }
         });
+    }
+
+    private void onTaskNotLoaded() {
+        if (isViewAttached())  getMvpView().onTaskNotLoadedFromDb();
     }
 }

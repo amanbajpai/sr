@@ -15,7 +15,7 @@ class MyWavePresenter<V extends MyWaveMvpView> extends WavePresenter<V> implemen
         addDisposable(WavesBL.getNotMyWavesListObservableFromDB(isHidden)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWavesLoadedFromDB));
+                .subscribe(this::onWavesLoadedFromDB, this::onError));
     }
 
     private void onWavesLoadedFromDB(List<Wave> waves) {

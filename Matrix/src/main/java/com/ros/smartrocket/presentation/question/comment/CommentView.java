@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.util.AttributeSet;
+import android.util.Log;
 
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.ros.smartrocket.R;
@@ -75,6 +76,10 @@ public class CommentView extends BaseQuestionView<CommentMvpPresenter<CommentMvp
                 .debounce(TIMEOUT, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(s -> presenter.onCommentEntered(s.toString()));
+                .subscribe(s -> presenter.onCommentEntered(s.toString()), this::onError);
+    }
+
+    private void onError(Throwable t) {
+        Log.e("Comment view RxError", t.getMessage());
     }
 }

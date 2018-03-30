@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.question.main;
 
+import android.util.Log;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
@@ -54,7 +56,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
         addDisposable(TasksBL.getSingleTaskFromDBbyIdObservable(taskId, missionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onTaskLoaded));
+                .subscribe(this::onTaskLoaded, this::onError));
     }
 
     @Override
@@ -62,7 +64,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
         addDisposable(QuestionsBL.getQuestionObservable(task, false)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onQuestionsRetrieved));
+                .subscribe(this::onQuestionsRetrieved, this::onError));
     }
 
     @Override
@@ -70,7 +72,7 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
         addDisposable(WavesBL.getWaveFromDBbyIdObservable(waveId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWaveLoaded));
+                .subscribe(this::onWaveLoaded, this::onError));
 
     }
 
@@ -100,4 +102,5 @@ class QuestionPresenter<V extends QuestionMvpView> extends BaseNetworkPresenter<
     private void onQuestionsRetrieved(Questions questions) {
         getMvpView().onQuestionsLoaded();
     }
+
 }
