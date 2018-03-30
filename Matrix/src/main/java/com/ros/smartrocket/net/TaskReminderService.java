@@ -53,15 +53,15 @@ public class TaskReminderService extends Service {
 
     private void getTaskToRemindFromDB() {
         long currentTimeInMillis = Calendar.getInstance().getTimeInMillis();
+        if (preferencesManager.getUsePushMessages()) {
+            long fromTime = currentTimeInMillis - Config.DEADLINE_REMINDER_MILLISECONDS;
+            getExpiredTaskToRemindFromDB(fromTime, currentTimeInMillis);
+        }
+
         if (preferencesManager.getUseDeadlineReminder()) {
             long fromTime = currentTimeInMillis + preferencesManager.getDeadlineReminderMillisecond();
             long tillTime = fromTime + Config.DEADLINE_REMINDER_MILLISECONDS;
             getDeadlineTaskToRemindFromDB(fromTime, tillTime);
-        }
-
-        if (preferencesManager.getUsePushMessages()) {
-            long fromTime = currentTimeInMillis - Config.DEADLINE_REMINDER_MILLISECONDS;
-            getExpiredTaskToRemindFromDB(fromTime, currentTimeInMillis);
         }
     }
 

@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.main.menu;
 
+import android.util.Log;
+
 import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
@@ -14,7 +16,7 @@ class MenuPresenter<V extends MenuMvpView> extends BaseNetworkPresenter<V> imple
         addDisposable(TasksBL.myTaskCountObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setMyTaskCount));
+                .subscribe(this::setMyTaskCount, this::onError));
     }
 
     private void setMyTaskCount(int count) {
@@ -26,7 +28,7 @@ class MenuPresenter<V extends MenuMvpView> extends BaseNetworkPresenter<V> imple
         addDisposable(NotificationBL.unreadNotificationsObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::setUnreadNotificationsCount));
+                .subscribe(this::setUnreadNotificationsCount, this::onError));
     }
 
     private void setUnreadNotificationsCount(int count) {

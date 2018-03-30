@@ -16,4 +16,6 @@ public interface ValidationLocalMvpView extends NetworkMvpView {
     void onTaskLocationSaved(Task task, boolean isSendNow);
 
     void onTaskLocationSavedError(Task task, String errorText);
+
+    void onTaskNotLoadedFromDb();
 }

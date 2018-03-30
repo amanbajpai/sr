@@ -40,6 +40,8 @@ import org.json.JSONObject;
 import java.util.Iterator;
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
+
 /**
  * Utils class for easy work with UI Views
  */
@@ -88,7 +90,6 @@ public class NotificationUtils {
         intent.putExtra(Keys.NOTIFICATION_TITLE, context.getString(R.string.expire_mission_notification_title));
         intent.putExtra(Keys.NOTIFICATION_TEXT, notificationText);
         intent.putExtra(Keys.RIGHT_BUTTON_RES_ID, R.string.ok);
-
         context.startActivity(intent);
     }
 

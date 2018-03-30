@@ -295,6 +295,12 @@ public class TaskValidationActivity extends BaseActivity implements ValidationLo
         UIUtils.showSimpleToast(TaskValidationActivity.this, errorText);
     }
 
+    @Override
+    public void onTaskNotLoadedFromDb() {
+        UIUtils.showSimpleToast(this, R.string.error);
+        finishActivity();
+    }
+
     public void sendNowButtonClick() {
         if (TaskValidationUtils.isTaskReadyToSend()) {
             sendNowButton.setEnabled(false);
