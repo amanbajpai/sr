@@ -77,7 +77,8 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public class ResponseReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(Keys.FINISH_MAIN_ACTIVITY)) finish();
+            if (intent.getAction().equals(Keys.FINISH_MAIN_ACTIVITY) && !isDestroyed())
+                finish();
         }
     }
 
@@ -128,7 +129,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
     @SuppressWarnings("unused")
     public void onEventMainThread(LogOutAction event) {
-        finish();
+        if (!isDestroyed()) finish();
     }
 
 
