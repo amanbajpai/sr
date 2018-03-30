@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.base;
 
+import android.util.Log;
+
 import com.ros.smartrocket.utils.PreferencesManager;
 
 import io.reactivex.disposables.CompositeDisposable;
@@ -45,5 +47,9 @@ public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
         if (compositeDisposable != null) {
             compositeDisposable.clear();
         }
+    }
+
+    protected void onError(Throwable t) {
+        Log.e("Error", t.getMessage());
     }
 }
