@@ -29,18 +29,15 @@ public class WriteDataHelper {
         preferencesManager.removeToken();
         preferencesManager.setTokenForUploadFile("");
         preferencesManager.setTokenUpdateDate(0);
-
+        clearDb(context);
         context.stopService(new Intent(context, TaskReminderService.class));
     }
 
     public static void prepareLogin(Context context, String currentEmail) {
         PreferencesManager preferencesManager = PreferencesManager.getInstance();
-
-
         String lastEmail = preferencesManager.getLastEmail();
         if (!lastEmail.equals(currentEmail)) {
             App.getInstance().setMyAccount(new MyAccount());
-
             int taskRadius = preferencesManager.getDefaultRadius();
             String lastPassword = preferencesManager.getLastPassword();
             String token = preferencesManager.getToken();
@@ -63,7 +60,7 @@ public class WriteDataHelper {
             preferencesManager.clearAll();
 
             preferencesManager.setDefaultRadius(taskRadius);
-            preferencesManager.setLastEmail(lastEmail);
+            preferencesManager.setLastEmail(currentEmail);
             preferencesManager.setLastPassword(lastPassword);
             preferencesManager.setToken(token);
             preferencesManager.setTokenForUploadFile(tokenForUpdateFile);
@@ -83,16 +80,17 @@ public class WriteDataHelper {
             preferencesManager.set3GUploadMonthLimit(uploadMonthLimit);
 
             LocaleUtils.setCurrentLanguage();
-
-            WavesBL.removeAllWavesFromDB(context);
-            TasksBL.removeAllTasksFromDB(context);
-            QuestionsBL.removeAllQuestionsFromDB(context);
-            AnswersBL.removeAllAnswers(context);
-            NotificationBL.removeAllNotifications(context);
-
-            GCMRegistrar.unregister(context);
-
+            clearDb(context);
         }
 
+    }
+
+    private static void clearDb(Context context) {
+        WavesBL.removeAllWavesFromDB(context);
+        TasksBL.removeAllTasksFromDB(context);
+        QuestionsBL.removeAllQuestionsFromDB(context);
+        AnswersBL.removeAllAnswers(context);
+        NotificationBL.removeAllNotifications(context);
+        GCMRegistrar.unregister(context);
     }
 }
