@@ -74,8 +74,8 @@ public class MassAuditPresenter<V extends MassAuditMvpView> extends BaseQuestion
     @Override
     public void onAnswersLoadedFromDb(List<Answer> answers) {
         question.setAnswers(answers);
+        answersMap = convertToMap(answers);
         if (!isRedo()) {
-            answersMap = convertToMap(answers);
             getMvpView().showAnswersList(answersMap);
         } else {
             answersReDoMap.putAll(convertToReDoMap(answers));

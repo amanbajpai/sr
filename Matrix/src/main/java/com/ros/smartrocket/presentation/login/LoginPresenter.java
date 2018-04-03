@@ -12,6 +12,7 @@ import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.RegistrationType;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.helpers.WriteDataHelper;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -95,6 +96,7 @@ class LoginPresenter<V extends LoginMvpView> extends BaseNetworkPresenter<V> imp
 
     private void storeUserData(ExternalAuthResponse authResponse) {
         PreferencesManager pm = PreferencesManager.getInstance();
+        WriteDataHelper.prepareLogin(App.getInstance(), externalAuthEmail);
         pm.setLastEmail(externalAuthEmail);
         pm.setToken(authResponse.getToken());
         pm.setTokenForUploadFile(authResponse.getToken());
