@@ -141,7 +141,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
         if (networkError.getErrorCode() == NetworkError.DEVICE_INTEERNAL_ERROR) {
-            if (getActivity() != null) getActivity().finish();
+            UIUtils.showSimpleToast(getActivity(), R.string.error);
         } else {
             UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
         }

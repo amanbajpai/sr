@@ -320,10 +320,6 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     private void logOut() {
         WriteDataHelper.prepareLogout(getActivity());
         Core.logout();
-        WavesBL.removeAllWavesFromDB(getContext());
-        TasksBL.removeAllTasksFromDB(getContext());
-        QuestionsBL.removeAllQuestionsFromDB(getContext());
-        AnswersBL.removeAllAnswers(getContext());
         NotificationBL.removeAllNotifications(getContext());
         getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
         getActivity().finish();

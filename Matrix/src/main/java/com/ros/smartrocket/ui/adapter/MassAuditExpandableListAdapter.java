@@ -132,14 +132,14 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         Category category = categories[groupPosition];
         Product product = category.getProducts()[childPosition];
 
-        TextView titleView = (TextView) convertView.findViewById(R.id.massAuditItemTitle);
+        TextView titleView = convertView.findViewById(R.id.massAuditItemTitle);
         titleView.setText(product.getName());
 
         View bg = convertView.findViewById(R.id.massAuditItemBg);
         bg.setBackgroundResource(childPosition % 2 == 0 ? R.color.white : R.color.mass_audit_grey);
 
-        ImageView crossButton = (ImageView) convertView.findViewById(R.id.massAuditCrossButton);
-        ImageView tickButton = (ImageView) convertView.findViewById(R.id.massAuditTickButton);
+        ImageView crossButton = convertView.findViewById(R.id.massAuditCrossButton);
+        ImageView tickButton = convertView.findViewById(R.id.massAuditTickButton);
 
         TickCrossAnswerPair answerPair = answersMap.get(product.getId());
         if (answerPair != null) {
@@ -183,7 +183,7 @@ public final class MassAuditExpandableListAdapter extends BaseExpandableListAdap
         crossButton.setTag(pair);
         crossButton.setOnClickListener(crossListener);
 
-        ImageView thumb = (ImageView) convertView.findViewById(R.id.massAuditImageThumb);
+        ImageView thumb = convertView.findViewById(R.id.massAuditImageThumb);
         thumb.setVisibility(TextUtils.isEmpty(product.getImage()) ? View.INVISIBLE : View.VISIBLE);
         String image = TextUtils.isEmpty(product.getCachedImage()) ? product.getImage() : product.getCachedImage();
         thumb.setTag(image);
