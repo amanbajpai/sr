@@ -22,7 +22,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitHolder {
-    private static final int TIMEOUT = 120;
+    private static final int TIMEOUT = 180;
     private static final String DEVICE_UNIQUE_HEADER = "device-unique";
     private static final String DEVICE_TYPE_HEADER = "device-type";
     private static final String DEVICE_OS_VERSION_HEADER = "device-os-version";
