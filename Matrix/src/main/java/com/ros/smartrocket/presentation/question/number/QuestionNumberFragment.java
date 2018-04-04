@@ -16,7 +16,6 @@ public class QuestionNumberFragment extends BaseQuestionFragment<NumberMvpPresen
 
     @Override
     public NumberMvpView getMvpView() {
-        numberView.setPatternType(question.getPatternType());
         numberView.setPresenter(presenter);
         return numberView;
     }
