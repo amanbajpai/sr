@@ -22,7 +22,8 @@ public class WavePresenter<V extends WaveMvpView> extends BaseNetworkPresenter<V
                     .doOnNext(this::storeWaves)
                     .observeOn(AndroidSchedulers.mainThread())
                     .doOnError(this::showNetworkError)
-                    .subscribe(w -> onWavesLoaded(), t -> {}));
+                    .subscribe(w -> onWavesLoaded(), t -> {
+                    }));
         }
     }
 
