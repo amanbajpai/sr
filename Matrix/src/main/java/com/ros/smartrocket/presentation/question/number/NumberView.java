@@ -50,15 +50,16 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
 
     @Override
     public void configureView(Question question) {
+        this.patternType = question.getPatternType();
         if (state != null && state.containsKey(EXTRA_TEXT_VIEW_NUMBER))
             answerTextView.setText(state.getString(EXTRA_TEXT_VIEW_NUMBER));
 
-        if (question.getPatternType() == DECIMAL_PATTERN)
+        if (patternType == DECIMAL_PATTERN)
             dotButton.setText(R.string.key_dot);
         else
             dotButton.setText("");
 
-        if (question.getPatternType() == DECIMAL_PATTERN)
+        if (patternType == DECIMAL_PATTERN)
             conditionText.setText(getContext().getString(R.string.write_your_number,
                     question.getMinValue(), question.getMaxValue()));
         else
@@ -108,11 +109,6 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
     @Override
     public String getAnswerValue() {
         return answerTextView.getText().toString();
-    }
-
-    @Override
-    public void setPatternType(int patternType) {
-        this.patternType = patternType;
     }
 
     @Override
