@@ -55,7 +55,6 @@ public class DialogUtils {
                 } else {
                     dialog.dismiss();
                     WriteDataHelper.prepareLogout(activity);
-
                     activity.startActivity(IntentUtils.getLoginIntentForLogout(activity));
                     activity.finish();
                 }

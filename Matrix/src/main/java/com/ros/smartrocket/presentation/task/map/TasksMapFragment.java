@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Display;
 import android.view.InflateException;
 import android.view.LayoutInflater;
@@ -141,11 +142,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        if (view != null) {
-            ViewGroup parent = (ViewGroup) view.getParent();
-            if (parent != null)
-                parent.removeView(view);
-        }
         try {
             view = inflater.inflate(R.layout.fragment_map, null);
             LinearLayout mapLayout = view.findViewById(R.id.mapLayout);
@@ -557,8 +553,8 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     }
 
     /* ==============================================
-    * Methods for Clusters pins display on the map
-    * ============================================== */
+     * Methods for Clusters pins display on the map
+     * ============================================== */
 
     @Override
     public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {

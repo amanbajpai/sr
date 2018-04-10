@@ -16,8 +16,7 @@ class LaunchPresenter<V extends LaunchMvpView> extends BaseNetworkPresenter<V> i
     public void checkVersion() {
         if (BuildConfig.CHINESE)
             getAppVersion();
-        else
-            getMvpView().launchApp();
+        else if (isViewAttached()) getMvpView().launchApp();
     }
 
     private void getAppVersion() {

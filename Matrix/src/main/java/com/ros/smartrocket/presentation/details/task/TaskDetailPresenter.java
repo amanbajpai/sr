@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.details.task;
 
+import android.util.Log;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
@@ -28,7 +30,7 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
         addDisposable(TasksBL.getSingleTaskFromDBbyIdObservable(taskId, missionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onTaskLoaded));
+                .subscribe(this::onTaskLoaded, this::onError));
     }
 
     @Override
@@ -36,7 +38,7 @@ class TaskDetailPresenter<V extends TaskDetailsMvpView> extends BaseNetworkPrese
         addDisposable(WavesBL.getWaveFromDBbyIdObservable(waveId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWaveLoaded));
+                .subscribe(this::onWaveLoaded, this::onError));
     }
 
     @Override

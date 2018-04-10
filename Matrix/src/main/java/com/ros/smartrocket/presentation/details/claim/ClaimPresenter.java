@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.details.claim;
 
 import android.location.Location;
+import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -79,7 +80,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
         addDisposable(WavesBL.getWaveFromDBbyIdObservable(waveId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWaveLoaded));
+                .subscribe(this::onWaveLoaded, this::onError));
     }
 
     private void onWaveLoaded(Wave wave) {
@@ -136,7 +137,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
     public void downloadMedia() {
         addDisposable(QuestionsBL.getQuestionObservable(task, false)
                 .subscribeOn(Schedulers.io())
-                .subscribe(this::onQuestionsRetrieved));
+                .subscribe(this::onQuestionsRetrieved, this::onError));
     }
 
     private void onQuestionsRetrieved(List<Question> questions) {
@@ -163,7 +164,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 {
                     massAuditMediaLoaded = true;
                     tryToClaim();
-                }));
+                }, this::onError));
     }
 
     private void downloadInstructionQuestionFile(List<Question> instructionQuestions) {
@@ -174,7 +175,7 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 {
                     instructionMediaLoaded = true;
                     tryToClaim();
-                }));
+                }, this::onError));
     }
 
     private void tryToClaim() {

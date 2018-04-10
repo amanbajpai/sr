@@ -25,6 +25,11 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.db.bl.AnswersBL;
+import com.ros.smartrocket.db.bl.NotificationBL;
+import com.ros.smartrocket.db.bl.QuestionsBL;
+import com.ros.smartrocket.db.bl.TasksBL;
+import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
@@ -315,6 +320,7 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     private void logOut() {
         WriteDataHelper.prepareLogout(getActivity());
         Core.logout();
+        NotificationBL.removeAllNotifications(getContext());
         getActivity().startActivity(IntentUtils.getLoginIntentForLogout(getActivity()));
         getActivity().finish();
         getActivity().sendBroadcast(new Intent().setAction(Keys.FINISH_MAIN_ACTIVITY));

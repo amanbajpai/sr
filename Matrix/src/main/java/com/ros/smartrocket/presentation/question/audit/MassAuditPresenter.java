@@ -74,8 +74,8 @@ public class MassAuditPresenter<V extends MassAuditMvpView> extends BaseQuestion
     @Override
     public void onAnswersLoadedFromDb(List<Answer> answers) {
         question.setAnswers(answers);
+        answersMap = convertToMap(answers);
         if (!isRedo()) {
-            answersMap = convertToMap(answers);
             getMvpView().showAnswersList(answersMap);
         } else {
             answersReDoMap.putAll(convertToReDoMap(answers));
@@ -123,12 +123,13 @@ public class MassAuditPresenter<V extends MassAuditMvpView> extends BaseQuestion
     @Override
     public void refreshNextButton() {
         boolean selected = true;
-        for (TickCrossAnswerPair pair : answersMap.values()) {
-            if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
-                selected = false;
-                break;
+        if (answersMap != null)
+            for (TickCrossAnswerPair pair : answersMap.values()) {
+                if (!pair.getTickAnswer().getChecked() && !pair.getCrossAnswer().getChecked()) {
+                    selected = false;
+                    break;
+                }
             }
-        }
         refreshNextButton(selected);
     }
 

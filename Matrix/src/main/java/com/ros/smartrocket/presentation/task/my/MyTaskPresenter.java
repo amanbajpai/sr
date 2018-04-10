@@ -16,7 +16,7 @@ class MyTaskPresenter<V extends TaskMvpView> extends TaskPresenter<V> implements
         addDisposable(TasksBL.getMyTasksObservable()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::OnTasksLoadedFromDb));
+                .subscribe(this::OnTasksLoadedFromDb, this::onError));
     }
 
     private void OnTasksLoadedFromDb(List<Task> tasks) {

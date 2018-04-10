@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.details.wave;
 
+import android.util.Log;
+
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.task.Task;
@@ -17,7 +19,7 @@ class WaveDetailsPresenter<V extends WaveDetailsMvpView> extends BaseNetworkPres
         addDisposable(WavesBL.getWaveWithNearTaskFromDbObservable(waveId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onWaveLoaded));
+                .subscribe(this::onWaveLoaded, this::onError));
     }
 
     private void onWaveLoaded(Wave wave) {
@@ -30,7 +32,7 @@ class WaveDetailsPresenter<V extends WaveDetailsMvpView> extends BaseNetworkPres
         addDisposable(TasksBL.hideAllProjectTasksOnMapByIdObservable(waveId, shouldHide)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(__ -> onTaskVisibilityChanged(shouldHide)));
+                .subscribe(__ -> onTaskVisibilityChanged(shouldHide), this::onError));
     }
 
     private void onTaskVisibilityChanged(boolean isHided) {
@@ -45,7 +47,7 @@ class WaveDetailsPresenter<V extends WaveDetailsMvpView> extends BaseNetworkPres
         addDisposable(TasksBL.getSingleTaskFromDBbyIdObservable(taskId, missionId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::onTaskLoaded));
+                .subscribe(this::onTaskLoaded, this::onError));
     }
 
     private void onTaskLoaded(Task task) {
