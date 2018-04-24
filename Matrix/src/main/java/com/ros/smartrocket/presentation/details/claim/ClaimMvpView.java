@@ -13,5 +13,7 @@ public interface ClaimMvpView extends NetworkMvpView {
 
     void showUnClaimDialog();
 
+    void showTaskAlreadyClaimedDialog();
+
     void showDownloadMediaDialog(Wave wave);
 }

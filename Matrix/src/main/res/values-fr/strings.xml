@@ -137,7 +137,7 @@
 	<string name="i_agree_with_matrix_term">J\'accepte les conditions générales de SmartRocket</string>
 	<string name="i_new_user">NOUVEL UTILISATEUR</string>
 	<string name="id_card">CARTE ID</string>
-	<string name="id_card_agent_id">ID: %d</string>
+	<string name="id_card_agent_id">ID: %1$d</string>
 	<string name="identification_card">Carte d\'identification</string>
 	<string name="if_you_have_promo_code">Si vous avez un code groupé, veuillez le saisir maintenant, sinon cliquez sur CONTINUER</string>
 	<string name="in_validation_task">En Validation</string>
@@ -167,7 +167,7 @@
 	<string name="mission_expires_at">Mission due : %1$s</string>
 	<string name="mission_in_validation">Mission en validation.</string>
 	<string name="mission_rejected">Mission rejetée.</string>
-	<string name="mission_size_dialog_text" formatted="false">Ce fichier de mission est de %sMB et va être téléchargé sur votre dispositif. Connectez-vous au Wi-Fi si vous ne souhaitez pas utiliser vos données.</string>
+	<string name="mission_size_dialog_text">Ce fichier de mission est de %1$sMB et va être téléchargé sur votre dispositif. Connectez-vous au Wi-Fi si vous ne souhaitez pas utiliser vos données.</string>
 	<string name="mission_transmitting">Transmission… %1$s</string>
 	<string name="mission_validated">Félicitations ! Mission approuvée !</string>
 	<string name="my_missions">Mes Missions</string>

@@ -25,11 +25,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.NotificationBL;
-import com.ros.smartrocket.db.bl.QuestionsBL;
-import com.ros.smartrocket.db.bl.TasksBL;
-import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
@@ -115,10 +111,14 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         MONTHLY_LIMIT_MB[0] = getString(R.string.unlimited);
         MISSION_LIMIT_MB[0] = getString(R.string.unlimited);
         closeAccount.setPaintFlags(closeAccount.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+//        ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
+//                BuildConfig.JENKINS_BUILD_VERSION + ")");
         ((TextView) view.findViewById(R.id.currentVersion)).setText(BuildConfig.VERSION_NAME + " (" +
-                BuildConfig.JENKINS_BUILD_VERSION + ")");
+                (BuildConfig.VERSION_CODE - 10000) + ")");
+
         final MyAccount myAccount = App.getInstance().getMyAccount();
-        currentVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.JENKINS_BUILD_VERSION + ")");
+//        currentVersion.setText(BuildConfig.VERSION_NAME + " (" + BuildConfig.JENKINS_BUILD_VERSION + ")");
+        currentVersion.setText(BuildConfig.VERSION_NAME + " (" + (BuildConfig.VERSION_CODE - 10000) + ")");
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(v -> {
             startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
             return false;

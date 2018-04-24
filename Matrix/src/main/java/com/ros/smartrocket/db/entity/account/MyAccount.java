@@ -286,7 +286,7 @@ public class MyAccount extends BaseEntity {
     }
 
     public boolean canWithdraw() {
-        return PAY_PAL.equals(paymentSystem) || (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem))
+        return (PAY_PAL.equals(paymentSystem) || (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)))
                 && getIsPaymentAccountExists()
                 && !isUpdatePaymentFieldsRequired;
     }

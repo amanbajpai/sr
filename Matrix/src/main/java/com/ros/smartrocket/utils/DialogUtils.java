@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
@@ -655,4 +656,24 @@ public class DialogUtils {
         dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
         return dialog;
     }
+
+    /**
+     * Show Task already Claimed dialog
+     *
+     * @param context - current activity
+     */
+    public static Dialog showTaskAlreadyClaimedDialog(final Context context, DefaultInfoDialog.DialogButtonClickListener dialogButtonClickListener) {
+        if (context == null) {
+            Log.e("showTaskAlret", "null context");
+        }
+
+        DefaultInfoDialog dialog = new DefaultInfoDialog(context,
+                context.getText(R.string.task_claimed_tittle),
+                context.getText(R.string.task_claimed_message),
+                0, R.string.task_claimed_ok_button);
+        dialog.hideLeftButton();
+        dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
+        return dialog;
+    }
+
 }

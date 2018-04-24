@@ -93,6 +93,7 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
         handleArgs();
         initUI();
         initPresenters();
+
     }
 
     private void initPresenters() {
@@ -159,6 +160,10 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
     }
 
     @Override
+    public void showTaskAlreadyClaimedDialog() {
+    }
+
+    @Override
     public void showUnClaimDialog() {
         String dateTime = UIUtils.longToString(nearTask.getLongExpireDateTime(), 3);
         new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
@@ -171,6 +176,8 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
                 claimPresenter.unClaimTaskRequest();
             }
         });
+
+
     }
 
     @Override
@@ -198,6 +205,7 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
                 if (nearTask != null) {
                     claimPresenter.setTask(nearTask);
                     claimPresenter.claimTask();
+
                 }
                 break;
             case R.id.previewTaskButton:
@@ -360,5 +368,6 @@ public class WaveDetailsActivity extends BaseActivity implements ClaimMvpView, W
     public void showNetworkError(BaseNetworkError networkError) {
 
     }
+
 
 }

@@ -90,6 +90,11 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
 
     private void initSharingData() {
         shortUrl = Config.SHARE_URL;
+//        if (BuildConfig.CHINESE) {
+//            shortUrl = Config.SHARE_URL_CHINA;
+//        } else {
+//            shortUrl = Config.SHARE_URL_ALL_COUNTRIES;
+//        }
         subject = getString(R.string.app_name);
         text = getString(R.string.share_text);
     }

@@ -1,7 +1,7 @@
 package com.ros.smartrocket.presentation.details.claim;
 
+import android.content.Context;
 import android.location.Location;
-import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -9,14 +9,15 @@ import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
-import com.ros.smartrocket.db.entity.task.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.Questions;
+import com.ros.smartrocket.db.entity.task.ClaimTaskResponse;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.db.entity.task.Wave;
 import com.ros.smartrocket.db.store.QuestionStore;
 import com.ros.smartrocket.map.CurrentLocationListener;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SendTaskIdMapper;
@@ -37,6 +38,8 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
     private boolean massAuditMediaLoaded;
     private Location location;
 
+    public Context context;
+
     public void setTask(Task task) {
         this.task = task;
     }
@@ -55,7 +58,8 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 .doOnNext(this::storeQuestions)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::showNetworkError)
-                .subscribe(__ -> findLocation(), t->{}));
+                .subscribe(__ -> findLocation(), t -> {
+                }));
     }
 
     private void findLocation() {
@@ -102,7 +106,19 @@ public class ClaimPresenter<V extends ClaimMvpView> extends BaseNetworkPresenter
                 .doOnNext(r -> storeQuestions(r.getQuestions()))
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::showNetworkError)
-                .subscribe(this::handleClaimResponse, t->{}));
+                .subscribe(this::handleClaimResponse, t -> {
+                }));
+    }
+
+    @Override
+    public void showNetworkError(Throwable t) {
+        NetworkError networkError = new NetworkError(t);
+        if (networkError.getErrorCode() == NetworkError.TASK_IS_CLAIMED_ERROR) {
+            hideLoading();
+            getMvpView().showTaskAlreadyClaimedDialog();
+        } else {
+            super.showNetworkError(t);
+        }
     }
 
     private void handleClaimResponse(ClaimTaskResponse response) {

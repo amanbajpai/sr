@@ -426,10 +426,10 @@
     <string name="dialog_first_name">名字（例如：大文）</string>
     <string name="dialog_last_name">姓氏（例如：陳）</string>
     <string name="dialog_attention">注意！</string>
-    <string name="id_card_agent_id">ID: %d</string>
+    <string name="id_card_agent_id">ID: %1$d</string>
     <string name="identification_card">職員證</string>
     <string name="dialog_are_you_sure_first_last_name_text">請確認名字更新為 %1$s?</string>
-    <string name="mission_size_dialog_text">任務的檔案size為 %sMB，亦即將下載到閣下手機。若不想使用數據，請先連接到Wi-Fi。</string>
+    <string name="mission_size_dialog_text">任務的檔案size為 %1$sMB，亦即將下載到閣下手機。若不想使用數據，請先連接到Wi-Fi。</string>
 
     <string name="preview_task">預覽</string>
     <string name="preview_mode">預覽模式</string>

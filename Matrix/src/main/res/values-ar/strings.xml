@@ -133,7 +133,7 @@
 	<string name="i_agree_with_matrix_term">أوافق على بنود وشروط SmartRocket</string>
 	<string name="i_new_user">مستخدم جديد</string>
 	<string name="id_card">بطاقة التعريف</string>
-	<string name="id_card_agent_id">المعرِّف: %d</string>
+	<string name="id_card_agent_id">المعرِّف: %d$1</string>
 	<string name="identification_card">بطاقة التعريف</string>
 	<string name="if_you_have_promo_code">إذا كان لديك رمز مجموعة، فيرجى إدخاله الآن؛ أو انقر على "متابعة"</string>
 	<string name="in_validation_task">قيد التحقق</string>
@@ -163,7 +163,7 @@
 	<string name="mission_expires_at">تاريخ استحقاق المهمة: %1$s</string>
 	<string name="mission_in_validation">المهمة قيد التحقق.</string>
 	<string name="mission_rejected">تم رفض المهمة.</string>
-	<string name="mission_size_dialog_text" formatted="false">حجم ملف هذه المهمة %s ميجابايت وسيتم تنزيله الآن إلى جهازك. الرجاء الاتصال بشبكة Wi-Fi في حالة عدم رغبتك في استخدام4G</string>
+	<string name="mission_size_dialog_text">حجم ملف هذه المهمة %s$1 ميجابايت وسيتم تنزيله الآن إلى جهازك. الرجاء الاتصال بشبكة Wi-Fi في حالة عدم رغبتك في استخدام4G</string>
 	<string name="mission_transmitting">جارٍ الإرسال&#8230;%1$s</string>
 	<string name="mission_validated">تهانينا. تمت الموافقة على المهمة.</string>
 	<string name="my_missions">مهامي</string>

@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -245,6 +246,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
 
     @Override
     public void showUnClaimDialog() {
+
         String dateTime = UIUtils.longToString(task.getLongExpireDateTime(), 3);
         new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
             @Override
@@ -254,6 +256,22 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
             @Override
             public void onYesButtonPressed(Dialog dialog) {
                 claimPresenter.unClaimTaskRequest();
+            }
+        });
+    }
+
+    @Override
+    public void showTaskAlreadyClaimedDialog() {
+        Log.e("Ankur", "showTaskAlreadyClaimedDialog: ");
+        DialogUtils.showTaskAlreadyClaimedDialog(this, new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                IntentUtils.getTaskClaimedIntent(TaskDetailsActivity.this);
             }
         });
     }

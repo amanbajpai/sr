@@ -62,7 +62,7 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
             questionText.setText(Html.fromHtml(question.getSubQuestionNumber() + question.getQuestion()));
         else
             questionText.setText(Html.fromHtml(question.getQuestion()));
-
+        questionText.setMovementMethod(LinkMovementMethod.getInstance());
         validationComment.setMovementMethod(LinkMovementMethod.getInstance());
         presetValidationComment.setMovementMethod(LinkMovementMethod.getInstance());
         if (!TextUtils.isEmpty(question.getPresetValidationText())) {

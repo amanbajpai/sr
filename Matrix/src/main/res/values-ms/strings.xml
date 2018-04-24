@@ -150,7 +150,7 @@
 	<string name="i_agree_with_matrix_term">Saya bersetuju dengan Terma &amp; Syarat SmartRocket</string>
 	<string name="i_new_user">PENGGUNA BAHARU</string>
 	<string name="id_card">KAD ID</string>
-	<string name="id_card_agent_id" formatted="false">ID: %d</string>
+	<string name="id_card_agent_id">ID: %1$d</string>
 	<string name="identification_card">Kad Pengenalan</string>
 	<string name="if_you_have_promo_code">Jika anda mempunyai Kod Kumpulan, sila masukkannya sekarang, jika tidak klik TERUSKAN</string>
 	<string name="in_validation_task">Sedang Disahkan</string>
@@ -172,7 +172,7 @@
 	<string name="max_distance">20 km</string>
 	<string name="maximum_mission_dialog_text">Anda telah menuntut bilangan maksimum misi untuk Projek ini. Untuk menuntut lebih banyak misi pada Projek ini, anda mesti melengkapkan dahulu misi sedia ada.</string>
 	<string name="maximum_mission_dialog_title">Had tuntutan misi telah dicapai</string>
-	<string name="maximum_photo">(ANDA BOLEH MENAMBAH MAKSIMUM %1$s FOTO)</string>
+	<string name="maximum_photo">(ANDA BOLEH MENAMBAH MAKSIMUM %1$d FOTO)</string>
 	<string name="min_distance">0 km</string>
 	<string name="mission_address">ALAMAT MISI</string>
 	<string name="mission_available">Misi tersedia: %1$s</string>
@@ -180,7 +180,7 @@
 	<string name="mission_expires_at">Misi berakhir: %1$s</string>
 	<string name="mission_in_validation">Misi sedang disahkan.</string>
 	<string name="mission_rejected">Misi ditolak.</string>
-	<string name="mission_size_dialog_text" formatted="false">Fail misi ini ialah %sMB dan kini akan dimuat turun ke peranti anda. Sila sambung ke Wi-Fi jika anda tidak mahu menggunakan data anda</string>
+	<string name="mission_size_dialog_text">Fail misi ini ialah %1$sMB dan kini akan dimuat turun ke peranti anda. Sila sambung ke Wi-Fi jika anda tidak mahu menggunakan data anda</string>
 	<string name="mission_transmitting">Memindahkan...%1$s</string>
 	<string name="mission_validated">Tahniah! Misi diluluskan!</string>
 	<string name="my_missions">Misi saya</string>
