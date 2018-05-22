@@ -76,6 +76,9 @@ public class MyAccount extends BaseEntity {
     private Integer countryId;
     @SerializedName("IsUpdatePaymentFieldsRequired")
     private Boolean isUpdatePaymentFieldsRequired;
+    @SerializedName("IsAgentPaymentFieldsRequired")
+    private Boolean isAgentPaymentFieldsRequired;
+
 
     public Double getTotalEarnings() {
         return totalEarnings;
@@ -286,9 +289,13 @@ public class MyAccount extends BaseEntity {
     }
 
     public boolean canWithdraw() {
-        return (PAY_PAL.equals(paymentSystem) || (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)))
-                && getIsPaymentAccountExists()
-                && !isUpdatePaymentFieldsRequired;
+        if (isAgentPaymentFieldsRequired) {
+            return (PAY_PAL.equals(paymentSystem) || (ALI_PAY.equals(paymentSystem) || NATIONAL_ID.equals(paymentSystem)))
+                    && getIsPaymentAccountExists()
+                    && !isUpdatePaymentFieldsRequired;
+        } else {
+            return true;
+        }
     }
 
     public boolean isPaymentSettingsEnabled() {
@@ -335,5 +342,13 @@ public class MyAccount extends BaseEntity {
 
     public void setUpdatePaymentFieldsRequired(Boolean updatePaymentFieldsRequired) {
         isUpdatePaymentFieldsRequired = updatePaymentFieldsRequired;
+    }
+
+    public Boolean getAgentPaymentFieldsRequired() {
+        return isAgentPaymentFieldsRequired;
+    }
+
+    public void setAgentPaymentFieldsRequired(Boolean agentPaymentFieldsRequired) {
+        isAgentPaymentFieldsRequired = agentPaymentFieldsRequired;
     }
 }

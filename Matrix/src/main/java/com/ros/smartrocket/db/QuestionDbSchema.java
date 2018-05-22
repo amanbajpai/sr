@@ -122,7 +122,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
                 Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName(),
-                Table.QUESTION.getName() + "." + Columns.IS_REDO.getName()
+                Table.QUESTION.getName() + "." + Columns.IS_REDO.getName(),
         };
 
         int _ID = 0;

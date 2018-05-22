@@ -12,6 +12,7 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
@@ -19,8 +20,8 @@ import com.helpshift.All;
 import com.helpshift.Core;
 import com.helpshift.InstallConfig;
 import com.helpshift.exceptions.InstallException;
-import com.ros.smartrocket.db.entity.error.ErrorResponse;
 import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.error.ErrorResponse;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.retrofit.MatrixApi;
 import com.ros.smartrocket.net.retrofit.RetrofitHolder;
@@ -63,6 +64,7 @@ public class App extends Application {
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
+        initStetho();
     }
 
     private void initRetrofit() {
@@ -118,6 +120,16 @@ public class App extends Application {
                     installConfig);
         } catch (InstallException e) {
             Log.e(TAG, "invalid install credentials : ", e);
+        }
+    }
+
+    private void initStetho() {
+        try {
+            if (BuildConfig.DEBUG) {
+                Stetho.initializeWithDefaults(this);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

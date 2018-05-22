@@ -400,4 +400,11 @@
     <string name="payment_details_info">因為法律規定的稅務過程，所以你必須填寫以下資料才可以提款。如果你沒有如實填寫以下資料的話，你的賬戶將會被刪除。</string>
     <string name="why_we_need_payment_details">為什麼我們需要知道以下資料</string>
     <string name="max_cash_details">你帳戶的餘額已經超過可提款的最高限制。請你先提款後才可以繼續認領新任務。</string>
+
+    <!--Task already claimed dialog messages-->
+    <string name="task_claimed_tittle">警告</string>
+    <string name="task_claimed_message">這個任務已經被其他隊員認領</string>
+    <string name="task_claimed_ok_button">確定</string>
+
+
 </resources>

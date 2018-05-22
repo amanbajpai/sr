@@ -37,6 +37,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         startServices();
         initPushMessaging();
         initReceiver();
+
     }
 
     @Override
@@ -131,6 +132,4 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public void onEventMainThread(LogOutAction event) {
         if (!isDestroyed()) finish();
     }
-
-
 }

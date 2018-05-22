@@ -111,7 +111,7 @@ public class NetworkError implements BaseNetworkError {
                     errorMessageRes = R.string.user_terminated_error;
                     break;
                 case  TASK_IS_CLAIMED_ERROR:
-                    errorMessageRes = R.string.task_is_claimed_error;
+                    errorMessageRes = R.string.task_claimed_message;
                     break;
                 case ACCOUNT_NOT_ACTIVATED_ERROR_CODE:
                 case EMAIL_SENT_ERROR:

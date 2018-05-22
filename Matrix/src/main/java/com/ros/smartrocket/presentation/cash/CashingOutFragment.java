@@ -65,7 +65,7 @@ public class CashingOutFragment extends BaseFragment implements AccountMvpView {
     private void initPresenters() {
         accountPresenter = new AccountPresenter<>(true);
         accountPresenter.attachView(this);
-        accountPresenter.getAccount();
+        //accountPresenter.getAccount();
     }
 
     @Override
@@ -105,6 +105,16 @@ public class CashingOutFragment extends BaseFragment implements AccountMvpView {
     @Override
     public void showNetworkError(BaseNetworkError networkError) {
         UIUtils.showSimpleToast(getActivity(), networkError.getErrorMessageRes());
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (accountPresenter != null) {
+            accountPresenter.getAccount();
+        }
+
+
     }
 
     @Override

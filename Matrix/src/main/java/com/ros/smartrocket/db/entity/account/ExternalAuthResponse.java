@@ -22,4 +22,6 @@ public class ExternalAuthResponse extends BaseEntity {
     public boolean isRegistrationRequested() {
         return registrationRequested;
     }
+
+
 }

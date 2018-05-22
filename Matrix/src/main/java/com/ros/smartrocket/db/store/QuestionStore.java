@@ -24,6 +24,7 @@ import java.util.List;
 
 public class QuestionStore extends BaseStore {
     private Task task;
+    String imagePath = null;
     private Gson gson = new Gson();
 
     public QuestionStore(Task task) {
@@ -49,6 +50,7 @@ public class QuestionStore extends BaseStore {
         List<ContentValues> answersValues = new ArrayList<>();
         List<ContentValues> questionValues = new ArrayList<>();
         question = prepareQuestion(i, question);
+        //question = prepareInstructionUri(i, question);
         questionValues.add(question.toContentValues());
         deleteAnswers(question);
         if (question.getChildQuestions() != null && question.getChildQuestions().size() > 0) {
@@ -133,12 +135,16 @@ public class QuestionStore extends BaseStore {
 
 
     protected Question prepareQuestion(int i, Question question) {
+
+
         AskIf[] askIfArray = question.getAskIfArray();
         Category[] categoriesArray = question.getCategoriesArray();
         TaskLocation taskLocation = question.getTaskLocationObject();
 
         question.setTaskId(task.getId());
         question.setMissionId(task.getMissionId());
+
+
         if (askIfArray != null) question.setAskIf(gson.toJson(askIfArray));
         if (categoriesArray != null) question.setCategories(gson.toJson(categoriesArray));
         if (taskLocation != null) {
@@ -147,5 +153,4 @@ public class QuestionStore extends BaseStore {
         }
         return question;
     }
-
 }

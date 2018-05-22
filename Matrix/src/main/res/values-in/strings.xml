@@ -404,4 +404,10 @@
     <string name="why_we_need_payment_details">Mengapa kami membutuhkan rincian pembayaran</string>
     <string name="max_cash_details">Akun Anda telah melebihi batas maksimum yang diijinkan. Tolong keluarkan saldo Anda sebelum mengklaim misi.</string>
 
+    <!--Task already claimed dialog messages-->
+    <string name="task_claimed_tittle">Peringatan</string>
+    <string name="task_claimed_message">Misi ini telah diklaim oleh agen lain</string>
+    <string name="task_claimed_ok_button">OK</string>
+
+
 </resources>

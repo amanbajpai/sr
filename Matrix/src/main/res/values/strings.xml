@@ -558,9 +558,6 @@
     <string name="def_timer" translatable="false">00:00</string>
     <string name="user_terminated_error">User is terminated</string>
 
-    <!--SR-21-->
-    <string name="task_is_claimed_error">Task is already claimed, you can try with another location if avaialbe for this task or with the different mission.</string>
-
     <!--MY ACCOUNT-->
     <string name="my_account">My Account</string>
     <string name="cash_out_instruction">You can only cash out once you have completed all fields in My Account</string>
@@ -574,8 +571,8 @@
 
 
     <!--Task already claimed dialog messages-->
-    <string name="task_claimed_tittle">Dialog Tittle here</string>
-    <string name="task_claimed_message">Task is already claimed, you can try with another location if avaialbe for this task or with the different mission</string>
+    <string name="task_claimed_tittle">Warning</string>
+    <string name="task_claimed_message">This task is already claimed</string>
     <string name="task_claimed_ok_button">OK</string>
 
 

@@ -30,6 +30,7 @@ import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.net.gcm.CommonUtilities;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.views.CustomSwitch;
@@ -121,6 +122,9 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         currentVersion.setText(BuildConfig.VERSION_NAME + " (" + (BuildConfig.VERSION_CODE - 10000) + ")");
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(v -> {
             startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
+            if(BuildConfig.DEBUG){
+                CommonUtilities.exportDB(getActivity());
+            }
             return false;
         });
     }

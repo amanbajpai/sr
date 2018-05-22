@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.ros.smartrocket.Keys;
@@ -660,20 +659,29 @@ public class DialogUtils {
     /**
      * Show Task already Claimed dialog
      *
-     * @param context - current activity
+     * @param activity - current activity
      */
-    public static Dialog showTaskAlreadyClaimedDialog(final Context context, DefaultInfoDialog.DialogButtonClickListener dialogButtonClickListener) {
-        if (context == null) {
-            Log.e("showTaskAlret", "null context");
-        }
+    public static Dialog showTaskAlreadyClaimedDialog(final Activity activity) {
 
-        DefaultInfoDialog dialog = new DefaultInfoDialog(context,
-                context.getText(R.string.task_claimed_tittle),
-                context.getText(R.string.task_claimed_message),
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.task_claimed_tittle),
+                activity.getText(R.string.task_claimed_message),
                 0, R.string.task_claimed_ok_button);
         dialog.hideLeftButton();
-        dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                activity.finish();
+                activity.startActivity(IntentUtils.getTaskClaimedIntent(activity));
+
+            }
+        });
         return dialog;
     }
-
 }
