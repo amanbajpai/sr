@@ -399,4 +399,12 @@ public class PreferencesManager {
         return getBoolean(Keys.T_AND_C + getLastEmail(), false);
     }
 
+    public String getFirebaseToken() {
+        return getString(Keys.FIREBASE_PUSH_TOKEN, "");
+    }
+
+    public void setFirebaseToken(String token) {
+        setString(Keys.FIREBASE_PUSH_TOKEN, token);
+    }
+
 }

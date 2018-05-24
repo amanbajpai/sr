@@ -6,6 +6,7 @@ public interface Keys {
     // Application
     String TOKEN = "token";
     String TOKEN_FOR_UPLOAD_FILE = "token_for_upload_file";
+    String FIREBASE_PUSH_TOKEN = "firebase_push_token";
     String TOKEN_UPDATE_DATE = "token_update_date";
     String LAST_EMAIL = "last_email";
     String EMAIL = "email";
