@@ -172,6 +172,8 @@ public class TermsAndConditionActivity extends BaseActivity implements CompoundB
                 termsUrl = "http://smart-rocket.com/terms-of-service/";
                 break;
         }
+        termsUrl = "http://stagesr.studioauthentic.com/terms-of-service/";
+
         return termsUrl;
     }
 
