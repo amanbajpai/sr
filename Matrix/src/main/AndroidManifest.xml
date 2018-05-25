@@ -22,7 +22,7 @@
 
     <uses-permission android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE" />
     <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
+   <!-- <uses-permission android:name="android.permission.WAKE_LOCK" />-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
@@ -334,7 +334,7 @@
             android:authorities="${applicationId}"
             android:exported="false" />
         <!-- GCM -->
-        <receiver
+        <!--<receiver
             android:name="com.ros.smartrocket.net.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
@@ -344,11 +344,11 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
-
-        <service
+-->
+       <!-- <service
             android:name="com.ros.smartrocket.net.gcm.GCMIntentService"
             android:permission="android.permission.BIND_JOB_SERVICE" />
-
+-->
         <receiver
             android:name=".net.GlobalReceiver"
             android:exported="true">
