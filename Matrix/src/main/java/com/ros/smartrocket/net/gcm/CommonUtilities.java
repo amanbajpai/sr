@@ -138,7 +138,7 @@ public final class CommonUtilities {
             destination.transferFrom(source, 0, source.size());
             source.close();
             destination.close();
-            Toast.makeText(context, "DB Exported!", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(context, "DB Exported!", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -12,7 +12,6 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.stetho.Stetho;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
 import com.google.gson.Gson;
@@ -64,7 +63,6 @@ public class App extends Application {
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
-        initStetho();
     }
 
     private void initRetrofit() {
@@ -123,15 +121,6 @@ public class App extends Application {
         }
     }
 
-    private void initStetho() {
-        try {
-            if (BuildConfig.DEBUG) {
-                Stetho.initializeWithDefaults(this);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public static App getInstance() {
         return instance;
