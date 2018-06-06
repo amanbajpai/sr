@@ -108,6 +108,7 @@ public class TasksBL {
                                         + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATION.getStatusId()
                                         + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.VALIDATED.getStatusId()
                                         + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.REJECTED.getStatusId()
+                                        + " or " + TaskDbSchema.Columns.STATUS_ID + " == " + Task.TaskStatusId.RE_DO_TASK.getStatusId()
                                         + ")",
                                 null, TaskDbSchema.SORT_ORDER_DESC_MY_TASKS_LIST);
 

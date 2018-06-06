@@ -376,6 +376,9 @@ public class SocialLoginView extends LinearLayout implements GoogleApiClient.OnC
 
     private void onLoginFinished() {
         if (socialLoginListener != null) {
+            if (AccessToken.getCurrentAccessToken() != null) {
+                LoginManager.getInstance().logOut();
+            }
             socialLoginListener.onExternalLoginFinished();
         }
     }
