@@ -4,9 +4,9 @@ import android.location.Location;
 import android.location.LocationManager;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.entity.account.Token;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.task.Task;
-import com.ros.smartrocket.db.entity.account.Token;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.base.BaseNetworkPresenter;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -25,13 +25,32 @@ public class ValidationNetPresenter<V extends ValidationNetMvpView> extends Base
         location.setLatitude(task.getLatitudeToValidation());
         location.setLongitude(task.getLongitudeToValidation());
         MatrixLocationManager
-                .getAddressByLocation(location, (location1, countryName, cityName, districtName) -> validateTaskRequest(task, cityName));
+                .getAddressByLocation(location, (location1, countryName, cityName, districtName) -> validateTaskRequest(task, cityName, location));
     }
 
-    private void validateTaskRequest(Task task, String cityName) {
+//    private Location location;
+//
+//    private void findLocation() {
+//        MatrixLocationManager.getCurrentLocation(false, new CurrentLocationListener() {
+//            @Override
+//            public void getLocationSuccess(Location location) {
+//                if (!isViewAttached()) return;
+//                ValidationNetPresenter.this.location = location;
+//            }
+//
+//            @Override
+//            public void getLocationFail(String errorText) {
+//                if (!isViewAttached()) return;
+//                hideLoading();
+//                UIUtils.showSimpleToast(App.getInstance(), errorText);
+//            }
+//        });
+//    }
+
+    private void validateTaskRequest(Task task, String cityName, Location location) {
         if (isViewAttached())
             addDisposable(App.getInstance().getApi()
-                    .validateTask(SendTaskIdMapper.getSendTaskIdForValidation(task, cityName))
+                    .validateTask(SendTaskIdMapper.getSendTaskIdForValidation(task, cityName, location))
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(__ -> onTaskOnValidation(), this::showNetworkError));

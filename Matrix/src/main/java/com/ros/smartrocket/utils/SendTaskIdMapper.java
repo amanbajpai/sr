@@ -12,13 +12,13 @@ public final class SendTaskIdMapper {
     private SendTaskIdMapper() {
     }
 
-    public static SendTaskId getSendTaskIdForValidation(Task task, String cityName) {
+    public static SendTaskId getSendTaskIdForValidation(Task task, String cityName, Location location) {
         SendTaskId sendTaskId = new SendTaskId();
         sendTaskId.setTaskId(task.getId());
         sendTaskId.setWaveId(task.getWaveId());
         sendTaskId.setMissionId(task.getMissionId());
-        sendTaskId.setLatitude(task.getLatitude());
-        sendTaskId.setLongitude(task.getLongitude());
+        sendTaskId.setLatitude(location.getLatitude());
+        sendTaskId.setLongitude(location.getLongitude());
         sendTaskId.setCityName(cityName);
         return sendTaskId;
     }
@@ -48,7 +48,7 @@ public final class SendTaskIdMapper {
 
     public static SendTaskId getSendTaskIdForValidation(NotUploadedFile file, Location location) {
         SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(file.getId());
+        sendTaskId.setTaskId(file.getTaskId());
         sendTaskId.setWaveId(file.getWaveId());
         sendTaskId.setMissionId(file.getMissionId());
         sendTaskId.setLatitude(location.getLatitude());
@@ -58,7 +58,7 @@ public final class SendTaskIdMapper {
 
     public static SendTaskId getSendTaskIdForValidation(WaitingUploadTask task, Location location) {
         SendTaskId sendTaskId = new SendTaskId();
-        sendTaskId.setTaskId(task.getId());
+        sendTaskId.setTaskId(task.getTaskId());
         sendTaskId.setWaveId(task.getWaveId());
         sendTaskId.setMissionId(task.getMissionId());
         sendTaskId.setLatitude(location.getLatitude());
