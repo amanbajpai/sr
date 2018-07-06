@@ -1,13 +1,18 @@
 package com.ros.smartrocket.presentation.question.instruction;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.utils.FileProcessingManager;
+import com.ros.smartrocket.utils.PhotoLoader;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.io.File;
 
@@ -53,45 +58,45 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
     }
 
     private void showPhotoInstruction() {
-//        PhotoLoader.getBitmapFromUrl(question.getPhotoUrl(), new Target() {
-//            @Override
-//            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-//                getMvpView().hideLoading();
-//                file = SelectImageManager.saveBitmapToFile(App.getInstance(), bitmap, "");
-//                getMvpView().setImageInstruction(bitmap, file.getPath().toString());
-//            }
-//
-//            @Override
-//            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-//
-//            }
-//
-//            @Override
-//            public void onPrepareLoad(Drawable placeHolderDrawable) {
-//                getMvpView().showLoading(true);
-//            }
-//        });
+        PhotoLoader.getBitmapFromUrl(question.getPhotoUrl(), new Target() {
+            @Override
+            public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                getMvpView().hideLoading();
+                file = SelectImageManager.saveBitmapToFile(App.getInstance(), bitmap, "");
+                getMvpView().setImageInstruction(bitmap, file.getPath().toString());
+            }
 
-        if (!TextUtils.isEmpty(question.getInstructionFileUri())) {
-            File file = new File(question.getInstructionFileUri());
-            getMvpView().setImageInstruction(getBitmap(file), file.getPath());
-        } else {
-            getMvpView().showLoading(true);
-            MediaDownloader md = new MediaDownloader(FileProcessingManager.FileType.IMAGE, new MediaDownloader.OnFileLoadCompleteListener() {
-                @Override
-                public void onFileLoadComplete(File result) {
-                    if (isViewAttached())
-                        getMvpView().setImageInstruction(getBitmap(result), result.getAbsolutePath());
-                    if (isViewAttached()) getMvpView().hideLoading();
-                }
+            @Override
+            public void onBitmapFailed(Exception e, Drawable errorDrawable) {
 
-                @Override
-                public void onFileLoadError() {
-                    if (isViewAttached()) getMvpView().hideLoading();
-                }
-            });
-            md.getMediaFileAsync(question.getPhotoUrl());
-        }
+            }
+
+            @Override
+            public void onPrepareLoad(Drawable placeHolderDrawable) {
+                getMvpView().showLoading(true);
+            }
+        });
+
+//        if (!TextUtils.isEmpty(question.getInstructionFileUri())) {
+//            File file = new File(question.getInstructionFileUri());
+//            getMvpView().setImageInstruction(getBitmap(file), file.getPath());
+//        } else {
+//            getMvpView().showLoading(true);
+//            MediaDownloader md = new MediaDownloader(FileProcessingManager.FileType.IMAGE, new MediaDownloader.OnFileLoadCompleteListener() {
+//                @Override
+//                public void onFileLoadComplete(File result) {
+//                    if (isViewAttached())
+//                        getMvpView().setImageInstruction(getBitmap(result), result.getAbsolutePath());
+//                    if (isViewAttached()) getMvpView().hideLoading();
+//                }
+//
+//                @Override
+//                public void onFileLoadError() {
+//                    if (isViewAttached()) getMvpView().hideLoading();
+//                }
+//            });
+//            md.getMediaFileAsync(question.getPhotoUrl());
+//        }
 
 
     }
