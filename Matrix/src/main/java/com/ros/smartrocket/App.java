@@ -14,6 +14,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -51,6 +52,7 @@ public class App extends Application {
     private MyAccount myAccount;
     private RetrofitHolder retrofitHolder;
     private Converter<ResponseBody, ErrorResponse> errorResponseConverter;
+    private FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -63,6 +65,7 @@ public class App extends Application {
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void initRetrofit() {
