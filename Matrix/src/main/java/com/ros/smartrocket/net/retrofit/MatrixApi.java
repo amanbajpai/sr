@@ -1,39 +1,39 @@
 package com.ros.smartrocket.net.retrofit;
 
-import com.ros.smartrocket.db.entity.account.register.ActivateAccount;
-import com.ros.smartrocket.db.entity.account.AliPayAccount;
 import com.ros.smartrocket.db.entity.AllowPushNotification;
-import com.ros.smartrocket.db.entity.payment.PaymentInfo;
-import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.AppVersion;
-import com.ros.smartrocket.db.entity.account.CheckEmail;
-import com.ros.smartrocket.db.entity.location.CheckLocation;
-import com.ros.smartrocket.db.entity.location.CheckLocationResponse;
-import com.ros.smartrocket.db.entity.task.ClaimTaskResponse;
-import com.ros.smartrocket.db.entity.account.ExternalAuthResponse;
-import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
-import com.ros.smartrocket.db.entity.file.FileToUploadResponse;
-import com.ros.smartrocket.db.entity.account.Login;
-import com.ros.smartrocket.db.entity.account.LoginResponse;
 import com.ros.smartrocket.db.entity.LongUrl;
-import com.ros.smartrocket.db.entity.account.MyAccount;
-import com.ros.smartrocket.db.entity.account.NationalIdAccount;
-import com.ros.smartrocket.db.entity.payment.PaymentField;
-import com.ros.smartrocket.db.entity.question.Questions;
-import com.ros.smartrocket.db.entity.account.register.ReferralCases;
 import com.ros.smartrocket.db.entity.RegisterDevice;
-import com.ros.smartrocket.db.entity.account.register.Registration;
-import com.ros.smartrocket.db.entity.account.register.SaveReferralCase;
-import com.ros.smartrocket.db.entity.task.SendTaskId;
-import com.ros.smartrocket.db.entity.account.SetPassword;
 import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.db.entity.ShortUrl;
 import com.ros.smartrocket.db.entity.Subscription;
+import com.ros.smartrocket.db.entity.account.AliPayAccount;
+import com.ros.smartrocket.db.entity.account.CheckEmail;
+import com.ros.smartrocket.db.entity.account.ExternalAuthResponse;
+import com.ros.smartrocket.db.entity.account.ExternalAuthorize;
+import com.ros.smartrocket.db.entity.account.Login;
+import com.ros.smartrocket.db.entity.account.LoginResponse;
+import com.ros.smartrocket.db.entity.account.MyAccount;
+import com.ros.smartrocket.db.entity.account.NationalIdAccount;
+import com.ros.smartrocket.db.entity.account.SetPassword;
 import com.ros.smartrocket.db.entity.account.Token;
 import com.ros.smartrocket.db.entity.account.UpdateUser;
-import com.ros.smartrocket.db.entity.task.Waves;
 import com.ros.smartrocket.db.entity.account.WeChatTokenResponse;
 import com.ros.smartrocket.db.entity.account.WeChatUserInfoResponse;
+import com.ros.smartrocket.db.entity.account.register.ActivateAccount;
+import com.ros.smartrocket.db.entity.account.register.ReferralCases;
+import com.ros.smartrocket.db.entity.account.register.Registration;
+import com.ros.smartrocket.db.entity.account.register.SaveReferralCase;
+import com.ros.smartrocket.db.entity.file.FileToUploadResponse;
+import com.ros.smartrocket.db.entity.location.CheckLocation;
+import com.ros.smartrocket.db.entity.location.CheckLocationResponse;
+import com.ros.smartrocket.db.entity.payment.PaymentField;
+import com.ros.smartrocket.db.entity.payment.PaymentInfo;
+import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.Questions;
+import com.ros.smartrocket.db.entity.task.ClaimTaskResponse;
+import com.ros.smartrocket.db.entity.task.SendTaskId;
+import com.ros.smartrocket.db.entity.task.Waves;
 
 import java.util.List;
 
@@ -205,4 +205,8 @@ public interface MatrixApi {
     @Multipart
     @POST("api/PaymentFieldFile")
     Observable<FileToUploadResponse> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
+
+    @GET("api/Authorize/SampleAPI-NotifyAsync")
+    Single<ResponseBody> testPush(@Query("to") String deviceToken, @Query("tittle") String tittleForPush, @Query("body") String bodyForPush);
+
 }
