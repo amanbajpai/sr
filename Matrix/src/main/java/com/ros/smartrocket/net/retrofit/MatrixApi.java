@@ -131,7 +131,7 @@ public interface MatrixApi {
     Single<ResponseBody> subscribe(@Body Subscription subscriptionEntity);
 
     @POST("api/Authorize/RegisterDevice")
-    Single<ResponseBody> registerGCMId(@Body RegisterDevice registerDeviceEntity);
+    Single<ResponseBody> registerFCMId(@Body RegisterDevice registerDeviceEntity);
 
     @GET("api/Authorize/Account")
     Observable<MyAccount> getMyAccount(@Query("language") String language);
@@ -206,7 +206,5 @@ public interface MatrixApi {
     @POST("api/PaymentFieldFile")
     Observable<FileToUploadResponse> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 
-    @GET("api/Authorize/SampleAPI-NotifyAsync")
-    Single<ResponseBody> testPush(@Query("to") String deviceToken, @Query("tittle") String tittleForPush, @Query("body") String bodyForPush);
 
 }

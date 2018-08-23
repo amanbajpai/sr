@@ -138,8 +138,8 @@ public interface Keys {
 
 
     /* ------------ GCM parameters -----------------------*/
-    String GCM_PROPERTY_REG_ID = "gcm_registration_id";
-    String GCM_IS_GCMID_REGISTERED = "gcm_id_is_registered";
+    String FCM_PROPERTY_REG_ID = "fcm_registration_id";
+    String FCM_IS_FCM_ID_REGISTERED = "fcm_id_is_registered";
 
     //NotUploadFile Service
     String ACTION_START_REMINDER_TIMER = "start_reminder_timer";

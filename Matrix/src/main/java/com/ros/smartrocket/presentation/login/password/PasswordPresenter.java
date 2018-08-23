@@ -36,7 +36,8 @@ class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<
                 .doOnNext(this::storeUserData)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnError(this::showNetworkError)
-                .subscribe(this::handleLoginSuccess, t->{}));
+                .subscribe(this::handleLoginSuccess, t -> {
+                }));
     }
 
     private void handleLoginSuccess(LoginResponse loginResponse) {
@@ -58,5 +59,6 @@ class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<
         else
             preferencesManager.setLastPassword("");
     }
+
 
 }

@@ -52,7 +52,7 @@ public class App extends Application {
     private MyAccount myAccount;
     private RetrofitHolder retrofitHolder;
     private Converter<ResponseBody, ErrorResponse> errorResponseConverter;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    public static FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {

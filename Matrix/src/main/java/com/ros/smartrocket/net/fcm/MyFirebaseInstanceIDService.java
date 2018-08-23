@@ -11,7 +11,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
  */
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
-    private static final String TAG = "MyFirebaseIIDService";
+    private static final String TAG = "MyFirebaseIDService";
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     @Override
@@ -25,7 +25,9 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         if (refreshedToken != null) {
             Log.d(TAG, "Refreshed token: " + refreshedToken);
             preferencesManager.setFirebaseToken(refreshedToken);
-        }
 
+            String testToken = PreferencesManager.getInstance().getFirebaseToken();
+            Log.e("Token", testToken);
+        }
     }
 }

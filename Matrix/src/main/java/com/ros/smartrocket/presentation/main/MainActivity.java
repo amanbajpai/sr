@@ -69,7 +69,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
     private void initPushMessaging() {
         if (!Config.USE_BAIDU)
-            CommonUtilities.registerGCMInBackground();
+            CommonUtilities.submitFCMToAppServer();
         else
             JPushInterface.init(getApplicationContext());
     }

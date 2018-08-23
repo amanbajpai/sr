@@ -12,6 +12,7 @@ import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.net.TaskReminderService;
+import com.ros.smartrocket.net.fcm.DeleteTokenService;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
@@ -29,6 +30,7 @@ public class WriteDataHelper {
         preferencesManager.removeToken();
         preferencesManager.setTokenForUploadFile("");
         preferencesManager.setTokenUpdateDate(0);
+        context.startService(new Intent(context, DeleteTokenService.class));
         clearDb(context);
         context.stopService(new Intent(context, TaskReminderService.class));
     }

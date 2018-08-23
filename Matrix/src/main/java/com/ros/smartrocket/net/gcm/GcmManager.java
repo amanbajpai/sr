@@ -65,7 +65,7 @@ public class GcmManager {
                     storeRegistrationId(registrationId);
 
                 } catch (IOException e) {
-                    L.e(TAG, "registerGCMInBackground() [Error :" + e.getMessage() + "]");
+                    L.e(TAG, "submitFCMToAppServer() [Error :" + e.getMessage() + "]");
                 }
                 return registrationId;
             }

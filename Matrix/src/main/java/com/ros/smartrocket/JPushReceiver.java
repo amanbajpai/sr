@@ -8,7 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.ros.smartrocket.db.store.WavesStore;
-import com.ros.smartrocket.net.helper.GcmRegistrar;
+import com.ros.smartrocket.net.helper.FcmRegistrar;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -32,8 +32,8 @@ public class JPushReceiver extends BroadcastReceiver {
 
                 if (Config.USE_BAIDU) {
                     L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
-                    new GcmRegistrar().registerGCMId(registrationId, 1);
-                    preferencesManager.setGCMRegistrationId(registrationId);
+                    new FcmRegistrar().registerFCMId(registrationId, 1);
+                   // preferencesManager.setFCMRegistrationId(registrationId);
                 }
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {

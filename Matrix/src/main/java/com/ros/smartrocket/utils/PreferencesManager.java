@@ -56,19 +56,18 @@ public class PreferencesManager {
      * @return registration ID, or empty string if there is no existing
      * registration ID.
      */
-    public String getGCMRegistrationId() {
-        return getString(Keys.GCM_PROPERTY_REG_ID, "");
-    }
-
-    /**
-     * Save registration Id in preferences
-     *
-     * @param regId - current GCM id
-     */
-    public void setGCMRegistrationId(String regId) {
-        setString(Keys.GCM_PROPERTY_REG_ID, regId);
-    }
-
+//    public String getFCMRegistrationId() {
+//        return getString(Keys.FCM_PROPERTY_REG_ID, "");
+//    }
+//
+//    /**
+//     * Save registration Id in preferences
+//     *
+//     * @param regId - current GCM id
+//     */
+//    public void setFCMRegistrationId(String regId) {
+//        setString(Keys.FCM_PROPERTY_REG_ID, regId);
+//    }
     public String getToken() {
         return getString(Keys.TOKEN, "");
     }
@@ -406,5 +405,6 @@ public class PreferencesManager {
     public void setFirebaseToken(String token) {
         setString(Keys.FIREBASE_PUSH_TOKEN, token);
     }
+
 
 }

@@ -17,16 +17,12 @@ package com.ros.smartrocket.net.gcm;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.ros.smartrocket.App;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.Config;
-import com.ros.smartrocket.net.helper.GcmRegistrar;
+import com.ros.smartrocket.net.helper.FcmRegistrar;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
-
-import java.io.IOException;
 
 /**
  * Helper class providing methods and constants common to other classes in the
@@ -44,6 +40,7 @@ public final class CommonUtilities {
     public static final String EXTRA_MESSAGE = "message";
 
     private static final String TAG = CommonUtilities.class.getSimpleName();
+//    private static final PreferencesManager preferencesManager = PreferencesManager.getInstance();
 
     private CommonUtilities() {
     }
@@ -70,48 +67,68 @@ public final class CommonUtilities {
      * Stores the registration ID and app versionCode in the application's
      * shared preferences.
      */
-    public static void registerGCMInBackground() {
-        new AsyncTask<Void, String, String>() {
+    public static void submitFCMToAppServer() {
+        String registrationId = PreferencesManager.getInstance().getFirebaseToken();
 
-            @Override
-            protected String doInBackground(Void... params) {
-                try {
-                    GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(App.getInstance());
-                    String registrationId = gcm.register(Config.GCM_SENDER_ID);
-                    L.i(TAG, "Device registered, registration ID=" + registrationId);
+        if (registrationId == null || registrationId.equalsIgnoreCase("")) {
+            registrationId = FirebaseInstanceId.getInstance().getToken();
+        }
+        L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
 
-                    if (!Config.USE_BAIDU) {
-                        L.d(TAG, "Send registered to server: regId = " + registrationId);
-                        new GcmRegistrar().registerGCMId(registrationId, 0);
-                        //TODO uncomment after new GCM implementation
-                        //Core.registerDeviceToken(App.getInstance(), registrationId);
-                        PreferencesManager.getInstance().setGCMRegistrationId(registrationId);
-                    }
+        if (!Config.USE_BAIDU) {
+            L.d(TAG, "Send registered to server: regId = " + registrationId);
+            new FcmRegistrar().registerFCMId(registrationId, 0);
+            //TODO uncomment after new GCM implementation
+            //Core.registerDeviceToken(App.getInstance(), registrationId);
+            // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
+        }
 
-                    // You should send the registration ID to your server over HTTP,
-                    // so it can use GCM/HTTP or CCS to send messages to your app.
-                    // The request to your server should be authenticated if your app
-                    // is using accounts.
-                    //APIFacade.getInstance().registerGCMId(App.getInstance(), regId);
-
-                    // Persist the regID - no need to register again.
-                    //PreferencesManager.getInstance().setGCMRegistrationId(regId);
-
-                    return registrationId;
-                } catch (IOException e) {
-                    L.e(TAG, "registerGCMInBackground() [Error :" + e.getMessage() + "]", e);
-                    // If there is an error, don't just keep trying to register.
-                    // Require the user to click a button again, or perform
-                    // exponential back-off.
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(String s) {
-                super.onPostExecute(s);
-                L.i(TAG, "onPostExecute");
-            }
-        }.execute();
+//        new AsyncTask<Void, String, String>() {
+//
+//            @Override
+//            protected String doInBackground(Void... params) {
+//                try {
+////                    GoogleCloudMessaging gcm = GoogleCloudMessaging.getInstance(App.getInstance());
+////                    String registrationId = gcm.register(Config.GCM_SENDER_ID);
+//                    PreferencesManager preferencesManager = PreferencesManager.getInstance();
+//                    String registrationId = preferencesManager.getFirebaseToken();
+//                    if (registrationId == null && registrationId.length() == 0) {
+//                        registrationId = FirebaseInstanceId.getInstance().getToken();
+//                    }
+//                    L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
+//
+//                    if (!Config.USE_BAIDU) {
+//                        L.d(TAG, "Send registered to server: regId = " + registrationId);
+//                        new FcmRegistrar().registerFCMId(registrationId, 0);
+//                        //TODO uncomment after new GCM implementation
+//                        //Core.registerDeviceToken(App.getInstance(), registrationId);
+//                        // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
+//                    }
+//
+//                    // You should send the registration ID to your server over HTTP,
+//                    // so it can use GCM/HTTP or CCS to send messages to your app.
+//                    // The request to your server should be authenticated if your app
+//                    // is using accounts.
+//                    //APIFacade.getInstance().registerFCMId(App.getInstance(), regId);
+//
+//                    // Persist the regID - no need to register again.
+//                    //PreferencesManager.getInstance().setFCMRegistrationId(regId);
+//
+//                    return registrationId;
+//                } catch (Exception e) {
+//                    L.e(TAG, "submitFCMToAppServer() [Error :" + e.getMessage() + "]", e);
+//                    // If there is an error, don't just keep trying to register.
+//                    // Require the user to click a button again, or perform
+//                    // exponential back-off.
+//                }
+//                return null;
+//            }
+//
+//            @Override
+//            protected void onPostExecute(String s) {
+//                super.onPostExecute(s);
+//                L.i(TAG, "onPostExecute");
+//            }
+//        }.execute();
     }
 }

@@ -9,25 +9,25 @@ import com.ros.smartrocket.utils.PreferencesManager;
 
 import io.reactivex.schedulers.Schedulers;
 
-public class GcmRegistrar {
+public class FcmRegistrar {
 
-    public void registerGCMId(String regId, int providerType) {
+    public void registerFCMId(String regId, int providerType) {
         RegisterDevice registerDeviceEntity = new RegisterDevice();
         registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID());
         registerDeviceEntity.setRegistrationId(regId);
         registerDeviceEntity.setProviderType(providerType);
-        App.getInstance().getApi().registerGCMId(registerDeviceEntity)
+        App.getInstance().getApi().registerFCMId(registerDeviceEntity)
                 .subscribeOn(Schedulers.io())
                 .subscribe(__ -> done(), this::onError);
 
     }
 
     private void done() {
-        PreferencesManager.getInstance().setBoolean(Keys.GCM_IS_GCMID_REGISTERED, true);
-        Log.e("GCM !!!", "Device registered on server");
+        PreferencesManager.getInstance().setBoolean(Keys.FCM_IS_FCM_ID_REGISTERED, true);
+        Log.e("FCM !!!", "Device registered on server");
     }
 
     private void onError(Throwable t) {
-        Log.e("GcmRegistrar", "Device not registered on server", t);
+        Log.e("FcmRegistrar", "Device not registered on server", t);
     }
 }
