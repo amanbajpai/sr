@@ -373,6 +373,8 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="${googleApiKey}" />
+
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="${baiduApiKey}" />
