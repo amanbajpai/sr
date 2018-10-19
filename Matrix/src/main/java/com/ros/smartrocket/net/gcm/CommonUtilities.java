@@ -17,12 +17,19 @@ package com.ros.smartrocket.net.gcm;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Environment;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.net.helper.FcmRegistrar;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.channels.FileChannel;
 
 /**
  * Helper class providing methods and constants common to other classes in the
@@ -72,6 +79,7 @@ public final class CommonUtilities {
 
         if (registrationId == null || registrationId.equalsIgnoreCase("")) {
             registrationId = FirebaseInstanceId.getInstance().getToken();
+            PreferencesManager.getInstance().setFirebaseToken(registrationId);
         }
         L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
 
@@ -130,5 +138,26 @@ public final class CommonUtilities {
 //                L.i(TAG, "onPostExecute");
 //            }
 //        }.execute();
+    }
+
+    public static void exportDB(Context context) {
+        File sd = Environment.getExternalStorageDirectory();
+        File data = Environment.getDataDirectory();
+        FileChannel source = null;
+        FileChannel destination = null;
+        String currentDBPath = "/data/" + "com.ros.smartrocket" + "/databases/" + "matrix_db";
+        String backupDBPath = "matrix_db";
+        File currentDB = new File(data, currentDBPath);
+        File backupDB = new File(sd, backupDBPath);
+        try {
+            source = new FileInputStream(currentDB).getChannel();
+            destination = new FileOutputStream(backupDB).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            // Toast.makeText(context, "DB Exported!", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

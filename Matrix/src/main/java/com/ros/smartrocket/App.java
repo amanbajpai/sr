@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -66,6 +67,10 @@ public class App extends Application {
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle params = new Bundle();
+        params.putString("category", "Test Category");
+        params.putString("action", "Test Action");
+        App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
     }
 
     private void initRetrofit() {

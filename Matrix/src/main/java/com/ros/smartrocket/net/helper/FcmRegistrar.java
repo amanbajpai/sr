@@ -16,9 +16,13 @@ public class FcmRegistrar {
         registerDeviceEntity.setDeviceId(PreferencesManager.getInstance().getUUID());
         registerDeviceEntity.setRegistrationId(regId);
         registerDeviceEntity.setProviderType(providerType);
+//
         App.getInstance().getApi().registerFCMId(registerDeviceEntity)
                 .subscribeOn(Schedulers.io())
                 .subscribe(__ -> done(), this::onError);
+
+//        App.getInstance().getApi().getSamplePush(PreferencesManager.getInstance().getFirebaseToken(), "HelloAnkur").subscribeOn(Schedulers.io())
+//                .subscribe(__ -> done(), this::onError);
 
     }
 

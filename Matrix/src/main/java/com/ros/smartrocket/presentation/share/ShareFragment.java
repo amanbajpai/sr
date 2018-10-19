@@ -202,7 +202,7 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
             Bundle params = new Bundle();
             params.putString("category", "Share");
             params.putString("action", shareType);
-            App.mFirebaseAnalytics.logEvent("SmartRocket", params);
+            App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
 
             if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
                 getActivity().startActivity(intent);

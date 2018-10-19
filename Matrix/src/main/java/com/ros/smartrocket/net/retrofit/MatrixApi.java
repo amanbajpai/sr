@@ -206,5 +206,8 @@ public interface MatrixApi {
     @POST("api/PaymentFieldFile")
     Observable<FileToUploadResponse> sendPaymentFile(@Part("fileModel") RequestBody model, @Part MultipartBody.Part file);
 
+    @GET("api/Authorize/SampleAPI")
+    Single<ResponseBody> getSamplePush(@Query("to") String deviceToken, @Query("body") String pushMessageTest);
+
 
 }

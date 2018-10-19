@@ -23,36 +23,36 @@ repositories {
     maven { url 'https://maven.fabric.io/public' }
 }
 
-task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
-    def coverageSourceDirs = ['src/main/java']
-    group = "Reporting"
-    description = "Generate Jacoco coverage reports"
-
-    classDirectories = fileTree(
-            dir: 'build/intermediates/classes/debug',
-            excludes: ['**/R.class',
-                       '**/R$*.class',
-                       '**/BuildConfig.*',
-                       '**/Manifest*.*',
-                       '**/BitmapRequestBuilder.class',
-                       '**/DrawableRequestBuilder.class',
-                       '**/GifRequestBuilder.class',]
-    )
-
-    additionalSourceDirs = files(coverageSourceDirs)
-    sourceDirectories = files(coverageSourceDirs)
-    executionData = files('build/jacoco/testDebug.exec')
-
-    reports {
-        xml.enabled = true
-        html.enabled = true
-    }
-}
+//task jacocoTestReport(type: JacocoReport, dependsOn: "testDebug") {
+//    def coverageSourceDirs = ['src/main/java']
+//    group = "Reporting"
+//    description = "Generate Jacoco coverage reports"
+//
+//    classDirectories = fileTree(
+//            dir: 'build/intermediates/classes/debug',
+//            excludes: ['**/R.class',
+//                       '**/R$*.class',
+//                       '**/BuildConfig.*',
+//                       '**/Manifest*.*',
+//                       '**/BitmapRequestBuilder.class',
+//                       '**/DrawableRequestBuilder.class',
+//                       '**/GifRequestBuilder.class',]
+//    )
+//
+//    additionalSourceDirs = files(coverageSourceDirs)
+//    sourceDirectories = files(coverageSourceDirs)
+//    executionData = files('build/jacoco/testDebug.exec')
+//
+//    reports {
+//        xml.enabled = true
+//        html.enabled = true
+//    }
+//}
 
 android {
-    ext.env = System.getenv()
-    ext.buildNumber = env.BUILD_NUMBER ?: '0'
-    ext.buildNumber = buildNumber.toInteger()
+//    ext.env = System.getenv()
+//    ext.buildNumber = env.BUILD_NUMBER ?: '0'
+//    ext.buildNumber = buildNumber.toInteger()
     compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
     buildToolsVersion '26.0.2'
@@ -60,14 +60,15 @@ android {
     defaultConfig {
         minSdkVersion 17
         targetSdkVersion 26
-        versionCode buildNumber + 10000
-        versionName '2.6.4'
+//        versionCode buildNumber + 10000
+        versionCode 11451
+        versionName '2.6.8'
         applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
         buildConfigField "String", "LOGIN_SCREEN_VERSION", "(\"production\".equals(FLAVOR) || \"chinaProduction\"" +
                 ".equals(FLAVOR))? VERSION_NAME : String.valueOf(VERSION_CODE)"
-        buildConfigField "String", "JENKINS_BUILD_VERSION", "String.valueOf(" + buildNumber.toInteger() + ")"
+//        buildConfigField "String", "JENKINS_BUILD_VERSION", "String.valueOf(" + buildNumber.toInteger() + ")"
         buildConfigField "String", "SERVER_API_KEY", "\"AIzaSyDW_Q63y83xT0LmBgmEyB3oyxX8GQtkXAM\""
         buildConfigField "String", "GCM_SENDER_ID", "\"318949058113\""
         multiDexEnabled = true
@@ -79,9 +80,9 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    jacoco {
-        version = '0.7.2.201409121644'
-    }
+//    jacoco {
+//        version = '0.7.2.201409121644'
+//    }
 
     lintOptions {
         abortOnError false
@@ -291,7 +292,6 @@ dependencies {
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     androidTestCompile 'junit:junit:4.12'
 
-
     compile fileTree(excludes: ['baidumapapi_base_v4_1_0.jar', 'baidumapapi_map_v4_1_0.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
     chinaProductionCompile fileTree(include: '*.jar', dir: '../libsChina')
     chinaDevCompile fileTree(include: '*.jar', dir: '../libsChina')
@@ -301,19 +301,15 @@ dependencies {
     devCompile fileTree(include: '*.jar', dir: '../libsChina')
 }
 
-apply plugin: 'com.google.gms.google-services'
-
 repositories {
     flatDir {
         dirs '../libs'
     }
-
+    apply plugin: 'com.google.gms.google-services'
     maven {
         url 'https://maven.google.com/'
         name 'Google'
     }
-
-
 }
 
 
