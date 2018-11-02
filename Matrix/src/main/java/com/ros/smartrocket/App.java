@@ -201,11 +201,11 @@ public class App extends Application {
         return errorResponseConverter;
     }
 
-    synchronized public Tracker getDefaultTracker() {
-        if (tracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            tracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return tracker;
-    }
+//    synchronized public Tracker getDefaultTracker() {
+//        if (tracker == null) {
+//            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+//            tracker = analytics.newTracker(R.xml.global_tracker);
+//        }
+//        return tracker;
+//    }
 }

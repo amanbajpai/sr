@@ -25,6 +25,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         try {
             //TODO handle notification
 
+
+            try {
+                if (remoteMessage.getData().size() > 0) {
+                    L.d(TAG, "Data payload==" + remoteMessage.getData());
+                } else if (remoteMessage.getNotification() != null) {
+                    L.d(TAG, "Notification payload==" + remoteMessage.getNotification().getBody());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
             Log.d(TAG, "From: " + remoteMessage.getFrom());
             if (remoteMessage.getData() != null) {
                 Log.e("push json", remoteMessage.getData().toString());
@@ -51,3 +63,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
     }
 }
+
+
+
