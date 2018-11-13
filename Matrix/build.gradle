@@ -301,15 +301,18 @@ dependencies {
     devCompile fileTree(include: '*.jar', dir: '../libsChina')
 }
 
+
 repositories {
     flatDir {
         dirs '../libs'
     }
-    apply plugin: 'com.google.gms.google-services'
     maven {
         url 'https://maven.google.com/'
         name 'Google'
     }
+
+    apply plugin: 'com.google.gms.google-services'
+
 }
 
 

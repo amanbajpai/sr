@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -283,11 +282,14 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
                 break;
             case R.id.continue_btn:
                 if (UIUtils.isDeviceReady(this)) {
+//                    String testToken = PreferencesManager.getInstance().getFirebaseToken();
+//                    Log.e("Token on login", testToken);
                     loginPresenter.checkEmail(emailEditText.getText().toString().trim());
                 }
                 break;
         }
     }
+
 
     @Override
     public void onExternalLoginSuccess(ExternalAuthorize extAuthorize) {

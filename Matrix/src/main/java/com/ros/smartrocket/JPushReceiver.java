@@ -33,7 +33,7 @@ public class JPushReceiver extends BroadcastReceiver {
                 if (Config.USE_BAIDU) {
                     L.d(TAG, "[MyReceiver] Send registered to server: regId = " + registrationId);
                     new FcmRegistrar().registerFCMId(registrationId, 1);
-                   // preferencesManager.setFCMRegistrationId(registrationId);
+//                    preferencesManager.setFCMRegistrationId(registrationId);
                 }
 
             } else if (JPushInterface.ACTION_MESSAGE_RECEIVED.equals(intent.getAction())) {

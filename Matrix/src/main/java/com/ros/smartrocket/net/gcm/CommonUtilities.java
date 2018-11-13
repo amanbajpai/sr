@@ -18,6 +18,7 @@ package com.ros.smartrocket.net.gcm;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+import android.os.Handler;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.Config;
@@ -80,16 +81,26 @@ public final class CommonUtilities {
         if (registrationId == null || registrationId.equalsIgnoreCase("")) {
             registrationId = FirebaseInstanceId.getInstance().getToken();
             PreferencesManager.getInstance().setFirebaseToken(registrationId);
+        } else {
+            //String refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            PreferencesManager.getInstance().setFirebaseToken(registrationId);
         }
         L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
 
-        if (!Config.USE_BAIDU) {
-            L.d(TAG, "Send registered to server: regId = " + registrationId);
-            new FcmRegistrar().registerFCMId(registrationId, 0);
-            //TODO uncomment after new GCM implementation
-            //Core.registerDeviceToken(App.getInstance(), registrationId);
-            // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
-        }
+        String finalRegistrationId = registrationId;
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (!Config.USE_BAIDU) {
+                    L.d(TAG, "Send registered to server: regId = " + finalRegistrationId);
+                    new FcmRegistrar().registerFCMId(finalRegistrationId, 0);
+                    //TODO uncomment after new GCM implementation
+                    //Core.registerDeviceToken(App.getInstance(), registrationId);
+                    // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
+                }
+            }
+        }, 5000);
+
 
 //        new AsyncTask<Void, String, String>() {
 //

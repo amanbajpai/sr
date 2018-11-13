@@ -23,9 +23,6 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         try {
-            //TODO handle notification
-
-
             try {
                 if (remoteMessage.getData().size() > 0) {
                     L.d(TAG, "Data payload==" + remoteMessage.getData());
@@ -62,6 +59,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             e.printStackTrace();
         }
     }
+
+
 }
 
 

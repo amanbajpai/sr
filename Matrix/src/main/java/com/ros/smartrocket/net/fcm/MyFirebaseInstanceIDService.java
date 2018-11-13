@@ -27,7 +27,12 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
             preferencesManager.setFirebaseToken(refreshedToken);
 
             String testToken = PreferencesManager.getInstance().getFirebaseToken();
-            Log.e("Token", testToken);
+            Log.e("Token by firebase", testToken);
+        } else {
+            refreshedToken = FirebaseInstanceId.getInstance().getToken();
+            preferencesManager.setFirebaseToken(refreshedToken);
         }
     }
+
+
 }
