@@ -37,6 +37,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
         startServices();
         initPushMessaging();
         initReceiver();
+
     }
 
     @Override

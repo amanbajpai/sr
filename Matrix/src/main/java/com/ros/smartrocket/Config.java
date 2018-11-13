@@ -9,6 +9,10 @@ public class Config {
     public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
     public static final String SHARE_URL = "http://smart-rocket.com/crew/";
 
+    /*SR-20*/
+    public static final String SHARE_URL_ALL_COUNTRIES = "https://play.google.com/store/apps/details?id=com.ros.smartrocket";
+    public static final String SHARE_URL_CHINA = "http://android.app.qq.com/myapp/detail.htm?apkName=com.ros.smartrocket";
+
     public static final int TREE_G_UPLOAD_TASK_LIMIT_MB = 0;
     public static final int TREE_G_UPLOAD_MONTH_LIMIT_MB = 0;
 

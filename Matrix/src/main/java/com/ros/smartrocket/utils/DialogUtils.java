@@ -655,4 +655,33 @@ public class DialogUtils {
         dialog.setOnDialogButtonClickListener(dialogButtonClickListener);
         return dialog;
     }
+
+    /**
+     * Show Task already Claimed dialog
+     *
+     * @param activity - current activity
+     */
+    public static Dialog showTaskAlreadyClaimedDialog(final Activity activity) {
+
+        DefaultInfoDialog dialog = new DefaultInfoDialog(activity,
+                activity.getText(R.string.task_claimed_tittle),
+                activity.getText(R.string.task_claimed_message),
+                0, R.string.task_claimed_ok_button);
+        dialog.hideLeftButton();
+        dialog.setCancelable(false);
+        dialog.setOnDialogButtonClickListener(new DefaultInfoDialog.DialogButtonClickListener() {
+            @Override
+            public void onLeftButtonPressed(Dialog dialog) {
+            }
+
+            @Override
+            public void onRightButtonPressed(Dialog dialog) {
+                dialog.dismiss();
+                activity.finish();
+                activity.startActivity(IntentUtils.getTaskClaimedIntent(activity));
+
+            }
+        });
+        return dialog;
+    }
 }

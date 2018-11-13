@@ -245,6 +245,7 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
 
     @Override
     public void showUnClaimDialog() {
+
         String dateTime = UIUtils.longToString(task.getLongExpireDateTime(), 3);
         new WithdrawTaskDialog(this, dateTime, new WithdrawTaskDialog.DialogButtonClickListener() {
             @Override
@@ -256,6 +257,11 @@ public class TaskDetailsActivity extends BaseActivity implements ClaimMvpView, T
                 claimPresenter.unClaimTaskRequest();
             }
         });
+    }
+
+    @Override
+    public void showTaskAlreadyClaimedDialog() {
+        DialogUtils.showTaskAlreadyClaimedDialog(this);
     }
 
     @Override

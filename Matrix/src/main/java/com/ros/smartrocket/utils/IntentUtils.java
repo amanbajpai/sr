@@ -346,6 +346,12 @@ public class IntentUtils {
     public static Intent getMyAccountIntent(Context context) {
         return new Intent(context, MyAccountActivity.class);
     }
+
+    /*Intent for Task already claimed, need to navigate user to the home screen i.e (wave listing)*/
+    public static Intent getTaskClaimedIntent(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+        return intent;
+    }
+
 }
-
-

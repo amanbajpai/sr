@@ -104,8 +104,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
     private void getWaves(final boolean updateFromServer) {
         if (preferencesManager.getUseLocationServices() && lm.isConnected()) {
             AllTaskFragment.stopRefreshProgress = !updateFromServer;
-            App.getInstance().getLocationManager().recalculateDistances(() ->
-            {
+            App.getInstance().getLocationManager().recalculateDistances(() -> {
                 presenter.loadNotMyWavesListFromDB(preferencesManager.getShowHiddenTask());
                 if (updateFromServer) updateDataFromServer();
             });

@@ -481,7 +481,7 @@
     <string name="dialog_first_name">First Name</string>
     <string name="dialog_last_name">Last Name</string>
     <string name="dialog_attention">Attention!</string>
-    <string name="id_card_agent_id">ID: %d</string>
+    <string name="id_card_agent_id">ID: %1$d</string>
     <string name="identification_card">Identification Card</string>
     <string name="dialog_are_you_sure_first_last_name_text">Are you sure you want to change your first and last names to %1$s?</string>
     <string name="approx_mission_duration" translatable="false">"%dm"</string>
@@ -568,5 +568,12 @@
     <string name="why_we_need_payment_details">Why we need payment details</string>
     <string name="payment_details_info">The below fields are mandatory requirements to make payments to you and to fulfill local tax law. You can only cash out your balance once these fields are filled. Failure to complete the fields accurately and honestly will result in your account termination.</string>
     <string name="max_cash_details">You are currently exceeding the maximum allowable balance. Please cash out your balance before claiming any further missions</string>
+
+
+    <!--Task already claimed dialog messages-->
+    <string name="task_claimed_tittle">Warning</string>
+    <string name="task_claimed_message">This task is already claimed</string>
+    <string name="task_claimed_ok_button">OK</string>
+
 
 </resources>

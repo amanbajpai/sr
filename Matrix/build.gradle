@@ -290,6 +290,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.3'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+//    implementation 'com.facebook.stetho:stetho:1.5.0' // for DB eexport on Chrome.
+
     androidTestCompile 'junit:junit:4.12'
 
     compile fileTree(excludes: ['baidumapapi_base_v4_1_0.jar', 'baidumapapi_map_v4_1_0.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')

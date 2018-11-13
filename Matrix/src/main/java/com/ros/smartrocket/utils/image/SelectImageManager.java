@@ -359,8 +359,16 @@ public class SelectImageManager {
         try {
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
-            BitmapFactory.decodeFile(f.getAbsolutePath(), o);
-
+            try {
+                BitmapFactory.decodeFile(f.getPath(), o);
+            } catch (OutOfMemoryError e) {
+                try {
+                    o.inSampleSize = 2;
+                    BitmapFactory.decodeFile(f.getPath(), o);
+                } catch (Exception e1) {
+                    e.printStackTrace();
+                }
+            }
             if (o.outHeight > maxSizeInPx || o.outWidth > maxSizeInPx) {
                 double maxSourceSideSize = (double) Math.max(o.outHeight, o.outWidth);
                 scale = (int) Math.pow(2,
@@ -371,7 +379,7 @@ public class SelectImageManager {
 
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
-            return BitmapFactory.decodeFile(f.getAbsolutePath(), o2);
+            return BitmapFactory.decodeFile(f.getPath(), o2);
         } catch (Exception e) {
             L.e(TAG, "getScaledBitmapByPxSize" + e.getMessage(), e);
         }

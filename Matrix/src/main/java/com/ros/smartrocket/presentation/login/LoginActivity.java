@@ -352,7 +352,8 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     @Override
     public void onExternalAuth(ExternalAuthResponse response) {
         if (response.isRegistrationRequested()) {
-            startRegistrationFlow(RegistrationType.SOCIAL, -1);
+//            startRegistrationFlow(RegistrationType.SOCIAL, -1);
+            startRegistrationFlow(RegistrationType.SOCIAL_ADDITIONAL_INFO, -1);
         } else if (response.isShowTermsConditions()) {
             Intent intent = new Intent(this, TermsAndConditionActivity.class);
             intent.putExtra(Keys.SHOULD_SHOW_MAIN_SCREEN, true);

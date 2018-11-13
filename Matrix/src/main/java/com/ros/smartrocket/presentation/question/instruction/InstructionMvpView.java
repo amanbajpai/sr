@@ -8,5 +8,6 @@ import java.io.File;
 
 interface InstructionMvpView extends BaseQuestionMvpView {
     void setVideoInstructionFile(File file);
+
     void setImageInstruction(Bitmap bitmap, String filePath);
 }

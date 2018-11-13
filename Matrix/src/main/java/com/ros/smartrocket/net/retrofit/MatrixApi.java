@@ -143,7 +143,7 @@ public interface MatrixApi {
     Single<ResponseBody> cashingOut();
 
     @GET("api/Socials/SharingData")
-    Single<Sharing> getSharingData(@Query("language") String language);
+    Single<Sharing> getSharingData(@Query("language") String language, @Query("Apptype") Integer Apptype);
 
     @POST("api/Authorize/ReIssueCredentials")
     Single<Token> getNewToken(@Body Token token);

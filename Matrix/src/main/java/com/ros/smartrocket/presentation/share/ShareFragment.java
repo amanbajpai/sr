@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.Config;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.Sharing;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
@@ -88,7 +87,7 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
     }
 
     private void initSharingData() {
-        shortUrl = Config.SHARE_URL;
+        //shortUrl = Config.SHARE_URL;
         subject = getString(R.string.app_name);
         text = getString(R.string.share_text);
     }
@@ -227,7 +226,9 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
             if (!TextUtils.isEmpty(sharing.getSharedText()))
                 text = sharing.getSharedText();
             if (!TextUtils.isEmpty(sharing.getSharedLink()))
-                getShortUrl(sharing.getSharedLink());
+                shortUrl = sharing.getSharedLink();
+            showButtons(sharing.getBitMaskSocialNetwork());
+//                getShortUrl(sharing.getSharedLink());
         }
     }
 

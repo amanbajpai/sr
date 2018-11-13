@@ -19,6 +19,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.AsyncTask;
+import android.os.Environment;
+import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.Config;
@@ -46,6 +49,8 @@ public final class CommonUtilities {
      * Intent's extra that contains the message to be displayed.
      */
     public static final String EXTRA_MESSAGE = "message";
+
+    public static String imagePath = null;
 
     private static final String TAG = CommonUtilities.class.getSimpleName();
 //    private static final PreferencesManager preferencesManager = PreferencesManager.getInstance();

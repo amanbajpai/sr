@@ -1,5 +1,6 @@
 package com.ros.smartrocket.presentation.task;
 
+import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,12 +18,15 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.presentation.task.map.TasksMapFragment;
 import com.ros.smartrocket.presentation.task.my.MyTaskListFragment;
 import com.ros.smartrocket.presentation.wave.my.WaveListFragment;
+import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
+import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;

@@ -429,10 +429,10 @@
     <string name="dialog_first_name">名字（例如：小船）</string>
     <string name="dialog_last_name">姓氏（例如：张）</string>
     <string name="dialog_attention">注意！</string>
-    <string name="id_card_agent_id">ID: %d</string>
+    <string name="id_card_agent_id">ID: %1$d</string>
     <string name="identification_card">职员证</string>
     <string name="dialog_are_you_sure_first_last_name_text">请确认名字更新为 %1$s?</string>
-    <string name="mission_size_dialog_text">任务的档案容量为 %sMB，也准备下载到您的手机。如果不想使用自己的数据，请先連接到Wi-Fi网络。</string>
+    <string name="mission_size_dialog_text">任务的档案容量为 %1$sMB，也准备下载到您的手机。如果不想使用自己的数据，请先連接到Wi-Fi网络。</string>
 
 
     <string name="preview_task">預覽</string>
@@ -506,4 +506,11 @@
     <string name="payment_details_info">因为法律规定的税务过程，所以你必须填写以下资料才可以提款。如果你没有如实填写以下资料的话，你的账户将会被删除。</string>
     <string name="why_we_need_payment_details">为什么我们需要知道以下资料</string>
     <string name="max_cash_details">你账户的余额已经超过可提款的最高限制。请你先提款后才可以继续认领新任务。</string>
+
+
+    <!--Task already claimed dialog messages-->
+    <string name="task_claimed_tittle">注意！</string>
+    <string name="task_claimed_message">此任务已经被其他队员认领了</string>
+    <string name="task_claimed_ok_button">继续</string>
+
 </resources>
