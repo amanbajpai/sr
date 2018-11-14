@@ -15,7 +15,7 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.UploadFileService;
-import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.net.fcm.CommonUtilities;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.LogOutAction;

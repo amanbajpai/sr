@@ -30,7 +30,7 @@ import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
 import com.ros.smartrocket.net.TaskReminderService;
-import com.ros.smartrocket.net.gcm.CommonUtilities;
+import com.ros.smartrocket.net.fcm.CommonUtilities;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.views.CustomSwitch;

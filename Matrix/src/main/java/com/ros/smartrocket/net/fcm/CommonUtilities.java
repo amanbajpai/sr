@@ -13,15 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.ros.smartrocket.net.gcm;
+package com.ros.smartrocket.net.fcm;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.AsyncTask;
-import android.os.Environment;
-import android.widget.Toast;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.Config;
@@ -93,18 +89,14 @@ public final class CommonUtilities {
         L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
 
         String finalRegistrationId = registrationId;
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!Config.USE_BAIDU) {
-                    L.d(TAG, "Send registered to server: regId = " + finalRegistrationId);
-                    new FcmRegistrar().registerFCMId(finalRegistrationId, 0);
-                    //TODO uncomment after new GCM implementation
-                    //Core.registerDeviceToken(App.getInstance(), registrationId);
-                    // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
-                }
-            }
-        }, 5000);
+        if (!Config.USE_BAIDU) {
+            L.d(TAG, "Send registered to server: regId = " + finalRegistrationId);
+            new FcmRegistrar().registerFCMId(finalRegistrationId, 0);
+            //TODO uncomment after new GCM implementation
+            //Core.registerDeviceToken(App.getInstance(), registrationId);
+            // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
+        }
+    }
 
 
 //        new AsyncTask<Void, String, String>() {
@@ -154,7 +146,6 @@ public final class CommonUtilities {
 //                L.i(TAG, "onPostExecute");
 //            }
 //        }.execute();
-    }
 
     public static void exportDB(Context context) {
         File sd = Environment.getExternalStorageDirectory();

@@ -36,13 +36,13 @@
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <!-- Global receiver -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-   <!-- &lt;!&ndash; Cloud to Device Messaging permissions &ndash;&gt;
-    <permission
-        android:name="${applicationId}.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
+    <!-- &lt;!&ndash; Cloud to Device Messaging permissions &ndash;&gt;
+     <permission
+         android:name="${applicationId}.permission.C2D_MESSAGE"
+         android:protectionLevel="signature" />
 
-    <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
+     <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
+     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
     <!-- Map -->
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <!-- App must have this permission to use the library -->
@@ -488,19 +488,13 @@
             android:exported="false" />
 
         <!--FCM service registration-->
-        <service
-            android:name=".net.fcm.MyFirebaseMessagingService"
-            android:enabled="true"
-            android:exported="true">
+        <service android:name=".net.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
 
-        <service
-            android:name=".net.fcm.MyFirebaseInstanceIDService"
-            android:enabled="true"
-            android:exported="true">
+        <service android:name=".net.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
