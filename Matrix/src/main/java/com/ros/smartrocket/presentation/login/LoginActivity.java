@@ -165,6 +165,11 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
     @Override
     protected void onResume() {
         super.onResume();
+        Bundle params = new Bundle();
+        params.putString("category", "Login");
+        params.putString("action", "Login screen");
+        App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
+
         if (UIUtils.isDeviceReady(this) && checkLocationDialog == null && checkLocationResponse == null) {
             checkLocationPresenter.checkLocation();
         }

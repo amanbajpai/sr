@@ -4,7 +4,6 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
-import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import android.util.Log;
@@ -15,7 +14,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
 import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -53,7 +51,7 @@ public class App extends Application {
     private MyAccount myAccount;
     private RetrofitHolder retrofitHolder;
     private Converter<ResponseBody, ErrorResponse> errorResponseConverter;
-    public static FirebaseAnalytics mFirebaseAnalytics;
+//    public static FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -66,11 +64,11 @@ public class App extends Application {
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        Bundle params = new Bundle();
-        params.putString("category", "Test Category");
-        params.putString("action", "Test Action");
-        App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
+//        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+//        Bundle params = new Bundle();
+//        params.putString("category", "Test Category");
+//        params.putString("action", "Test Action");
+//        App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
     }
 
     private void initRetrofit() {
@@ -202,11 +200,11 @@ public class App extends Application {
         return errorResponseConverter;
     }
 
-//    synchronized public Tracker getDefaultTracker() {
-//        if (tracker == null) {
-//            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-//            tracker = analytics.newTracker(R.xml.global_tracker);
-//        }
-//        return tracker;
-//    }
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.global_tracker);
+        }
+        return tracker;
+    }
 }

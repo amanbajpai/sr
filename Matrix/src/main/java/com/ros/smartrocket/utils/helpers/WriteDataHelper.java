@@ -3,7 +3,6 @@ package com.ros.smartrocket.utils.helpers;
 import android.content.Context;
 import android.content.Intent;
 
-import com.google.android.gcm.GCMRegistrar;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.NotificationBL;
@@ -93,6 +92,6 @@ public class WriteDataHelper {
         QuestionsBL.removeAllQuestionsFromDB(context);
         AnswersBL.removeAllAnswers(context);
         NotificationBL.removeAllNotifications(context);
-        GCMRegistrar.unregister(context);
+        //.unregister(context);
     }
 }

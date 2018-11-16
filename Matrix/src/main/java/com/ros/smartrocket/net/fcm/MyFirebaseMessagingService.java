@@ -11,6 +11,8 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 
+import org.json.JSONObject;
+
 /**
  * Created by ankurrawal on 10/8/16.
  */
@@ -37,19 +39,26 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d(TAG, "From: " + remoteMessage.getFrom());
             if (remoteMessage.getData() != null) {
                 Log.e("push json", remoteMessage.getData().toString());
-                String messageJsonObject = remoteMessage.getData().toString();
-                L.d(TAG, "Received message [message=" + messageJsonObject + "]");
-                if (messageJsonObject != null) {
+
+                JSONObject messageJsonObject = new JSONObject(remoteMessage.getData().toString());
+                String message = messageJsonObject.optString("message");
+
+
+                //String messageJsonObject = remoteMessage.getData().toString();
+
+                L.d(TAG, "Received message [message=" + message + "]");
+                if (message != null) {
                     if (!TextUtils.isEmpty(preferencesManager.getToken())) {
-                        if (preferencesManager.getUsePushMessages() && messageJsonObject.contains("TaskName"))
-                            NotificationUtils.showTaskStatusChangedNotification(this, messageJsonObject);
+                        if (preferencesManager.getUsePushMessages() && message.contains("TaskName"))
+                            NotificationUtils.showTaskStatusChangedNotification(this, message);
                         new MyTaskFetcher().getMyTasksFromServer();
                     }
                     if (App.getInstance() != null && App.getInstance().getMyAccount() != null
                             && App.getInstance().getMyAccount().getAllowPushNotification() != null
                             && App.getInstance().getMyAccount().getAllowPushNotification()
-                            && messageJsonObject.contains("Subject")) {
-                        NotificationUtils.showAndSavePushNotification(this, messageJsonObject);
+                            && message.contains("Subject")) {
+
+                        NotificationUtils.showAndSavePushNotification(this, message);
                     }
                 }
             } else {

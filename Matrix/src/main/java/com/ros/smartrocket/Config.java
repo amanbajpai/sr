@@ -6,7 +6,7 @@ import android.text.format.DateUtils;
 public class Config {
     public static final String BAIDU_API_KEY = BuildConfig.BAIDU_API_KEY;
     public static final String SERVER_API_KEY = BuildConfig.SERVER_API_KEY;
-    public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
+//    public static final String GCM_SENDER_ID = BuildConfig.GCM_SENDER_ID;
     public static final String SHARE_URL = "http://smart-rocket.com/crew/";
 
     /*SR-20*/

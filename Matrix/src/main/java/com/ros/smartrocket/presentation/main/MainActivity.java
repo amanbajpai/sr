@@ -8,7 +8,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -43,6 +46,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         if (BuildConfig.CHINESE)
             JPushInterface.onResume(this);
     }

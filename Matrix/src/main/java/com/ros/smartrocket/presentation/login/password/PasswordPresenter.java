@@ -1,7 +1,9 @@
 package com.ros.smartrocket.presentation.login.password;
 
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.entity.account.Login;
 import com.ros.smartrocket.db.entity.account.LoginResponse;
@@ -42,6 +44,7 @@ class PasswordPresenter<V extends PasswordMvpView> extends BaseNetworkPresenter<
 
     private void handleLoginSuccess(LoginResponse loginResponse) {
         hideLoading();
+        Log.e("Token", "Token Firebase: " + FirebaseInstanceId.getInstance().getToken());
         getMvpView().onLoginSuccess(loginResponse);
     }
 
