@@ -64,11 +64,6 @@ public class App extends Application {
         fillDeviceInfo();
         requestToCurrentLocation();
         clearMonthLimitIfNeed();
-//        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-//        Bundle params = new Bundle();
-//        params.putString("category", "Test Category");
-//        params.putString("action", "Test Action");
-//        App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
     }
 
     private void initRetrofit() {
