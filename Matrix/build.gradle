@@ -55,7 +55,7 @@ android {
 //    ext.buildNumber = buildNumber.toInteger()
     compileSdkVersion 26
     useLibrary 'org.apache.http.legacy'
-    buildToolsVersion '26.0.2'
+//    buildToolsVersion '26.0.2'
 
     defaultConfig {
         minSdkVersion 17
