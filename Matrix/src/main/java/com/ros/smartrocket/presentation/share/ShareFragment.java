@@ -195,14 +195,14 @@ public class ShareFragment extends BaseFragment implements ShareMvpView {
                 break;
         }
         if (preferencesManager.getUseSocialSharing() && intent != null) {
-            App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
-                    .setCategory("Share")
-                    .setAction(shareType)
-                    .build());
-//            Bundle params = new Bundle();
-//            params.putString("category", "Share");
-//            params.putString("action", shareType);
-//            App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
+//            App.getInstance().getDefaultTracker().send(new HitBuilders.EventBuilder()
+//                    .setCategory("Share")
+//                    .setAction(shareType)
+//                    .build());
+            Bundle params = new Bundle();
+            params.putString("category", "Share");
+            params.putString("action", shareType);
+            App.getInstance().mFirebaseAnalytics.logEvent("SmartRocket", params);
 
             if (IntentUtils.isIntentAvailable(getActivity(), intent)) {
                 getActivity().startActivity(intent);

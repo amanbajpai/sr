@@ -12,8 +12,8 @@ import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-import com.google.android.gms.analytics.GoogleAnalytics;
 import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.gson.Gson;
 import com.helpshift.All;
 import com.helpshift.Core;
@@ -51,7 +51,7 @@ public class App extends Application {
     private MyAccount myAccount;
     private RetrofitHolder retrofitHolder;
     private Converter<ResponseBody, ErrorResponse> errorResponseConverter;
-//    public static FirebaseAnalytics mFirebaseAnalytics;
+    public static FirebaseAnalytics mFirebaseAnalytics;
 
     @Override
     public void onCreate() {
@@ -63,7 +63,9 @@ public class App extends Application {
         initLocaleSettings();
         fillDeviceInfo();
         requestToCurrentLocation();
+        intiFirebaseAnalytics();
         clearMonthLimitIfNeed();
+
     }
 
     private void initRetrofit() {
@@ -106,6 +108,11 @@ public class App extends Application {
             AppEventsLogger.activateApp(this);
         }
         Fabric.with(this, new Crashlytics());
+    }
+
+    private void intiFirebaseAnalytics() {
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     }
 
     private void initHS() {
@@ -194,12 +201,12 @@ public class App extends Application {
     public Converter<ResponseBody, ErrorResponse> getErrorConverter() {
         return errorResponseConverter;
     }
-
-    synchronized public Tracker getDefaultTracker() {
-        if (tracker == null) {
-            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
-            tracker = analytics.newTracker(R.xml.global_tracker);
-        }
-        return tracker;
-    }
+//
+//    synchronized public Tracker getDefaultTracker() {
+//        if (tracker == null) {
+//            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+//            tracker = analytics.newTracker(R.xml.global_tracker);
+//        }
+//        return tracker;
+//    }
 }
