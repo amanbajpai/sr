@@ -145,6 +145,15 @@ public class PreferencesManager {
         setBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, use);
     }
 
+    public boolean getUseSaveMediaToDevice() {
+        return getBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, false);
+    }
+
+    public void setUseSaveMediaToDevice(boolean use) {
+        setBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, use);
+    }
+
+
     public boolean getUsePushMessages() {
         return getBoolean(Keys.USE_PUSH_MESSAGES, true);
     }

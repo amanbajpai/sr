@@ -30,6 +30,10 @@ public final class StorageManager {
         return getCacheDir(context, AUDIO_DIR).getAbsolutePath();
     }
 
+    public static File getAudioStoreDir(Context context) {
+        return getDir(context, AUDIO_DIR);
+    }
+
     /// ======================================================================================================== ///
     /// ================================================ PRIVATE =============================================== ///
     /// ======================================================================================================== ///

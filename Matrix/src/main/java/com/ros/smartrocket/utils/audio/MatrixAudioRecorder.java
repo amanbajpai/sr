@@ -124,7 +124,6 @@ public class MatrixAudioRecorder implements QuestionAudioRecorder {
             recorder.stop();
             recorder = null;
         }
-
     }
 
     private void cancelTimer() {

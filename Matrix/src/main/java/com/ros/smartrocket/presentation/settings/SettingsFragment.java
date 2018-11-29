@@ -66,6 +66,11 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
     CustomSwitch useOnlyWifiToggleButton;
     @BindView(R.id.saveImageToggleButton)
     CustomSwitch saveImageToggleButton;
+
+    @BindView(R.id.saveMediaToggleButton)
+    CustomSwitch saveMediaToggleButton;
+
+
     @BindView(R.id.pushMessagesToggleButton)
     CustomSwitch pushMessagesToggleButton;
     @BindView(R.id.taskLimitSpinner)
@@ -122,7 +127,7 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         currentVersion.setText(BuildConfig.VERSION_NAME + " (" + (BuildConfig.VERSION_CODE - 10000) + ")");
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(v -> {
             startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
-            if(BuildConfig.DEBUG){
+            if (BuildConfig.DEBUG) {
                 CommonUtilities.exportDB(getActivity());
             }
             return false;
@@ -157,6 +162,7 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         pushMessagesToggleButton.setOnCheckedChangeListener(this);
         socialSharingToggleButton.setOnCheckedChangeListener(this);
         saveImageToggleButton.setOnCheckedChangeListener(this);
+        saveMediaToggleButton.setOnCheckedChangeListener(this);
         useOnlyWifiToggleButton.setOnCheckedChangeListener(this);
         deadlineReminderToggleButton.setOnCheckedChangeListener(this);
     }
@@ -372,6 +378,9 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
                 break;
             case R.id.saveImageToggleButton:
                 preferencesManager.setUseSaveImageToCameraRoll(isChecked);
+                break;
+            case R.id.saveMediaToggleButton:
+                preferencesManager.setUseSaveMediaToDevice(isChecked);
                 break;
             case R.id.useOnlyWifiToggleButton:
                 preferencesManager.setUseOnlyWiFiConnaction(isChecked);
