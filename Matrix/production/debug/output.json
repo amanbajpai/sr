@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":11451},"path":"Matrix-production-debug.apk","properties":{"packageId":"com.ros.smartrocket","split":"","minSdkVersion":"17"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":11451,"versionName":"2.6.8","enabled":true,"outputFile":"Matrix-production-debug.apk","fullName":"productionDebug","baseName":"production-debug"},"path":"Matrix-production-debug.apk","properties":{}}]
