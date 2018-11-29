@@ -146,11 +146,11 @@ public class PreferencesManager {
     }
 
     public boolean getUseSaveMediaToDevice() {
-        return getBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, false);
+        return getBoolean(Keys.USE_SAVE_MEDIA_TO_STORAGE, false);
     }
 
     public void setUseSaveMediaToDevice(boolean use) {
-        setBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, use);
+        setBoolean(Keys.USE_SAVE_MEDIA_TO_STORAGE, use);
     }
 
 
