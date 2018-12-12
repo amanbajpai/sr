@@ -264,6 +264,7 @@
     <string name="retired">Pensiun</string>
     <string name="rocket_points">Poin Rocket</string>
     <string name="save_images_to_camera_roll">Simpan gambar ke Galeri</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_latter_mission">Belum terkirim. Batas waktu misi: %1$s</string>
     <string name="send_only_by_wifi">Kirim informasi hanya melalui Wi-Fi</string>
     <string name="send_password">ATUR ULANG SANDI SAYA</string>

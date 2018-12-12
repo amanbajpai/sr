@@ -90,6 +90,7 @@
     <string name="tree_g_upload_month_limit">每個月的3G總上載上限 (MB)</string>
     <string name="social_sharing">允許社交分享</string>
     <string name="save_images_to_camera_roll">將圖片存到相簿</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_only_by_wifi">只透過WiFi傳送數據</string>
     <string name="notification_settings">通知設定</string>
     <string name="reminder">提示</string>

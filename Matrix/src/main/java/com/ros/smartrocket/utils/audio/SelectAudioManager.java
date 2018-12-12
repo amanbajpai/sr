@@ -1,7 +1,6 @@
 package com.ros.smartrocket.utils.audio;
 
 import android.content.Context;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 
 import com.ros.smartrocket.utils.L;
@@ -25,21 +24,33 @@ public class SelectAudioManager {
     private static final Random RANDOM = new Random();
     private static final int ONE_KB_IN_B = 1024;
 
-    public static File getTempFile(Context context, @Nullable String prefix) {
-        File dir = StorageManager.getAudioStoreDir(context);
+//    public static File getTempFile(Context context, @Nullable String prefix) {
+//        File dir = StorageManager.getAudioStoreDir(context);
+//
+////        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "SmartRocket Audio");
+//
+//        return new File(dir, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+//                + RANDOM.nextInt(Integer.MAX_VALUE) + ".mp3");
+//
+//
+//    }
 
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "SmartRocket Audio");
+
+    public static File getAudioFile(@Nullable String prefix) {
+//        File dir = StorageManager.getAudioStoreDir(context);
+        File dir = StorageManager.getMusicDir();
+//        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC), "SmartRocket Audio");
 
 
-        return new File(file, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+        return new File(dir, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
                 + RANDOM.nextInt(Integer.MAX_VALUE) + ".mp3");
 
 
     }
 
-    public static File copyFileToTempFolder(Context context, File file, String prefix) {
-        File resultFile = getTempFile(context, prefix);
-
+    public static File copyFileToTempFolder(File file, String prefix) {
+//        File resultFile = getTempFile(context, prefix);
+        File resultFile = getAudioFile(prefix);
         InputStream in = null;
         OutputStream out = null;
         try {

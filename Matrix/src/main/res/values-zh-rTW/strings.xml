@@ -261,6 +261,7 @@
     <string name="retired">已退休</string>
     <string name="rocket_points">飛行里數</string>
     <string name="save_images_to_camera_roll">將圖片儲存至相簿</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_latter_mission">未提交。任務到期：%1$s</string>
     <string name="send_only_by_wifi">僅透過WiFi傳送資訊</string>
     <string name="send_password">重設密碼</string>

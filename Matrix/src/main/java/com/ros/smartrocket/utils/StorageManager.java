@@ -9,6 +9,9 @@ public final class StorageManager {
     private static final String IMAGE_DIR = "Images";
     private static final String VIDEO_DIR = "Videos";
     private static final String AUDIO_DIR = "Audios";
+    private static final String APP_AUDIO_DIR = "SmartRocketAudio";
+    private static final String APP_VIDEO_DIR = "SmartRocketVideo";
+    private static final String APP_IMAGES_DIR = "SmartRocketImages";
 
     /// ======================================================================================================== ///
     /// ================================================= PUBLIC =============================================== ///
@@ -71,4 +74,36 @@ public final class StorageManager {
 
         return storageDir;
     }
+
+    public static File getMusicDir() {
+        File storageDir;
+        storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
+        File mDir = new File(storageDir, APP_AUDIO_DIR);
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
+        return mDir;
+    }
+
+    public static File getImageDir() {
+        File storageDir;
+        storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        File mDir = new File(storageDir, APP_IMAGES_DIR);
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
+        return mDir;
+    }
+
+    public static File getVideoDir() {
+        File storageDir;
+        storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+        File mDir = new File(storageDir, APP_VIDEO_DIR);
+        if (!mDir.exists()) {
+            mDir.mkdirs();
+        }
+        return mDir;
+    }
+
+
 }

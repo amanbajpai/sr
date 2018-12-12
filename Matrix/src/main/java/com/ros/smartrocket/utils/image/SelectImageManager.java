@@ -530,7 +530,8 @@ public class SelectImageManager {
 
                 if (preferencesManager.getUseSaveImageToCameraRoll() &&
                         context != null && context.getContentResolver() != null && image != null) {
-                    MediaStore.Images.Media.insertImage(context.getContentResolver(), image.bitmap, "", "");
+//                    MediaStore.Images.Media.insertImage(context.getContentResolver(), image.bitmap, "", "");
+                    storeImageInSDCard("", image.bitmap);
                 }
             }
 
@@ -544,6 +545,18 @@ public class SelectImageManager {
             } else {
                 onImageErrorLoading();
             }
+        }
+    }
+
+    public void storeImageInSDCard(@Nullable String prefix, Bitmap bitmap) {
+        File dir = StorageManager.getImageDir();
+        try {
+            File finalImage = new File(dir, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+                    + RANDOM.nextInt(Integer.MAX_VALUE) + ".jpg");
+            FileOutputStream out = new FileOutputStream(finalImage);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, out);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
     }
 

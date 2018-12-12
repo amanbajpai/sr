@@ -87,8 +87,8 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
         File sourceAudioFile = new File(filePath);
         if (sourceAudioFile.exists()) {
             // Store Audio to Media folder here
-            if (PreferencesManager.getInstance().getUseSaveMediaToDevice()) {
-                File lastFile = SelectAudioManager.copyFileToTempFolder(App.getInstance(), new File(filePath), sourceAudioFile.getName());
+            if (PreferencesManager.getInstance().getUseSaveImageToCameraRoll()) {
+                SelectAudioManager.copyFileToTempFolder(new File(filePath), sourceAudioFile.getName());
             }
 
             if (sourceAudioFile.length() > Keys.MAX_VIDEO_FILE_SIZE_BYTE) {
@@ -96,7 +96,6 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
                 getMvpView().reset();
                 return;
             }
-
             Answer answer = question.getAnswers().get(0);
             answer.setChecked(true);
             answer.setFileUri(filePath);
