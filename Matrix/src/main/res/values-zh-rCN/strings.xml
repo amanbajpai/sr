@@ -90,6 +90,7 @@
     <string name="tree_g_upload_month_limit">每个月的3G总上载上限 (MB)</string>
     <string name="social_sharing">允許社交共享</string>
     <string name="save_images_to_camera_roll">将照片存到相册</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_only_by_wifi">必须使用无线上网传送数据</string>
     <string name="notification_settings">通知设定</string>
     <string name="reminder">提示</string>

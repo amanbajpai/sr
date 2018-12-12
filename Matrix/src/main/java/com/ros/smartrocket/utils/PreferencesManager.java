@@ -145,6 +145,7 @@ public class PreferencesManager {
         setBoolean(Keys.USE_SAVE_IMAGE_TO_CAMERA_ROLL, use);
     }
 
+
     public boolean getUsePushMessages() {
         return getBoolean(Keys.USE_PUSH_MESSAGES, true);
     }

@@ -12,6 +12,7 @@ import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.presentation.question.video.helper.VideoHelper;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.SelectVideoManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -105,6 +106,11 @@ public class VideoPresenter<V extends VideoMvpView> extends BaseQuestionPresente
 
     private void saveAnswer(Location location) {
         File sourceVideoFile = new File(videoPath);
+
+        if (PreferencesManager.getInstance().getUseSaveImageToCameraRoll()) {
+            SelectVideoManager.copyFileToTempFolder(sourceVideoFile, sourceVideoFile.getName());
+        }
+
         if (sourceVideoFile.exists()) {
             Answer answer = question.getAnswers().get(0);
             answer.setChecked(true);

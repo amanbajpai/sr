@@ -100,6 +100,7 @@
     <string name="tree_g_upload_month_limit">3G total monthly upload limit (MB)</string>
     <string name="social_sharing">Social sharing</string>
     <string name="save_images_to_camera_roll">Save images to Gallery</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_only_by_wifi">Send information only by WiFi</string>
     <string name="notification_settings">NOTIFICATION SETTINGS</string>
     <string name="reminder">Reminder</string>

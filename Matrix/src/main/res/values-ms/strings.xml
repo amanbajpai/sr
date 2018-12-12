@@ -260,6 +260,7 @@
     <string name="retired">Bersara</string>
     <string name="rocket_points">Mata Rocket</string>
     <string name="save_images_to_camera_roll">Simpan imej ke Galeri</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_latter_mission">Tidak diserahkan. Misi berakhir: %1$s</string>
     <string name="send_only_by_wifi">Hantar maklumat hanya melalui Wi-Fi</string>
     <string name="send_password">TETAPKAN SEMULA KATA LALUAN SAYA</string>

@@ -61,9 +61,14 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
         PhotoLoader.getBitmapFromUrl(question.getPhotoUrl(), new Target() {
             @Override
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                getMvpView().hideLoading();
+                try {
+                    getMvpView().hideLoading();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 file = SelectImageManager.saveBitmapToFile(App.getInstance(), bitmap, "");
                 getMvpView().setImageInstruction(bitmap, file.getPath().toString());
+
             }
 
             @Override

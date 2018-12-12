@@ -1,27 +1,36 @@
 package com.ros.smartrocket.net;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.FilesBL;
 import com.ros.smartrocket.db.bl.WaitingUploadTaskBL;
-import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
 import com.ros.smartrocket.db.entity.file.FileToUploadResponse;
 import com.ros.smartrocket.db.entity.file.NotUploadedFile;
+import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
 import com.ros.smartrocket.db.entity.task.SendTaskId;
 import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.helper.MyTaskFetcher;
+import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.NotificationUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -61,6 +70,8 @@ public class UploadFileService extends Service {
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
     private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
 
+    public static final int SERVICE_NOTIFICATION_ID = 101;
+
     public UploadFileService() {
     }
 
@@ -72,11 +83,18 @@ public class UploadFileService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         if (intent != null && Keys.ACTION_CHECK_NOT_UPLOADED_FILES.equals(intent.getAction())) {
+//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                // only for Oreo and newer versions
+//                setForegroundNotification();
+//            } else {
             startCheckNotUploadedFilesTimer();
+//            }
+
             startNotificationTimer();
         }
         return START_STICKY;
     }
+
 
     public void startCheckNotUploadedFilesTimer() {
         if (uploadFilesDisposable != null) uploadFilesDisposable.dispose();
@@ -141,7 +159,8 @@ public class UploadFileService extends Service {
                         .doOnError(t -> onFileNotUploaded(notUploadedFile, t, parser))
                         .flatMap(r -> updateNotUploadedFile(r, notUploadedFile)))
                 .subscribe(
-                        __ -> {},
+                        __ -> {
+                        },
                         t -> onFileNotUploaded(notUploadedFile, t, parser),
                         () -> finalizeUploading(notUploadedFile, parser)));
     }
@@ -331,6 +350,10 @@ public class UploadFileService extends Service {
         stopUploadedFilesTimer();
         stopWaitingTaskTimer();
         unDispose();
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            stopForeground(true);
+        }
         super.onDestroy();
     }
 
@@ -369,4 +392,33 @@ public class UploadFileService extends Service {
         }
         new Handler(Looper.getMainLooper()).post(() -> EventBus.getDefault().post(new UploadProgressEvent(notUploadedFile == null)));
     }
+
+    public void setForegroundNotification() {
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(App.getInstance(), 101, new Intent(App.getInstance(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(Keys.CHANNEL_NAME_BACKGROUND, "Fetching", NotificationManager.IMPORTANCE_HIGH);
+            channel.setSound(null, null);
+            App.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
+        }
+        Notification notification = new NotificationCompat.Builder(App.getInstance(), Keys.CHANNEL_NAME_BACKGROUND)
+                .setContentText("SmartRocket is syncing")
+                .setAutoCancel(true)
+                .setChannelId(Keys.CHANNEL_NAME_BACKGROUND)
+                .setSound(null)
+                .setContentIntent(pendingIntent)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setColor(getResources().getColor(R.color.colorAccent))
+                .setShowWhen(true)
+                .setOnlyAlertOnce(true)
+                .setColor(Color.BLUE)
+                .setLocalOnly(true)
+                .build();
+        startForeground(SERVICE_NOTIFICATION_ID, notification);
+
+        startCheckNotUploadedFilesTimer();
+
+    }
+
+
 }

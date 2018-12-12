@@ -118,7 +118,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
-                android:text="@string/save_images_to_camera_roll"
+                android:text="@string/save_media_to_phone"
                 custom:textStyle="bold" />
 
             <com.ros.smartrocket.ui.views.CustomSwitch
@@ -127,6 +127,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical" />
         </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"

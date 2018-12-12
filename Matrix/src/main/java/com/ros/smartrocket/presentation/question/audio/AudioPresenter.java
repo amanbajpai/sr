@@ -9,8 +9,10 @@ import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.StorageManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.ros.smartrocket.utils.audio.SelectAudioManager;
 import com.shuyu.waveview.FileUtils;
 
 import java.io.File;
@@ -84,6 +86,11 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
     private void saveAnswer(Location location) {
         File sourceAudioFile = new File(filePath);
         if (sourceAudioFile.exists()) {
+            // Store Audio to Media folder here
+            if (PreferencesManager.getInstance().getUseSaveImageToCameraRoll()) {
+                SelectAudioManager.copyFileToTempFolder(new File(filePath), sourceAudioFile.getName());
+            }
+
             if (sourceAudioFile.length() > Keys.MAX_VIDEO_FILE_SIZE_BYTE) {
                 getMvpView().showBigFileToUploadDialog();
                 getMvpView().reset();

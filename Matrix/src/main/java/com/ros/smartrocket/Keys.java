@@ -32,6 +32,7 @@ public interface Keys {
     String USE_LOCATION_SERVICES = "use_location_services";
     String USE_SOCIAL_SHARING = "use_social_sharing";
     String USE_SAVE_IMAGE_TO_CAMERA_ROLL = "use_save_image_to_camera_roll";
+    String USE_SAVE_MEDIA_TO_STORAGE = "use_save_media_to_storage";
     String USE_PUSH_MESSAGES = "use_push_messages";
     String USE_DEADLINE_REMINDER = "use_deadline_reminder";
     String TREE_G_UPLOAD_TASK_LIMIT = "tree_g_upload_package_limit";
@@ -154,5 +155,7 @@ public interface Keys {
     /* ------------ GCM parameters for CHINA only -----------------------*/
     String TALKING_DATA_ROW = "1068797126043F9E289911065DBB39D1";
     String TALKING_DATA_CHINA = "5BF23DC93A19BA33C9984729D825E53C";
+
+    String CHANNEL_NAME_BACKGROUND = "channel_name";
 
 }

@@ -243,6 +243,7 @@
     <string name="retired">Retraité</string>
     <string name="rocket_points">Points Rocket</string>
     <string name="save_images_to_camera_roll">Sauvegarder les images dans la galerie</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_latter_mission">Non envoyé. Mission due :%1$s</string>
     <string name="send_only_by_wifi">Envoyer des informations seulement par Wi-Fi</string>
     <string name="send_password">RÉINITIALISER MON MOT DE PASSE</string>

@@ -122,7 +122,7 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
         currentVersion.setText(BuildConfig.VERSION_NAME + " (" + (BuildConfig.VERSION_CODE - 10000) + ")");
         currentVersion.findViewById(R.id.currentVersion).setOnLongClickListener(v -> {
             startActivity(IntentUtils.getLogEmailIntent("Agent Log - " + myAccount.getId(), myAccount.getSupportEmail(), UIUtils.getLogs()));
-            if(BuildConfig.DEBUG){
+            if (BuildConfig.DEBUG) {
                 CommonUtilities.exportDB(getActivity());
             }
             return false;

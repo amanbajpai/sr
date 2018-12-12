@@ -57,7 +57,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     @Override
     public void onReq(BaseReq baseReq) {
-
     }
 
     @Override

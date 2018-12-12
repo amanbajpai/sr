@@ -240,6 +240,7 @@
     <string name="retired">متقاعد</string>
     <string name="rocket_points">نقاط Rocket</string>
     <string name="save_images_to_camera_roll">حفظ الصور في المعرض</string>
+    <string name="save_media_to_phone">Save media to Phone</string>
     <string name="send_latter_mission">تم إلغاء الإرسال. تاريخ استحقاق المهمة: %1$s</string>
     <string name="send_only_by_wifi">إرسال معلومات عبر WiFi فقط</string>
     <string name="send_password">إعادة تعيين كلمة المرور الخاصة بي</string>

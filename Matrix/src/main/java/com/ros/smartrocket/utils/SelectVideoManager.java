@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,7 +15,12 @@ import android.view.Window;
 import com.ros.smartrocket.R;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Calendar;
+import java.util.Random;
 
 public class SelectVideoManager {
     private static final int GALLERY = 2016;
@@ -23,6 +29,9 @@ public class SelectVideoManager {
     private OnVideoCompleteListener videoCompleteListener;
     private Dialog selectVideoDialog;
     private File lastFile;
+    private static final Random RANDOM = new Random();
+    private static final int ONE_KB_IN_B = 1024;
+    private static final String TAG = SelectVideoManager.class.getSimpleName();
 
 
     private SelectVideoManager() {
@@ -100,6 +109,50 @@ public class SelectVideoManager {
         File dir = StorageManager.getVideoStoreDir(context);
         return new File(dir, Calendar.getInstance().getTimeInMillis() + ".mp4");
     }
+
+    public static File storeVideoInSDCard(@Nullable String prefix) {
+        File dir = StorageManager.getVideoDir();
+        return new File(dir, prefix + "_" + Calendar.getInstance().getTimeInMillis() + "_"
+                + RANDOM.nextInt(Integer.MAX_VALUE) + ".mp4");
+
+
+    }
+
+
+    public static File copyFileToTempFolder(File file, String prefix) {
+//        File resultFile = getTempFile(context, prefix);
+        File resultFile = storeVideoInSDCard(prefix);
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            in = new FileInputStream(file);
+            out = new FileOutputStream(resultFile);
+
+            // Transfer bytes from in to out
+            byte[] buf = new byte[ONE_KB_IN_B];
+            int len;
+            while ((len = in.read(buf)) > 0) {
+                out.write(buf, 0, len);
+            }
+
+        } catch (Exception e) {
+            L.e(TAG, "CopyFileToTempFolder error" + e.getMessage(), e);
+        } finally {
+            try {
+                if (in != null) {
+                    in.close();
+                }
+                if (out != null) {
+                    out.close();
+                }
+            } catch (Exception e) {
+                L.e(TAG, "GetScaledFile error" + e.getMessage(), e);
+            }
+
+        }
+        return resultFile;
+    }
+
 
     public interface OnVideoCompleteListener {
         void onVideoComplete(String videoFilePath);
