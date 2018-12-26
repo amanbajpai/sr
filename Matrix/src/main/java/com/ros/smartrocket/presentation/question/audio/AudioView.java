@@ -17,6 +17,7 @@ import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
 import com.ros.smartrocket.ui.views.AudioControlsView;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.DialogUtils;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.audio.MatrixAudioPlayer;
 import com.ros.smartrocket.utils.audio.MatrixAudioRecorder;
 import com.shuyu.waveview.AudioWaveView;
@@ -62,9 +63,10 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
         questionLayout.setVisibility(View.VISIBLE);
-        if (presenter.isAudioAdded())
+        if (presenter.isAudioAdded()) {
+            chronometer.setText(PreferencesManager.getInstance().getlastRecordedAudioLength());
             audioControlsView.resolveDefaultPlayingUI();
-        else
+        } else
             audioControlsView.resolveDefaultRecordUI();
         audioWave.setVisibility(View.VISIBLE);
         updateFilePath();
@@ -92,6 +94,7 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
 
     @Override
     public void onRecordProgress(String progress) {
+        PreferencesManager.getInstance().setlastRecordedAudioLength(progress);
         updateTimer(progress);
     }
 

@@ -6,7 +6,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.2.0'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         //noinspection GradleDynamicVersion
         classpath 'io.fabric.tools:gradle:1.+'
         // classpath 'com.google.gms:google-services:4.1.0'
@@ -61,8 +61,8 @@ android {
         minSdkVersion 17
         targetSdkVersion 26
 //        versionCode buildNumber + 10000
-        versionCode 11452
-        versionName '2.6.9'
+        versionCode 11453
+        versionName '2.7.0'
         applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"

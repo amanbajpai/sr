@@ -61,6 +61,10 @@ public interface Keys {
     String MAP_MODE_VIEWTYPE = "map_mode_viewtype";
     String MAP_VIEW_ITEM_ID = "map_view_item_id";
 
+    /*Audio Record Question*/
+    String LAST_AUDIO_RECORDED_LENGTH = "last_audio_recorded_length";
+
+
     /**
      * Notification activity
      */
