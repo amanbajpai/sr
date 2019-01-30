@@ -2,6 +2,7 @@ package com.ros.smartrocket.utils;
 
 import android.app.Activity;
 import android.app.AppOpsManager;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -23,6 +24,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -795,5 +797,20 @@ public class UIUtils {
         windowManager.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
     }
+
+    public static Dialog showImageGalleryDialog(Context context, int resId) {
+        final Dialog dialog = new Dialog(context);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(resId);
+        Window windo = dialog.getWindow();
+        windo.setDimAmount(0.7f);
+        WindowManager.LayoutParams wlp = windo.getAttributes();
+        wlp.gravity = Gravity.CENTER;
+        wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        windo.setAttributes(wlp);
+        return dialog;
+    }
+
 }
 

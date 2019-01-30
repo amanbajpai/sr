@@ -41,4 +41,6 @@
     <color name="switch_def">#f0f0f3</color>
     <color name="switch_no">#ef4751</color>
     <color name="switch_text_def">#aaaaad</color>
+    <color name="dialog_transperent">#226644CC</color>
+
 </resources>

@@ -28,6 +28,7 @@ import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
+import com.squareup.picasso.Picasso;
 
 import java.lang.annotation.Annotation;
 import java.util.Calendar;
@@ -108,6 +109,7 @@ public class App extends Application {
             AppEventsLogger.activateApp(this);
         }
         Fabric.with(this, new Crashlytics());
+        Picasso.get().setLoggingEnabled(true);
     }
 
     private void intiFirebaseAnalytics() {
