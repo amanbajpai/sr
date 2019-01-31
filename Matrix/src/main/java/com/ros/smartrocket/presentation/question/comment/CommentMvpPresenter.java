@@ -9,7 +9,6 @@ import java.util.ArrayList;
 public interface CommentMvpPresenter<V extends CommentMvpView> extends BaseQuestionMvpPresenter<V> {
     void onCommentEntered(String s);
 
-    ArrayList<String> getDialogGalleryImages();
 
 }
 

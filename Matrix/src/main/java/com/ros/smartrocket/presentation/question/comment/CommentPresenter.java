@@ -42,22 +42,4 @@ public class CommentPresenter<V extends CommentMvpView> extends BaseQuestionPres
         refreshNextButton(!TextUtils.isEmpty(s.trim()));
     }
 
-    @Override
-    public ArrayList<String> getDialogGalleryImages() {
-        ArrayList<String> gallery_images_list = new ArrayList<>();
-        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
-        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
-            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
-                if (isImageFile(String.valueOf(Html.fromHtml(entry.getValue())))) {
-                    gallery_images_list.add(String.valueOf(Html.fromHtml(entry.getValue())));
-                }
-            }
-        }
-        return gallery_images_list;
-    }
-
-    public static boolean isImageFile(String path) {
-        String mimeType = URLConnection.guessContentTypeFromName(path);
-        return mimeType != null && mimeType.startsWith("image");
-    }
 }

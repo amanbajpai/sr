@@ -23,7 +23,7 @@
             android:padding="10dp"
             android:text="Show Images"
             android:textColor="@color/white"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/photo"

@@ -2,6 +2,7 @@ package com.ros.smartrocket.presentation.question.instruction;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.text.Html;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
@@ -15,6 +16,9 @@ import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 
 import java.io.File;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class InstructionPresenter<V extends InstructionMvpView> extends BaseQuestionPresenter<V> implements InstructionMvpPresenter<V> {
     File file = null;
@@ -108,6 +112,25 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 
     private Bitmap getBitmap(File file) {
         return SelectImageManager.prepareBitmap(file, SelectImageManager.SIZE_IN_PX_2_MP);
+    }
+
+    @Override
+    public ArrayList<String> getDialogGalleryImages() {
+        ArrayList<String> gallery_images_list = new ArrayList<>();
+        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
+        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
+            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
+                if (isImageFile(String.valueOf(Html.fromHtml(entry.getValue())))) {
+                    gallery_images_list.add(String.valueOf(Html.fromHtml(entry.getValue())));
+                }
+            }
+        }
+        return gallery_images_list;
+    }
+
+    public static boolean isImageFile(String path) {
+        String mimeType = URLConnection.guessContentTypeFromName(path);
+        return mimeType != null && mimeType.startsWith("image");
     }
 
 
