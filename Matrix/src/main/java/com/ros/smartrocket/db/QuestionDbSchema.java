@@ -25,6 +25,7 @@ public interface QuestionDbSchema {
         SHOW_BACK_BUTTON("showBackButton", DBType.NUMERIC),
         ALLOW_MULTIPLY_PHOTOS("allowMultiplyPhotos", DBType.NUMERIC),
         ASK_IF("askIf", DBType.TEXT),
+        IMAGES_GALLERY("images_gallery", DBType.TEXT),
         TASK_LOCATION("taskLocation", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("previousQuestionOrderId", DBType.NUMERIC),
         NEXT_ANSWERED_QUESTION_ID("nextAnsweredQuestionId", DBType.NUMERIC),
@@ -100,6 +101,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
                 Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
+                Table.QUESTION.getName() + "." + Columns.IMAGES_GALLERY.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_LOCATION.getName(),
                 Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName(),
@@ -162,5 +164,6 @@ public interface QuestionDbSchema {
 
         int PRODUCT_ID = 31;
         int IS_REDO = 32;
+        int IMAGES_GALLERY = 33;
     }
 }

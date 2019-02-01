@@ -8,6 +8,7 @@ import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.task.TaskLocation;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question extends BaseEntity implements Serializable, Comparable<Question> {
@@ -104,6 +105,9 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
+    @SerializedName("ImagesQuestion")
+    private ArrayList<String> imagesGallery;
+
     // [START Mass Audit]
     @SkipFieldInContentValues
     @SerializedName("Categories")
@@ -142,6 +146,13 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     private transient String instructionFileUri;
 
+    public ArrayList<String> getImagesGallery() {
+        return imagesGallery;
+    }
+
+    public void setImagesGallery(ArrayList<String> imagesGallery) {
+        this.imagesGallery = imagesGallery;
+    }
 
     public Question() {
     }
@@ -163,6 +174,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setTaskId(c.getInt(QuestionDbSchema.Query.TASK_ID));
             result.setMissionId(c.getInt(QuestionDbSchema.Query.MISSION_ID));
             result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
+           // result.setImagesGallery(c.getString(QuestionDbSchema.Query.IMAGES_GALLERY));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
             result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
             result.setMaximumCharacters(c.getInt(QuestionDbSchema.Query.MAXIMUM_CHARACTERS));

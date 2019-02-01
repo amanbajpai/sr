@@ -116,12 +116,21 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 
     @Override
     public ArrayList<String> getDialogGalleryImages() {
+//        ArrayList<String> gallery_images_list = new ArrayList<>();
+//        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
+//        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
+//            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
+//                if (isImageFile(String.valueOf(Html.fromHtml(entry.getValue())))) {
+//                    gallery_images_list.add(String.valueOf(Html.fromHtml(entry.getValue())));
+//                }
+//            }
+//        }
+
         ArrayList<String> gallery_images_list = new ArrayList<>();
-        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
-        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
-            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
-                if (isImageFile(String.valueOf(Html.fromHtml(entry.getValue())))) {
-                    gallery_images_list.add(String.valueOf(Html.fromHtml(entry.getValue())));
+        if (question.getImagesGallery() != null) {
+            if (question.getImagesGallery().size() > 0) {
+                for (int i = 0; i < question.getImagesGallery().size(); i++) {
+                    gallery_images_list.add(String.valueOf(Html.fromHtml(question.getImagesGallery().get(i))));
                 }
             }
         }
