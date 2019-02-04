@@ -45,6 +45,7 @@ public interface QuestionDbSchema {
 
         PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
         CATEGORIES("categories", DBType.TEXT),
+        CUSTOM_FIELD_IMAGE_URL("customFieldImageUrl", DBType.TEXT),
         ACTION("action", DBType.NUMERIC),
         IS_REQUIRED("isRequired", DBType.NUMERIC),
         PRODUCT_ID("productId", DBType.NUMERIC),
@@ -121,6 +122,7 @@ public interface QuestionDbSchema {
 
                 Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
+                Table.QUESTION.getName() + "." + Columns.CUSTOM_FIELD_IMAGE_URL.getName(),
                 Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
                 Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName(),
@@ -164,6 +166,6 @@ public interface QuestionDbSchema {
 
         int PRODUCT_ID = 31;
         int IS_REDO = 32;
-        int IMAGES_GALLERY = 33;
+        int CUSTOM_FIELD_IMAGE_URL = 33;
     }
 }

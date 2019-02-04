@@ -11,6 +11,7 @@ import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.AskIf;
 import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.CustomFieldImagesURL;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.QuestionType;
@@ -139,6 +140,7 @@ public class QuestionStore extends BaseStore {
 
         AskIf[] askIfArray = question.getAskIfArray();
         Category[] categoriesArray = question.getCategoriesArray();
+        CustomFieldImagesURL[] customFieldImagesArray = question.getCustomFieldImagesArray();
         TaskLocation taskLocation = question.getTaskLocationObject();
 
         question.setTaskId(task.getId());
@@ -147,6 +149,8 @@ public class QuestionStore extends BaseStore {
 
         if (askIfArray != null) question.setAskIf(gson.toJson(askIfArray));
         if (categoriesArray != null) question.setCategories(gson.toJson(categoriesArray));
+        if (customFieldImagesArray != null)
+            question.setCustomFieldImageUrl(gson.toJson(customFieldImagesArray));
         if (taskLocation != null) {
             taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
             question.setTaskLocation(gson.toJson(taskLocation));

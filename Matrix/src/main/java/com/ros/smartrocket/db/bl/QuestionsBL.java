@@ -189,6 +189,20 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
+    public static void updateCustomFieldImageURl(Integer waveId, Integer taskId, Integer missionId, Integer questionId,
+                                                 String customFiledImageUrl) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(QuestionDbSchema.Columns.CUSTOM_FIELD_IMAGE_URL.getName(), customFiledImageUrl);
+
+        String where = QuestionDbSchema.Columns.WAVE_ID + "=? and " + QuestionDbSchema
+                .Columns.TASK_ID + "=? and " + QuestionDbSchema.Columns.ID + "=? and "
+                + QuestionDbSchema.Columns.MISSION_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(waveId), String.valueOf(taskId),
+                String.valueOf(questionId), String.valueOf(missionId)};
+
+        App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
     public static List<Question> convertCursorToQuestionList(Cursor cursor) {
         List<Question> result = new ArrayList<>();
         if (cursor != null) {

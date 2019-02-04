@@ -6,6 +6,9 @@ import android.text.Html;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.CustomFieldImagesURL;
+import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
@@ -18,7 +21,6 @@ import com.squareup.picasso.Target;
 import java.io.File;
 import java.net.URLConnection;
 import java.util.ArrayList;
-import java.util.Map;
 
 public class InstructionPresenter<V extends InstructionMvpView> extends BaseQuestionPresenter<V> implements InstructionMvpPresenter<V> {
     File file = null;
@@ -127,13 +129,23 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 //        }
 
         ArrayList<String> gallery_images_list = new ArrayList<>();
-        if (question.getImagesGallery() != null) {
-            if (question.getImagesGallery().size() > 0) {
-                for (int i = 0; i < question.getImagesGallery().size(); i++) {
-                    gallery_images_list.add(String.valueOf(Html.fromHtml(question.getImagesGallery().get(i))));
+        if (question.getCustomFieldImagesArray() != null) {
+            if (question.getCustomFieldImagesArray().length > 0) {
+
+                //                for (int i = 0; i < question.getCustomFieldImagesArray().length; i++) {
+//                    gallery_images_list.add(String.valueOf(Html.fromHtml(question.getCustomFieldImagesArray()[i].toString())));
+//                }
+
+                for (CustomFieldImagesURL customFieldImagesURL : question.getCustomFieldImagesArray()) {
+                    if (customFieldImagesURL.getImgUrl() != null)
+                        gallery_images_list.add(String.valueOf(Html.fromHtml(customFieldImagesURL.getImgUrl())));
                 }
+
+
             }
         }
+
+
         return gallery_images_list;
     }
 
