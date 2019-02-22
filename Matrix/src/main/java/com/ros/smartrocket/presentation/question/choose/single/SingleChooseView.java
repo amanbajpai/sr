@@ -8,9 +8,12 @@ import android.widget.EditText;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
 import com.ros.smartrocket.presentation.question.choose.BaseChooseView;
 import com.ros.smartrocket.utils.UIUtils;
+
+import java.util.List;
 
 public class SingleChooseView extends BaseChooseView {
     public SingleChooseView(Context context) {
@@ -51,5 +54,10 @@ public class SingleChooseView extends BaseChooseView {
         }
 
         presenter.refreshNextButton(adapter.getData());
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 }

@@ -5,13 +5,15 @@ import android.content.ContentValues;
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.bl.CustomFieldImageUrlBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.AskIf;
 import com.ros.smartrocket.db.entity.question.Category;
-import com.ros.smartrocket.db.entity.question.CustomFieldImagesURL;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.QuestionType;
@@ -53,6 +55,14 @@ public class QuestionStore extends BaseStore {
         question = prepareQuestion(i, question);
         //question = prepareInstructionUri(i, question);
         questionValues.add(question.toContentValues());
+        if (question.getCustomFieldImages() != null) {
+            if (question.getCustomFieldImages().size() > 0) {
+                for (int j = 0; j < question.getCustomFieldImages().size(); j++) {
+                    CustomFieldImageUrlBL.insert(prepareCustomFieldImageUrls(question, question.getCustomFieldImages().get(j), question.getProductId()));
+                }
+
+            }
+        }
         deleteAnswers(question);
         if (question.getChildQuestions() != null && question.getChildQuestions().size() > 0) {
             List<Product> productList = makeProductList(question.getCategoriesArray());
@@ -76,10 +86,12 @@ public class QuestionStore extends BaseStore {
             ContentValues[] valuesArray = new ContentValues[questionValues.size()];
             valuesArray = questionValues.toArray(valuesArray);
             contentResolver.bulkInsert(QuestionDbSchema.CONTENT_URI, valuesArray);
+
         }
         i++;
         return i;
     }
+
 
     private void deleteAnswers(Question question) {
         contentResolver.delete(AnswerDbSchema.CONTENT_URI,
@@ -134,14 +146,23 @@ public class QuestionStore extends BaseStore {
         return answer;
     }
 
+    private CustomFieldImageUrls prepareCustomFieldImageUrls(Question question, CustomFieldImageUrls imageUrls, Integer productId) {
+        imageUrls.setRandomId();
+        imageUrls.setProductId(productId);
+        imageUrls.setQuestionId(question.getId());
+        imageUrls.setTaskId(task.getId());
+        imageUrls.setMissionId(task.getMissionId());
+        return imageUrls;
+    }
+
 
     protected Question prepareQuestion(int i, Question question) {
 
 
         AskIf[] askIfArray = question.getAskIfArray();
         Category[] categoriesArray = question.getCategoriesArray();
-        CustomFieldImagesURL[] customFieldImagesArray = question.getCustomFieldImagesArray();
         TaskLocation taskLocation = question.getTaskLocationObject();
+        List<CustomFieldImageUrls> fieldImageUrls = question.getCustomFieldImages();
 
         question.setTaskId(task.getId());
         question.setMissionId(task.getMissionId());
@@ -149,12 +170,14 @@ public class QuestionStore extends BaseStore {
 
         if (askIfArray != null) question.setAskIf(gson.toJson(askIfArray));
         if (categoriesArray != null) question.setCategories(gson.toJson(categoriesArray));
-        if (customFieldImagesArray != null)
-            question.setCustomFieldImageUrl(gson.toJson(customFieldImagesArray));
         if (taskLocation != null) {
             taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
             question.setTaskLocation(gson.toJson(taskLocation));
         }
+        if (fieldImageUrls != null) {
+            question.setCustomFieldImages(question.getCustomFieldImages());
+        }
+
         return question;
     }
 }

@@ -2,13 +2,10 @@ package com.ros.smartrocket.presentation.question.instruction;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
-import com.ros.smartrocket.db.entity.question.Category;
-import com.ros.smartrocket.db.entity.question.CustomFieldImagesURL;
-import com.ros.smartrocket.db.entity.question.Product;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
@@ -21,6 +18,7 @@ import com.squareup.picasso.Target;
 import java.io.File;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
 
 public class InstructionPresenter<V extends InstructionMvpView> extends BaseQuestionPresenter<V> implements InstructionMvpPresenter<V> {
     File file = null;
@@ -40,6 +38,28 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
             showPhotoInstruction();
         else if (!TextUtils.isEmpty(question.getVideoUrl()))
             showVideoInstruction();
+    }
+
+    @Override
+    public void onCustomFieldImageURlLoadedFromDb(List<CustomFieldImageUrls> customFieldImageUrls) {
+        super.onCustomFieldImageURlLoadedFromDb(customFieldImageUrls);
+        ArrayList<String> gallery_images_list = new ArrayList<>();
+        if (question.getCustomFieldImages() != null) {
+            if (question.getCustomFieldImages().size() > 0) {
+                for (int i = 0; i < question.getCustomFieldImages().size(); i++) {
+                    gallery_images_list.add(question.getCustomFieldImages().get(i).getImageUrl());
+                }
+            }
+        }
+
+//        if (customFieldImageUrls != null) {
+//            if (customFieldImageUrls.size() > 0) {
+//                for (int i = 0; i < customFieldImageUrls.size(); i++) {
+//                    gallery_images_list.add(customFieldImageUrls.get(i).getImageUrl());
+////                }
+//                }
+//            }
+//        }
     }
 
     private void showVideoInstruction() {
@@ -118,7 +138,7 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 
     @Override
     public ArrayList<String> getDialogGalleryImages() {
-//        ArrayList<String> gallery_images_list = new ArrayList<>();
+        ArrayList<String> gallery_images_list = new ArrayList<>();
 //        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
 //        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
 //            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
@@ -128,23 +148,13 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 //            }
 //        }
 
-        ArrayList<String> gallery_images_list = new ArrayList<>();
-        if (question.getCustomFieldImagesArray() != null) {
-            if (question.getCustomFieldImagesArray().length > 0) {
-
-                //                for (int i = 0; i < question.getCustomFieldImagesArray().length; i++) {
-//                    gallery_images_list.add(String.valueOf(Html.fromHtml(question.getCustomFieldImagesArray()[i].toString())));
-//                }
-
-                for (CustomFieldImagesURL customFieldImagesURL : question.getCustomFieldImagesArray()) {
-                    if (customFieldImagesURL.getImgUrl() != null)
-                        gallery_images_list.add(String.valueOf(Html.fromHtml(customFieldImagesURL.getImgUrl())));
+        if (question.getCustomFieldImages() != null) {
+            if (question.getCustomFieldImages().size() > 0) {
+                for (int i = 0; i < question.getCustomFieldImages().size(); i++) {
+                    gallery_images_list.add(question.getCustomFieldImages().get(i).getImageUrl());
                 }
-
-
             }
         }
-
 
         return gallery_images_list;
     }

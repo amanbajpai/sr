@@ -3,6 +3,7 @@ package com.ros.smartrocket.db;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.file.NotUploadedFile;
 import com.ros.smartrocket.db.entity.Notification;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
@@ -15,6 +16,7 @@ public enum Table {
     QUESTION("Question", QuestionDbSchema.class, Question.class.getSimpleName()),
     ANSWER("Answer", AnswerDbSchema.class, Answer.class.getSimpleName()),
     NOT_UPLOADED_FILE("NotUploadedFile", NotUploadedFileDbSchema.class, NotUploadedFile.class.getSimpleName()),
+    CUSTOM_FIELD_IMAGE_URL("CustomFieldImageUrl", CustomFieldImageUrlDbSchema.class, CustomFieldImageUrls.class.getSimpleName()),
     WAITING_UPLOAD_TASK("WaitingUploadTask", WaitingUploadTaskDbSchema.class, WaitingUploadTask.class.getSimpleName()),
     NOTIFICATION("Notification", NotificationDbSchema.class, Notification.class.getSimpleName());
 

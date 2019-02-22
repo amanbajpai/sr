@@ -11,6 +11,7 @@ import android.util.Log;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
@@ -59,6 +60,11 @@ public class CommentView extends BaseQuestionView<CommentMvpPresenter<CommentMvp
     public void fillViewWithAnswers(List<Answer> answers) {
         if (answers.get(0).getChecked()) answerEditText.setText(answers.get(0).getValue());
         presenter.onCommentEntered(answerEditText.getText().toString());
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 
     @Override

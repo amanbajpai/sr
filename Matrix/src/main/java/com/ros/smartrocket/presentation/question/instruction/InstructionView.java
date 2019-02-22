@@ -18,6 +18,7 @@ import android.widget.VideoView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.presentation.question.comment.CommentView;
@@ -63,14 +64,7 @@ public class InstructionView extends BaseQuestionView<InstructionMvpPresenter<In
         tvShowImages.setVisibility(GONE);
         presenter.showInstructions();
         presenter.refreshNextButton(true);
-        gallery_images_list = presenter.getDialogGalleryImages();
-        if (gallery_images_list != null && gallery_images_list.size() > 0) {
-            tvShowImages.setVisibility(VISIBLE);
-            setShowImagesClickListeners(gallery_images_list);
-        } else {
-            tvShowImages.setVisibility(GONE);
-        }
-
+        presenter.loadCustomFieldImageUrlsList();
     }
 
     private void setShowImagesClickListeners(ArrayList<String> list) {
@@ -81,6 +75,16 @@ public class InstructionView extends BaseQuestionView<InstructionMvpPresenter<In
 
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+        if (customFieldImageUrlsList != null && customFieldImageUrlsList.size() > 0) {
+            tvShowImages.setVisibility(VISIBLE);
+            setShowImagesClickListeners(gallery_images_list);
+        } else {
+            tvShowImages.setVisibility(GONE);
+        }
     }
 
     @Override
@@ -219,8 +223,6 @@ public class InstructionView extends BaseQuestionView<InstructionMvpPresenter<In
             Log.e("ImageUrl", "" + imageUrl);
             Picasso.get()
                     .load(imageUrl)
-//                    .load("https://gongchausa.s3.us-east-2.amazonaws.com/menu_pic/15456561786800430645c20d772482a3.jpg")
-//                    .load("https://wallpaperbrowse.com/media/images/image-1635747_960_720.jpg")
                     .placeholder(R.drawable.round_progress)
                     .error(R.drawable.mass_audit_image)
 //                    .centerInside()

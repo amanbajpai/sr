@@ -3,6 +3,7 @@ package com.ros.smartrocket.db.entity.question;
 import android.database.Cursor;
 
 import com.google.gson.annotations.SerializedName;
+import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.task.TaskLocation;
@@ -104,10 +105,6 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
 
-    @SkipFieldInContentValues
-    @SerializedName("ImagesQuestion")
-    private CustomFieldImagesURL[] customFieldImagesArray;
-    private String customFieldImageUrl = "";
 
     // [START Mass Audit]
     @SkipFieldInContentValues
@@ -144,6 +141,9 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     @SkipFieldInContentValues
     @SerializedName("Answers")
     private List<Answer> answers;
+    @SkipFieldInContentValues
+    @SerializedName("ImagesQuestion")
+    private List<CustomFieldImageUrls> customFieldImages;
 
     private transient String instructionFileUri;
 
@@ -168,7 +168,6 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setTaskId(c.getInt(QuestionDbSchema.Query.TASK_ID));
             result.setMissionId(c.getInt(QuestionDbSchema.Query.MISSION_ID));
             result.setQuestion(c.getString(QuestionDbSchema.Query.QUESTION));
-            //result.setCustomFieldImagesArray(CustomFieldImagesURL.getCustomFieldImagesArray(result.getImgurl()));
             result.setType(c.getInt(QuestionDbSchema.Query.TYPE));
             result.setOrderId(c.getInt(QuestionDbSchema.Query.ORDER_ID));
             result.setMaximumCharacters(c.getInt(QuestionDbSchema.Query.MAXIMUM_CHARACTERS));
@@ -201,10 +200,6 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
             result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
             result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
-
-
-            result.setCustomFieldImagesArray(CustomFieldImagesURL.getCustomFieldImagesArray(result.getCustomFieldImageUrl()));
-            result.setCustomFieldImageUrl(c.getString(QuestionDbSchema.Query.CUSTOM_FIELD_IMAGE_URL));
 
             result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
             result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
@@ -247,6 +242,13 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.answers = answers;
     }
 
+    public List<CustomFieldImageUrls> getCustomFieldImages() {
+        return customFieldImages;
+    }
+
+    public void setCustomFieldImages(List<CustomFieldImageUrls> customFieldImages) {
+        this.customFieldImages = customFieldImages;
+    }
 
     public Integer getType() {
         return type;
@@ -466,23 +468,6 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     public String getCategories() {
         return categories;
-    }
-
-
-    public CustomFieldImagesURL[] getCustomFieldImagesArray() {
-        return customFieldImagesArray;
-    }
-
-    public void setCustomFieldImagesArray(CustomFieldImagesURL[] customFieldImagesArray) {
-        this.customFieldImagesArray = customFieldImagesArray;
-    }
-
-    public String getCustomFieldImageUrl() {
-        return customFieldImageUrl;
-    }
-
-    public void setCustomFieldImageUrl(String customFieldImageUrl) {
-        this.customFieldImageUrl = customFieldImageUrl;
     }
 
     public List<Question> getChildQuestions() {

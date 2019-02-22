@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.interfaces.QuestionAudioPlayer;
 import com.ros.smartrocket.interfaces.QuestionAudioRecorder;
@@ -71,6 +72,11 @@ public class AudioView extends BaseQuestionView<AudioMvpPresenter<AudioMvpView>>
         audioWave.setVisibility(View.VISIBLE);
         updateFilePath();
         presenter.refreshNextButton();
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 
     private void updateFilePath() {

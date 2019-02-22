@@ -8,4 +8,5 @@ interface InstructionMvpPresenter<V extends InstructionMvpView> extends BaseQues
     void showInstructions();
 
     ArrayList<String> getDialogGalleryImages();
+
 }
