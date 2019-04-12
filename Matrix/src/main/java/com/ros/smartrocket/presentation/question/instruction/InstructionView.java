@@ -65,6 +65,7 @@ public class InstructionView extends BaseQuestionView<InstructionMvpPresenter<In
         presenter.showInstructions();
         presenter.refreshNextButton(true);
         presenter.loadCustomFieldImageUrlsList();
+        gallery_images_list = presenter.getDialogGalleryImages();
     }
 
     private void setShowImagesClickListeners(ArrayList<String> list) {

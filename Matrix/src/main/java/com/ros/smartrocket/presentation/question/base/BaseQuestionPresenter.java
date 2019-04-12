@@ -35,7 +35,6 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
     public boolean saveQuestion() {
         if (question != null && question.getAnswers() != null && !question.getAnswers().isEmpty()) {
             AnswersBL.updateAnswersInDB(question.getAnswers());
-            CustomFieldImageUrlBL.updateCustomFieldImageUrlInDB(question.getCustomFieldImages());
             onAnswersUpdated();
             return true;
         } else {

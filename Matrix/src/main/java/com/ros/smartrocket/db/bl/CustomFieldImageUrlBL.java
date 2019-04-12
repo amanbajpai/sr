@@ -14,9 +14,6 @@ import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
 import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
-import com.ros.smartrocket.db.QuestionDbSchema;
-import com.ros.smartrocket.db.Table;
-import com.ros.smartrocket.db.WaveDbSchema;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
@@ -36,7 +33,7 @@ public class CustomFieldImageUrlBL {
                         new String[]{String.valueOf(taskId)});
     }
 
-    private static Cursor getCustomFiledImageUrlListFromDB(Question question, Product product) {
+    public static Cursor getCustomFiledImageUrlListFromDB(Question question, Product product) {
         return App.getInstance().getContentResolver().query(
                 CustomFieldImageUrlDbSchema.CONTENT_URI,
                 CustomFieldImageUrlDbSchema.Query.PROJECTION,
@@ -51,16 +48,15 @@ public class CustomFieldImageUrlBL {
                 CustomFieldImageUrlDbSchema.SORT_ORDER_ASC);
     }
 
-    private static Cursor getCustomFiledImageUrlListFromDB(Question question) {
+    public static Cursor getCustomFiledImageUrlListFromDB(Question question) {
         return App.getInstance().getContentResolver().query(
                 CustomFieldImageUrlDbSchema.CONTENT_URI,
                 CustomFieldImageUrlDbSchema.Query.PROJECTION,
                 CustomFieldImageUrlDbSchema.Columns.QUESTION_ID + "=? and "
-                        + CustomFieldImageUrlDbSchema.Columns.TASK_ID + "=? and "
-                        + CustomFieldImageUrlDbSchema.Columns.MISSION_ID + "=?",
+                        + CustomFieldImageUrlDbSchema.Columns.TASK_ID + "=? ",
+//                        + CustomFieldImageUrlDbSchema.Columns.MISSION_ID + "=?",
                 new String[]{String.valueOf(question.getId()),
-                        String.valueOf(question.getTaskId()),
-                        String.valueOf(question.getMissionId())},
+                        String.valueOf(question.getTaskId())},
                 CustomFieldImageUrlDbSchema.SORT_ORDER_ASC);
     }
 
@@ -120,7 +116,7 @@ public class CustomFieldImageUrlBL {
 //    }
 
 
-    static List<CustomFieldImageUrls> convertCursorToCustomFieldImageUrlList(Cursor cursor) {
+    public static List<CustomFieldImageUrls> convertCursorToCustomFieldImageUrlList(Cursor cursor) {
         List<CustomFieldImageUrls> result = new ArrayList<>();
         if (cursor != null) {
             while (cursor.moveToNext()) {

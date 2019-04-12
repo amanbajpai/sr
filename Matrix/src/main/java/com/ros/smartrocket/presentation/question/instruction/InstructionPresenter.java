@@ -2,9 +2,12 @@ package com.ros.smartrocket.presentation.question.instruction;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.db.bl.CustomFieldImageUrlBL;
+import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
@@ -139,23 +142,7 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
     @Override
     public ArrayList<String> getDialogGalleryImages() {
         ArrayList<String> gallery_images_list = new ArrayList<>();
-//        Map<String, String> gallery_images_map = question.getTaskLocationObject().getCustomFieldsMap();
-//        for (Map.Entry<String, String> entry : gallery_images_map.entrySet()) {
-//            if (entry.getKey().contains("CustomField") && entry.getValue() != null) {
-//                if (isImageFile(String.valueOf(Html.fromHtml(entry.getValue())))) {
-//                    gallery_images_list.add(String.valueOf(Html.fromHtml(entry.getValue())));
-//                }
-//            }
-//        }
-
-        if (question.getCustomFieldImages() != null) {
-            if (question.getCustomFieldImages().size() > 0) {
-                for (int i = 0; i < question.getCustomFieldImages().size(); i++) {
-                    gallery_images_list.add(question.getCustomFieldImages().get(i).getImageUrl());
-                }
-            }
-        }
-
+        gallery_images_list = getCustomFieldImagesUrlFromDB();
         return gallery_images_list;
     }
 
@@ -164,5 +151,20 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
         return mimeType != null && mimeType.startsWith("image");
     }
 
+    private ArrayList<String> getCustomFieldImagesUrlFromDB() {
+        List<CustomFieldImageUrls> customFieldImageUrls = new ArrayList<>();
+        customFieldImageUrls = CustomFieldImageUrlBL.convertCursorToCustomFieldImageUrlList(CustomFieldImageUrlBL.getCustomFiledImageUrlListFromDB(question));
+
+        ArrayList<String> gallery_images_list = new ArrayList<>();
+        if (customFieldImageUrls != null) {
+            if (customFieldImageUrls.size() > 0) {
+                for (int i = 0; i < customFieldImageUrls.size(); i++) {
+                    gallery_images_list.add(customFieldImageUrls.get(i).getImageUrl());
+                }
+            }
+        }
+
+        return gallery_images_list;
+    }
 
 }

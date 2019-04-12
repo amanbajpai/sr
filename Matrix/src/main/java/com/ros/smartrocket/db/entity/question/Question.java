@@ -145,6 +145,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     @SerializedName("ImagesQuestion")
     private List<CustomFieldImageUrls> customFieldImages;
 
+
     private transient String instructionFileUri;
 
 
@@ -187,7 +188,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
             result.setVideoUrl(c.getString(QuestionDbSchema.Query.VIDEO_URL));
             result.setPhotoUrl(c.getString(QuestionDbSchema.Query.PHOTO_URL));
-
+//            result.setCustomFieldImagesJson(c.getString(QuestionDbSchema.Query.CUSTOM_FIELD_IMAGE_URL));
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
             result.setInstructionFileUri(c.getString(QuestionDbSchema.Query.INSTRUCTION_FILE_URI));
 
@@ -429,6 +430,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     public void setTaskLocation(String taskLocation) {
         this.taskLocation = taskLocation;
     }
+
 
     public String getInstructionFileUri() {
         return instructionFileUri;
