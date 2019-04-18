@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":10000},"path":"Matrix-chinaProduction-debug.apk","properties":{"packageId":"com.ros.smartrocket","split":"","minSdkVersion":"17"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":11453,"versionName":"2.7.0","enabled":true,"outputFile":"Matrix-chinaProduction-debug.apk","fullName":"chinaProductionDebug","baseName":"chinaProduction-debug"},"path":"Matrix-chinaProduction-debug.apk","properties":{}}]
