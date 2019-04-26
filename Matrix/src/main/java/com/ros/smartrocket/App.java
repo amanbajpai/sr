@@ -209,6 +209,6 @@ public class App extends Application {
 //            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
 //            tracker = analytics.newTracker(R.xml.global_tracker);
 //        }
-//        return tracker;
+//        return tracker; ;
 //    }
 }
