@@ -58,6 +58,7 @@ import com.ros.smartrocket.presentation.task.TaskMvpView;
 import com.ros.smartrocket.presentation.wave.WaveMvpPresenter;
 import com.ros.smartrocket.presentation.wave.WaveMvpView;
 import com.ros.smartrocket.presentation.wave.WavePresenter;
+import com.ros.smartrocket.ui.adapter.CustomInfoWindowGoogleMapAdapter;
 import com.ros.smartrocket.ui.views.CustomSwitch;
 import com.ros.smartrocket.ui.views.CustomTextView;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -410,8 +411,8 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
             @Override
             public void useGoogleMap(GoogleMap googleMap) {
                 ArrayList<InputPoint> inputPoints = MapHelper.getGoogleMapInputPointList(list, location);
-                addGoogleMapPins(inputPoints);
-
+//                addGoogleMapPins(inputPoints);
+                addGoogleMapPins(list);
                 switch (mode) {
                     case ALL_TASKS:
                     case WAVE_TASKS:
@@ -471,8 +472,8 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         }
         isFirstStart = false;
         if (preferencesManager.getUseLocationServices()) addMyLocation(location);
-
     }
+
 
     @Override
     public void onTasksLoaded() {
@@ -480,15 +481,34 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         loadTasksFromLocalDb();
     }
 
-    public void addGoogleMapPins(final ArrayList<InputPoint> inputPoints) {
-        if (clusterkraf == null) {
-            Options options = MapHelper.getGoogleClusterkrafOptions(getActivity(), mode,
-                    TasksMapFragment.this, TasksMapFragment.this);
-            clusterkraf = new Clusterkraf(googleMap, options, inputPoints);
-        } else {
-            clusterkraf.replace(inputPoints);
+
+    private void addGoogleMapPins(List<Task> list) {
+
+        for (int i = 0; i < list.size(); i++) {
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(list.get(i).getLatLng());
+            Marker marker = googleMap.addMarker(markerOptions);
+            marker.setTag(list.get(i));
         }
+        googleMap.setInfoWindowAdapter(new CustomInfoWindowGoogleMapAdapter(getActivity(), mode));
+        googleMap.setOnInfoWindowClickListener(onInfoWindowClickListener);
     }
+
+
+    GoogleMap.OnInfoWindowClickListener onInfoWindowClickListener = new GoogleMap.OnInfoWindowClickListener() {
+        @Override
+        public void onInfoWindowClick(Marker marker) {
+            try {
+                Task task = (Task) marker.getTag();
+                int taskId = task.getId();
+                int taskStatusId = task.getStatusId();
+                int missionId = task.getMissionId();
+                MapHelper.mapOverlayClickResult(getActivity(), taskId, missionId, taskStatusId);
+            } catch (Exception e) {
+                L.e(TAG, "Error info vindow click" + e, e);
+            }
+        }
+    };
 
     public void addBaiduMapPins(final ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints) {
         if (baiduClusterkraf == null) {
@@ -500,6 +520,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
             baiduClusterkraf.replace(inputPoints);
         }
     }
+
 
     OnShowInfoWindowListener onShowInfoWindowListener = new OnShowInfoWindowListener() {
         @Override
