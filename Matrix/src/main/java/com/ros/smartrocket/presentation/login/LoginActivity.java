@@ -6,13 +6,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.v7.widget.PopupMenu;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
@@ -170,7 +168,7 @@ public class LoginActivity extends BaseActivity implements LoginMvpView, CheckLo
         if (UIUtils.isDeviceReady(this) && checkLocationDialog == null && checkLocationResponse == null) {
             checkLocationPresenter.checkLocation();
         }
-
+//          Test
 //        Bundle bundle = new Bundle();
 //        String android_id = Settings.Secure.getString(getContentResolver(),
 //                Settings.Secure.ANDROID_ID);
