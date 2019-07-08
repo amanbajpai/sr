@@ -81,6 +81,8 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private Boolean showBackButton;
     @SerializedName("AllowMultiplyPhotos")
     private Boolean allowMultiplyPhotos;
+    @SerializedName("isCompressionphoto")
+    private Boolean isCompressionphoto;
     @SerializedName("MinValue")
     private Double minValue;
     @SerializedName("MaxValue")
@@ -198,6 +200,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
             result.setProductId(c.getInt(QuestionDbSchema.Query.PRODUCT_ID));
             result.setRedo(c.getInt(QuestionDbSchema.Query.IS_REDO) == 1);
+            result.setCompressionphoto(c.getInt(QuestionDbSchema.Query.IS_COMPRESS) == 1);
         }
 
         return result;
@@ -478,6 +481,14 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     public void setRequired(Boolean isRequired) {
         this.isRequired = isRequired;
+    }
+
+    public Boolean getCompressionphoto() {
+        return isCompressionphoto;
+    }
+
+    public void setCompressionphoto(Boolean compressionphoto) {
+        isCompressionphoto = compressionphoto;
     }
 
     public void setFirstAnswer(String value) {

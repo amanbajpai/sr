@@ -7,10 +7,12 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
@@ -18,6 +20,7 @@ import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+import java.security.Key;
 import java.util.List;
 
 public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresenter<V> implements PhotoMvpPresenter<V> {
@@ -112,6 +115,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
                     saveAnswer(location, photoPos);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
                 }
             }
 
@@ -120,6 +124,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
                     UIUtils.showSimpleToast(App.getInstance(), errorText);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
                 }
             }
         });
@@ -150,6 +155,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             }
             photoQuestionHelper.showFullScreenImage(filePath);
         } else {
+            PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,question.getCompressionphoto());
             onPhotoRequested(photoPos);
         }
     }

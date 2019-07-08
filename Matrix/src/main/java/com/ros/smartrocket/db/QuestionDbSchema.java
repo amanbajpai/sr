@@ -48,7 +48,8 @@ public interface QuestionDbSchema {
         IS_REQUIRED("isRequired", DBType.NUMERIC),
         PRODUCT_ID("productId", DBType.NUMERIC),
         DELETED("deleted", DBType.INT),
-        IS_REDO("isRedo", DBType.NUMERIC);
+        IS_REDO("isRedo", DBType.NUMERIC),
+        IS_COMPRESS("isCompressionphoto", DBType.NUMERIC);
 
         private String columnName;
         private DBType type;
@@ -123,6 +124,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
                 Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.IS_REDO.getName(),
+                Table.QUESTION.getName() + "." + Columns.IS_COMPRESS.getName(),
         };
 
         int _ID = 0;
@@ -162,5 +164,6 @@ public interface QuestionDbSchema {
 
         int PRODUCT_ID = 31;
         int IS_REDO = 32;
+        int IS_COMPRESS =33;
     }
 }

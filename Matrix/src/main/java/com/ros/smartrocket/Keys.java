@@ -158,4 +158,9 @@ public interface Keys {
 
     String CHANNEL_NAME_BACKGROUND = "channel_name";
 
+
+
+    //Question validation for photo
+    String IS_COMPRESS_PHOTO = "compress_photo";
+
 }

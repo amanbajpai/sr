@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
+import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.FileProcessingManager;
@@ -357,6 +358,8 @@ public class SelectImageManager {
     private static Bitmap getScaledBitmapByPxSize(File f, int maxSizeInPx) {
         int scale = 1;
         try {
+
+            boolean isCompress = PreferencesManager.getInstance().getBoolean(Keys.IS_COMPRESS_PHOTO, true);
             BitmapFactory.Options o = new BitmapFactory.Options();
             o.inJustDecodeBounds = true;
             try {
@@ -369,14 +372,16 @@ public class SelectImageManager {
                     e.printStackTrace();
                 }
             }
-            if (o.outHeight > maxSizeInPx || o.outWidth > maxSizeInPx) {
-                double maxSourceSideSize = (double) Math.max(o.outHeight, o.outWidth);
-                scale = (int) Math.pow(2,
-                        (int) Math.round(Math.log(maxSizeInPx / maxSourceSideSize) / Math.log(0.5)));
+
+            if (isCompress) {
+                if (o.outHeight > maxSizeInPx || o.outWidth > maxSizeInPx) {
+                    double maxSourceSideSize = (double) Math.max(o.outHeight, o.outWidth);
+                    scale = (int) Math.pow(2,
+                            (int) Math.round(Math.log(maxSizeInPx / maxSourceSideSize) / Math.log(0.5)));
+                }
             }
 
             L.e(TAG, "getScaledBitmapBySideSize Scale: " + scale);
-
             BitmapFactory.Options o2 = new BitmapFactory.Options();
             o2.inSampleSize = scale;
             return BitmapFactory.decodeFile(f.getPath(), o2);

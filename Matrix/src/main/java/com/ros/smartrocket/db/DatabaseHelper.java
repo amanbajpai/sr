@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 52;
+    private static final int DB_VERSION = 53;
     private static final String DB_NAME = "matrix_db";
     private static DatabaseHelper instance;
 
@@ -115,6 +115,10 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
 
                         } while (c.moveToNext());
                         c.close();
+                    }
+
+                    if (newVersion > 52) {
+                        db.execSQL("ALTER TABLE "+ Table.QUESTION.getName() +" ADD COLUMN "+ QuestionDbSchema.Columns.IS_COMPRESS.getName() +DBType.NUMERIC+" DEFAULT 0");
                     }
 
                     db.execSQL("DROP TABLE IF EXISTS " + table.getName());
