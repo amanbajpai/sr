@@ -117,9 +117,6 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                         c.close();
                     }
 
-                    if (newVersion > 52) {
-                        db.execSQL("ALTER TABLE "+ Table.QUESTION.getName() +" ADD COLUMN "+ QuestionDbSchema.Columns.IS_COMPRESS.getName()+" " +DBType.NUMERIC+" DEFAULT 0");
-                    }
 
                     db.execSQL("DROP TABLE IF EXISTS " + table.getName());
 
@@ -133,6 +130,15 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                     for (ContentValues contentValues : tableContent) {
                         L.i(TAG, "Insert contentValues: " + contentValues.toString());
                         db.insert(table.getName(), null, contentValues);
+                    }
+
+                    try {
+
+                        if (newVersion > 52) {
+                            db.execSQL("ALTER TABLE " + Table.QUESTION.getName() + " ADD COLUMN " + QuestionDbSchema.Columns.IS_COMPRESS.getName() + " " + DBType.NUMERIC + " DEFAULT 0");
+                        }
+                    }catch (Exception ex){
+                        ex.printStackTrace();
                     }
 
                 }
