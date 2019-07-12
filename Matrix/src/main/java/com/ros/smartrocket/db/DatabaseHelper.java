@@ -118,7 +118,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                     }
 
                     if (newVersion > 52) {
-                        db.execSQL("ALTER TABLE "+ Table.QUESTION.getName() +" ADD COLUMN "+ QuestionDbSchema.Columns.IS_COMPRESS.getName() +DBType.NUMERIC+" DEFAULT 0");
+                        db.execSQL("ALTER TABLE "+ Table.QUESTION.getName() +" ADD COLUMN "+ QuestionDbSchema.Columns.IS_COMPRESS.getName()+" " +DBType.NUMERIC+" DEFAULT 0");
                     }
 
                     db.execSQL("DROP TABLE IF EXISTS " + table.getName());
