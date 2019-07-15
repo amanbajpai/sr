@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <include layout="@layout/include_question_header"/>
+
+    <include layout="@layout/include_question_header" />
+
+    <!-- <com.ros.smartrocket.ui.views.CustomTextView
+         android:id="@+id/tv_show_images"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_gravity="center_horizontal"
+         android:layout_marginTop="10dp"
+         android:layout_marginBottom="10dp"
+         android:background="@color/red_light"
+         android:clickable="true"
+         android:padding="10dp"
+         android:text="Show Images"
+         android:textColor="@color/white"
+         android:visibility="gone" />-->
+
+
     <com.ros.smartrocket.ui.views.CustomEditTextView
         android:id="@+id/answerEditText"
         style="@style/EditText"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         android:layout_weight="1"
         android:gravity="top"
         android:hint="@string/enter_here"
         android:minHeight="200dp"
-        android:padding="10dp"/>
+        android:padding="10dp" />
 </LinearLayout>

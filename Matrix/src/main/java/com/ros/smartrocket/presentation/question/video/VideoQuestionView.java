@@ -13,6 +13,7 @@ import android.widget.VideoView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -63,6 +64,11 @@ public class VideoQuestionView extends BaseQuestionView<VideoMvpPresenter<VideoM
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
         presenter.refreshNextButton();
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 
     @OnClick({R.id.reVideoButton, R.id.confirmButton})

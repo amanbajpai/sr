@@ -3,6 +3,7 @@ package com.ros.smartrocket.presentation.question.base;
 import android.content.Intent;
 
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
@@ -17,6 +18,8 @@ public interface BaseQuestionMvpPresenter<V extends BaseQuestionMvpView> extends
     Question getQuestion();
 
     void loadAnswers();
+
+    void loadCustomFieldImageUrlsList();
 
     void addEmptyAnswer();
 
@@ -39,6 +42,8 @@ public interface BaseQuestionMvpPresenter<V extends BaseQuestionMvpView> extends
     void onAnswersUpdated();
 
     void onAnswersLoadedFromDb(List<Answer> answers);
+
+    void onCustomFieldImageURlLoadedFromDb(List<CustomFieldImageUrls> customFieldImageUrls);
 
     void deleteAnswer(Answer answer);
 

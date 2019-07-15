@@ -38,4 +38,12 @@
 
     <!-- Audio-->
     <dimen name="audi_button_size">70dp</dimen>
+
+    <!--Comment question images gallery-->
+    <dimen name="margin_left_right">10dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="image_height_width">35dp</dimen>
+    <dimen name="margin_top_bottom">10dp</dimen>
+    <dimen name="list_detail_image_size">300dp</dimen>
+
 </resources>

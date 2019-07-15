@@ -11,9 +11,11 @@ import android.text.TextUtils;
 import com.annimon.stream.Stream;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.AskIf;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.QuestionType;
 import com.ros.smartrocket.db.entity.task.Task;
@@ -189,6 +191,20 @@ public class QuestionsBL {
         App.getInstance().getContentResolver().update(QuestionDbSchema.CONTENT_URI, contentValues, where, whereArgs);
     }
 
+    public static void updateCustomFieldImageURl(Integer waveId, Integer taskId, Integer missionId, Integer questionId,
+                                                 String customFiledImageUrl) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(CustomFieldImageUrlDbSchema.Columns.IMAGE_URL.getName(), customFiledImageUrl);
+
+        String where = CustomFieldImageUrlDbSchema.Columns.QUESTION_ID + "=? and " + CustomFieldImageUrlDbSchema
+                .Columns.TASK_ID + "=? and " + CustomFieldImageUrlDbSchema.Columns.ID + "=? and "
+                + CustomFieldImageUrlDbSchema.Columns.MISSION_ID + "=?";
+        String[] whereArgs = new String[]{String.valueOf(questionId), String.valueOf(taskId),
+                String.valueOf(questionId), String.valueOf(missionId)};
+
+        App.getInstance().getContentResolver().update(CustomFieldImageUrlDbSchema.CONTENT_URI, contentValues, where, whereArgs);
+    }
+
     public static List<Question> convertCursorToQuestionList(Cursor cursor) {
         List<Question> result = new ArrayList<>();
         if (cursor != null) {
@@ -296,6 +312,7 @@ public class QuestionsBL {
                     Question previousQuestion = getQuestionByOrderId(questions, Integer.valueOf(sourceKey));
                     if (previousQuestion != null) {
                         previousQuestion.setAnswers(getAnswers(previousQuestion));
+                        previousQuestion.setCustomFieldImages(getCustomFieldImageUrl(previousQuestion));
                         String answerValue = getAnswerValue(previousQuestion);
                         if (previousQuestion.getType() == QuestionType.NUMBER.getTypeId()) {
                             currentConditionResult = getCurrentConditionResultNumber(value, operator, answerValue);
@@ -385,6 +402,23 @@ public class QuestionsBL {
         }
         return answers;
     }
+
+    private static List<CustomFieldImageUrls> getCustomFieldImageUrl(Question previousQuestion) {
+        List<CustomFieldImageUrls> fieldImageUrls = null;
+        Cursor c = App.getInstance().getContentResolver().query(CustomFieldImageUrlDbSchema.CONTENT_URI,
+                CustomFieldImageUrlDbSchema.Query.PROJECTION,
+                CustomFieldImageUrlDbSchema.Columns.QUESTION_ID + "=? and "
+                        + CustomFieldImageUrlDbSchema.Columns.TASK_ID + "=? and "
+                        + CustomFieldImageUrlDbSchema.Columns.MISSION_ID + "=?",
+                new String[]{String.valueOf(previousQuestion.getId()), String.valueOf(previousQuestion.getTaskId()), String.valueOf(previousQuestion.getMissionId())},
+                CustomFieldImageUrlDbSchema.SORT_ORDER_ASC);
+        if (c != null) {
+            fieldImageUrls = CustomFieldImageUrlBL.convertCursorToCustomFieldImageUrlList(c);
+            c.close();
+        }
+        return fieldImageUrls;
+    }
+
 
     private static int getOrderIdFromRoutingCondition(Question question) {
         int orderId = 0;

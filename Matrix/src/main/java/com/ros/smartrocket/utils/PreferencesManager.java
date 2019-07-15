@@ -408,4 +408,13 @@ public class PreferencesManager {
     }
 
 
+    public String getlastRecordedAudioLength() {
+        return getString(Keys.LAST_AUDIO_RECORDED_LENGTH, "");
+    }
+
+    public void setlastRecordedAudioLength(String audioLength) {
+        setString(Keys.LAST_AUDIO_RECORDED_LENGTH, audioLength);
+    }
+
+
 }

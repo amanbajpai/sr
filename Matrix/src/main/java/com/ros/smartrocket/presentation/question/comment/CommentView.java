@@ -1,6 +1,8 @@
 package com.ros.smartrocket.presentation.question.comment;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.text.InputFilter;
 import android.util.AttributeSet;
@@ -9,6 +11,7 @@ import android.util.Log;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.views.CustomEditTextView;
@@ -60,6 +63,11 @@ public class CommentView extends BaseQuestionView<CommentMvpPresenter<CommentMvp
     }
 
     @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         if (commentDisposable != null && !commentDisposable.isDisposed())
@@ -82,4 +90,5 @@ public class CommentView extends BaseQuestionView<CommentMvpPresenter<CommentMvp
     private void onError(Throwable t) {
         Log.e("Comment view RxError", t.getMessage());
     }
+
 }

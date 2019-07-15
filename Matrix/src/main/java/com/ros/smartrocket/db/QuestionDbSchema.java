@@ -25,6 +25,7 @@ public interface QuestionDbSchema {
         SHOW_BACK_BUTTON("showBackButton", DBType.NUMERIC),
         ALLOW_MULTIPLY_PHOTOS("allowMultiplyPhotos", DBType.NUMERIC),
         ASK_IF("askIf", DBType.TEXT),
+        IMAGES_GALLERY("images_gallery", DBType.TEXT),
         TASK_LOCATION("taskLocation", DBType.TEXT),
         PREVIOUS_QUESTION_ORDER_ID("previousQuestionOrderId", DBType.NUMERIC),
         NEXT_ANSWERED_QUESTION_ID("nextAnsweredQuestionId", DBType.NUMERIC),
@@ -44,6 +45,7 @@ public interface QuestionDbSchema {
 
         PARENT_QUESTION_ID("parentQuestionId", DBType.NUMERIC),
         CATEGORIES("categories", DBType.TEXT),
+        CUSTOM_FIELD_IMAGE_URL("customFieldImageUrl", DBType.TEXT),
         ACTION("action", DBType.NUMERIC),
         IS_REQUIRED("isRequired", DBType.NUMERIC),
         PRODUCT_ID("productId", DBType.NUMERIC),
@@ -101,6 +103,7 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.SHOW_BACK_BUTTON.getName(),
                 Table.QUESTION.getName() + "." + Columns.ALLOW_MULTIPLY_PHOTOS.getName(),
                 Table.QUESTION.getName() + "." + Columns.ASK_IF.getName(),
+                Table.QUESTION.getName() + "." + Columns.IMAGES_GALLERY.getName(),
                 Table.QUESTION.getName() + "." + Columns.TASK_LOCATION.getName(),
                 Table.QUESTION.getName() + "." + Columns.PREVIOUS_QUESTION_ORDER_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.VALIDATION_COMMENT.getName(),
@@ -120,6 +123,7 @@ public interface QuestionDbSchema {
 
                 Table.QUESTION.getName() + "." + Columns.PARENT_QUESTION_ID.getName(),
                 Table.QUESTION.getName() + "." + Columns.CATEGORIES.getName(),
+                Table.QUESTION.getName() + "." + Columns.CUSTOM_FIELD_IMAGE_URL.getName(),
                 Table.QUESTION.getName() + "." + Columns.ACTION.getName(),
                 Table.QUESTION.getName() + "." + Columns.IS_REQUIRED.getName(),
                 Table.QUESTION.getName() + "." + Columns.PRODUCT_ID.getName(),
@@ -165,5 +169,6 @@ public interface QuestionDbSchema {
         int PRODUCT_ID = 31;
         int IS_REDO = 32;
         int IS_COMPRESS =33;
+        int CUSTOM_FIELD_IMAGE_URL = 34;
     }
 }

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.views.CustomTextView;
@@ -72,6 +73,11 @@ public class NumberView extends BaseQuestionView<NumberMvpPresenter<NumberMvpVie
     public void fillViewWithAnswers(List<Answer> answers) {
         if (answers.get(0).getChecked()) answerTextView.setText(answers.get(0).getValue());
         presenter.onNumberEntered(answerTextView.getText().toString());
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 
     @SuppressLint("SetTextI18n")

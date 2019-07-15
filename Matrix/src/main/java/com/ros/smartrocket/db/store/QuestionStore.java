@@ -5,12 +5,15 @@ import android.content.ContentValues;
 import com.annimon.stream.Stream;
 import com.google.gson.Gson;
 import com.ros.smartrocket.db.AnswerDbSchema;
+import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
+import com.ros.smartrocket.db.bl.CustomFieldImageUrlBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.AskIf;
 import com.ros.smartrocket.db.entity.question.Category;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.question.QuestionType;
@@ -49,10 +52,23 @@ public class QuestionStore extends BaseStore {
     private int insertQuestion(int i, Question question) {
         List<ContentValues> answersValues = new ArrayList<>();
         List<ContentValues> questionValues = new ArrayList<>();
+        List<ContentValues> customFieldImagesValues = new ArrayList<>();
         question = prepareQuestion(i, question);
         //question = prepareInstructionUri(i, question);
         questionValues.add(question.toContentValues());
+        if (question.getCustomFieldImages() != null) {
+            if (question.getCustomFieldImages().size() > 0) {
+                for (int j = 0; j < question.getCustomFieldImages().size(); j++) {
+                    //CustomFieldImageUrlBL.insert(prepareCustomFieldImageUrls(question, question.getCustomFieldImages().get(j), question.getProductId()));
+//                    customFieldImagesValues.add(question.getCustomFieldImages().get(j).toContentValues());
+                    customFieldImagesValues.add(prepareCustomFieldImageUrls(question, question.getCustomFieldImages().get(j), question.getProductId()).toContentValues());
+                }
+            }
+        }
+
         deleteAnswers(question);
+        deleteCustomFieldImageUrls(question);
+
         if (question.getChildQuestions() != null && question.getChildQuestions().size() > 0) {
             List<Product> productList = makeProductList(question.getCategoriesArray());
             int j = 1;
@@ -75,16 +91,31 @@ public class QuestionStore extends BaseStore {
             ContentValues[] valuesArray = new ContentValues[questionValues.size()];
             valuesArray = questionValues.toArray(valuesArray);
             contentResolver.bulkInsert(QuestionDbSchema.CONTENT_URI, valuesArray);
+
+        }
+        if (!customFieldImagesValues.isEmpty()) {
+            ContentValues[] valuesArray = new ContentValues[customFieldImagesValues.size()];
+            valuesArray = customFieldImagesValues.toArray(valuesArray);
+            contentResolver.bulkInsert(CustomFieldImageUrlDbSchema.CONTENT_URI, valuesArray);
+
         }
         i++;
         return i;
     }
+
 
     private void deleteAnswers(Question question) {
         contentResolver.delete(AnswerDbSchema.CONTENT_URI,
                 AnswerDbSchema.Columns.QUESTION_ID + "=? and " + AnswerDbSchema.Columns.TASK_ID + "=?",
                 new String[]{String.valueOf(question.getId()), String.valueOf(task.getId())});
     }
+
+    private void deleteCustomFieldImageUrls(Question question) {
+        contentResolver.delete(CustomFieldImageUrlDbSchema.CONTENT_URI,
+                CustomFieldImageUrlDbSchema.Columns.QUESTION_ID + "=? and " + CustomFieldImageUrlDbSchema.Columns.TASK_ID + "=?",
+                new String[]{String.valueOf(question.getId()), String.valueOf(task.getId())});
+    }
+
 
     private List<Product> makeProductList(Category[] categoriesArray) {
         List<Product> productList = new ArrayList<>();
@@ -133,13 +164,23 @@ public class QuestionStore extends BaseStore {
         return answer;
     }
 
+    private CustomFieldImageUrls prepareCustomFieldImageUrls(Question question, CustomFieldImageUrls imageUrls, Integer productId) {
+        imageUrls.setRandomId();
+        imageUrls.setProductId(productId);
+        imageUrls.setQuestionId(question.getId());
+        imageUrls.setTaskId(task.getId());
+        imageUrls.setImageUrl(imageUrls.getImageUrl());
+        imageUrls.setMissionId(task.getMissionId());
+        return imageUrls;
+    }
+
 
     protected Question prepareQuestion(int i, Question question) {
-
 
         AskIf[] askIfArray = question.getAskIfArray();
         Category[] categoriesArray = question.getCategoriesArray();
         TaskLocation taskLocation = question.getTaskLocationObject();
+        List<CustomFieldImageUrls> fieldImageUrls = question.getCustomFieldImages();
 
         question.setTaskId(task.getId());
         question.setMissionId(task.getMissionId());
@@ -151,6 +192,10 @@ public class QuestionStore extends BaseStore {
             taskLocation.setCustomFields(gson.toJson(taskLocation.getCustomFieldsMap()));
             question.setTaskLocation(gson.toJson(taskLocation));
         }
+        if (fieldImageUrls != null) {
+            question.setCustomFieldImages(question.getCustomFieldImages());
+        }
+
         return question;
     }
 }

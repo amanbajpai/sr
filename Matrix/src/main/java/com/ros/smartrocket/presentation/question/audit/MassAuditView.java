@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.audit.additional.CategoryProductPair;
 import com.ros.smartrocket.presentation.question.audit.additional.TickCrossAnswerPair;
@@ -75,6 +76,11 @@ public class MassAuditView extends BaseQuestionView<MassAuditMvpPresenter<MassAu
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
         // not needed
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 
     @Override

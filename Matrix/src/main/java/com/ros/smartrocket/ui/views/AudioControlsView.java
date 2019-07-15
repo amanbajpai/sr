@@ -7,7 +7,9 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.ros.smartrocket.App;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.helpers.AVDWrapper;
 
 import butterknife.BindView;
@@ -126,6 +128,7 @@ public class AudioControlsView extends LinearLayout implements AVDWrapper.Animat
     }
 
     public void resolveStartPlayingUI() {
+        PreferencesManager.getInstance().setlastRecordedAudioLength(getResources().getString(R.string.def_timer));
         btnPlay.setImageResource(R.drawable.avd_pause);
         btnPlayerStop.setVisibility(VISIBLE);
     }
