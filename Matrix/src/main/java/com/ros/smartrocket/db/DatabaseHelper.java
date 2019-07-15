@@ -135,7 +135,10 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                     try {
 
                         if (newVersion > 52) {
-                            db.execSQL("ALTER TABLE " + Table.QUESTION.getName() + " ADD COLUMN " + QuestionDbSchema.Columns.IS_COMPRESS.getName() + " " + DBType.NUMERIC + " DEFAULT 0");
+                            db.execSQL("ALTER TABLE " + Table.QUESTION.getName() + " ADD COLUMN " + QuestionDbSchema.Columns.IS_COMPRESS.getName() + " " + DBType.NUMERIC + " DEFAULT 0 , "
+                            + QuestionDbSchema.Columns.CUSTOM_FIELD_IMAGE_URL +" "+ DBType.TEXT+" , "+ QuestionDbSchema.Columns.IMAGES_GALLERY+" "
+                                    + DBType.TEXT);
+
                         }
                     }catch (Exception ex){
                         ex.printStackTrace();
