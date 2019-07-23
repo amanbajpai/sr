@@ -32,7 +32,6 @@ import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.presentation.map.TransparentSupportBaiduMapFragment;
-import com.ros.smartrocket.ui.adapter.CustomInfoMapWindowAdapter;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
@@ -171,7 +170,7 @@ public class MapHelper {
             options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
 
             options.setOnInfoWindowClickDownstreamListener(onInfoWindowClickListener);
-            options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
+//            options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
         }
         return options;
     }
