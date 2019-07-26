@@ -1,6 +1,9 @@
 package com.ros.smartrocket.presentation.task.map;
 
+import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
 import android.os.Bundle;
@@ -32,6 +35,7 @@ import com.baidu.mapapi.map.Stroke;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.Circle;
@@ -73,6 +77,8 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -134,6 +140,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private boolean isFirstStart = true;
     private boolean isNeedRefresh = true;
     private static View view;
+    Context context;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -155,6 +162,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         lm.setCurrentLocationUpdateListener(currentLocationUpdateListener);
         taskPresenter = new MapTaskPresenter<>();
         wavePresenter = new WavePresenter<>();
+        context = getActivity();
         return view;
     }
 
@@ -486,7 +494,17 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
         for (int i = 0; i < list.size(); i++) {
             MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(list.get(i).getLatLng());
+            Task data = list.get(i);
+            Resources res = getActivity().getResources();
+            DecimalFormat precision = (DecimalFormat) NumberFormat.getNumberInstance(new Locale("en", "UK"));
+            precision.applyPattern("##.##");
+            Paint pinPaintMedium = MapHelper.getMediumPinPaint(context);
+            Paint pinPaintSmall = MapHelper.getSmallPinPaint(context);
+            Paint pinPaintLarge = MapHelper.getLargePinPaint(context);
+            Bitmap bitmap = MapHelper.getPinWithTextBitmap(res, UIUtils.getPinResId(data),
+                    precision.format(data.getPrice()), pinPaintLarge, pinPaintMedium, pinPaintSmall);
+            BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
+            markerOptions.position(list.get(i).getLatLng()).icon(icon);
             Marker marker = googleMap.addMarker(markerOptions);
             marker.setTag(list.get(i));
         }
