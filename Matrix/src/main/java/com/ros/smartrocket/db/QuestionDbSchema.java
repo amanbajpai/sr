@@ -131,6 +131,46 @@ public interface QuestionDbSchema {
                 Table.QUESTION.getName() + "." + Columns.IS_COMPRESS.getName(),
         };
 
+//        int _ID = 0;
+//        int ID = 1;
+//        int WAVE_ID = 2;
+//        int TASK_ID = 3;
+//        int MISSION_ID = 4;
+//        int QUESTION = 5;
+//        int TYPE = 6;
+//        int ORDER_ID = 7;
+//        int MAXIMUM_CHARACTERS = 8;
+//        int MAXIMUM_PHOTOS = 9;
+//        int SHOW_BACK_BUTTON = 10;
+//        int ALLOW_MULTIPLY_PHOTOS = 11;
+//        int ASK_IF = 12;
+//        int TASK_LOCATION = 13;
+//        int PREVIOUS_QUESTION_ORDER_ID = 14;
+//        int VALIDATION_COMMENT = 15;
+//        int PRESENT_VALIDATION_TEXT = 16;
+//
+//        int MIN_VALUES = 17;
+//        int MAX_VALUES = 18;
+//        int PATTERN_TYPE = 19;
+//        int VIDEO_SOURCE = 20;
+//        int PHOTO_SOURCE = 21;
+//        int VIDEO_URL = 22;
+//        int PHOTO_URL = 24;
+//
+//        int ROUTING = 24;
+//        int INSTRUCTION_FILE_URI = 25;
+//        int NEXT_ANSWERED_QUESTION_ID = 26;
+//
+//        int PARENT_QUESTION_ID = 27;
+//        int CATEGORIES = 28;
+//        int ACTION = 29;
+//        int IS_REQUIRED = 30;
+//
+//        int PRODUCT_ID = 31;
+//        int IS_REDO = 32;
+//        int IS_COMPRESS =33;
+//        int CUSTOM_FIELD_IMAGE_URL = 34;
+
         int _ID = 0;
         int ID = 1;
         int WAVE_ID = 2;
@@ -144,31 +184,36 @@ public interface QuestionDbSchema {
         int SHOW_BACK_BUTTON = 10;
         int ALLOW_MULTIPLY_PHOTOS = 11;
         int ASK_IF = 12;
-        int TASK_LOCATION = 13;
-        int PREVIOUS_QUESTION_ORDER_ID = 14;
-        int VALIDATION_COMMENT = 15;
-        int PRESENT_VALIDATION_TEXT = 16;
 
-        int MIN_VALUES = 17;
-        int MAX_VALUES = 18;
-        int PATTERN_TYPE = 19;
-        int VIDEO_SOURCE = 20;
-        int PHOTO_SOURCE = 21;
-        int VIDEO_URL = 22;
-        int PHOTO_URL = 23;
+        int TASK_LOCATION = 14;// need to add image gallery field
+        int PREVIOUS_QUESTION_ORDER_ID = 15;
+        int VALIDATION_COMMENT = 16;
+        int PRESENT_VALIDATION_TEXT = 17;
 
-        int ROUTING = 24;
-        int INSTRUCTION_FILE_URI = 25;
-        int NEXT_ANSWERED_QUESTION_ID = 26;
+        int MIN_VALUES = 18;
+        int MAX_VALUES = 19;
+        int PATTERN_TYPE = 20;
+        int VIDEO_SOURCE = 21;
+        int PHOTO_SOURCE = 22;
+        int VIDEO_URL = 23;
+        int PHOTO_URL = 24;
 
-        int PARENT_QUESTION_ID = 27;
-        int CATEGORIES = 28;
-        int ACTION = 29;
-        int IS_REQUIRED = 30;
+        int ROUTING = 25;
+        int INSTRUCTION_FILE_URI = 26;
+        int NEXT_ANSWERED_QUESTION_ID = 27;
 
-        int PRODUCT_ID = 31;
-        int IS_REDO = 32;
-        int IS_COMPRESS =33;
-        int CUSTOM_FIELD_IMAGE_URL = 34;
+        int PARENT_QUESTION_ID = 28;
+        int CATEGORIES = 29;
+
+        int CUSTOM_FIELD_IMAGE_URL = 30;
+        int ACTION = 31;// above need to add custom image filed
+
+
+        int IS_REQUIRED = 32;
+
+        int PRODUCT_ID = 33;
+        int IS_REDO = 34;
+        int IS_COMPRESS =35;
+
     }
 }
