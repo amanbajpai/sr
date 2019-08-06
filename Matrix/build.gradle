@@ -62,8 +62,8 @@ android {
         targetSdkVersion 27
         compileSdkVersion 27
 //        versionCode buildNumber + 10000
-        versionCode 11455
-        versionName '2.7.2'
+        versionCode 11456
+        versionName '2.7.3'
         applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
@@ -194,7 +194,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"https://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
-            buildConfigField "boolean", "CHINESE", "false"
+            buildConfigField "boolean", "CHINESE", "true"
             dimension "mode"
         }
         cdnStaging {
