@@ -68,7 +68,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private Integer waveId;
     @SerializedName("TaskId")
     private Integer taskId;
-    @SerializedName("QuestionFormatted")
+    @SerializedName("Question")
     private String question = "";
     @SerializedName("Type")
     private Integer type;

@@ -28,7 +28,7 @@
                 android:background="@color/red_light"
                 android:clickable="true"
                 android:padding="10dp"
-                android:text="Show Images"
+                android:text="@string/show_images"
                 android:textColor="@color/white"
                 android:visibility="gone" />
 

@@ -92,12 +92,13 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
             public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
                 try {
                     getMvpView().hideLoading();
+                    file = SelectImageManager.saveBitmapToFile(App.getInstance(), bitmap, "");
+                    if (isViewAttached()) {
+                        getMvpView().setImageInstruction(bitmap, file.getPath().toString());
+                    }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                file = SelectImageManager.saveBitmapToFile(App.getInstance(), bitmap, "");
-                getMvpView().setImageInstruction(bitmap, file.getPath().toString());
-
             }
 
             @Override

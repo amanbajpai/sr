@@ -194,7 +194,7 @@ android {
             buildConfigField "String", "WEB_SERVICE_URL", "\"https://api.staging.redoceansolutions.com/\""
             buildConfigField "String", "PROFILE_PAGE_URL", "\"http://agent.staging.redoceansolutions.com\""
             buildConfigField "String", "GEOCODER_URL", "\"https://maps.googleapis.com\""
-            buildConfigField "boolean", "CHINESE", "true"
+            buildConfigField "boolean", "CHINESE", "false"
             dimension "mode"
         }
         cdnStaging {

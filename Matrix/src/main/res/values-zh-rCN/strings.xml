@@ -514,4 +514,8 @@
     <string name="task_claimed_message">此任务已经被其他队员认领了</string>
     <string name="task_claimed_ok_button">继续</string>
 
+
+    <string name="show_images">查看图片</string>
+
+
 </resources>

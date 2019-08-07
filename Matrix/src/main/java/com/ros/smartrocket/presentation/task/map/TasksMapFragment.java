@@ -540,6 +540,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     }
 
 
+
     OnShowInfoWindowListener onShowInfoWindowListener = new OnShowInfoWindowListener() {
         @Override
         public boolean onShowInfoWindow(com.baidu.mapapi.map.Marker marker, com.twotoasters.baiduclusterkraf.ClusterPoint clusterPoint) {
