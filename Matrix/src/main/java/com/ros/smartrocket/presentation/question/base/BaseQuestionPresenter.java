@@ -4,14 +4,15 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.ros.smartrocket.db.bl.AnswersBL;
+import com.ros.smartrocket.db.bl.CustomFieldImageUrlBL;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Product;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.interfaces.OnAnswerPageLoadingFinishedListener;
 import com.ros.smartrocket.interfaces.OnAnswerSelectedListener;
 import com.ros.smartrocket.presentation.base.BasePresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -39,6 +40,16 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
         } else {
             return false;
         }
+
+
+//        if (question != null && question.getCustomFieldImages() != null && !question.getCustomFieldImages().isEmpty()) {
+//            CustomFieldImageUrlBL.updateCustomFieldImageUrlInDB(question.getCustomFieldImages());
+//            onAnswersUpdated();
+//            return true;
+//        } else {
+//            return false;
+//        }
+
     }
 
     @Override
@@ -53,6 +64,14 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onAnswersLoadedFromDb, this::logAnswerLoadingFail)
         );
+    }
+
+    @Override
+    public void loadCustomFieldImageUrlsList() {
+        addDisposable(CustomFieldImageUrlBL.getCustomFieldImageUrlFromDBObservable(question, product)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onCustomFieldImageURlLoadedFromDb, this::logAnswerLoadingFail));
     }
 
     private int logAnswerLoadingFail(Throwable t) {
@@ -76,6 +95,14 @@ public class BaseQuestionPresenter<V extends BaseQuestionMvpView> extends BasePr
         question.setAnswers(answers);
         getMvpView().fillViewWithAnswers(answers);
     }
+
+
+    @Override
+    public void onCustomFieldImageURlLoadedFromDb(List<CustomFieldImageUrls> customFieldImageUrls) {
+        question.setCustomFieldImages(customFieldImageUrls);
+        getMvpView().fillViewWithCustomFieldImageUrls(customFieldImageUrls);
+    }
+
 
     @Override
     public void deleteAnswer(Answer answer) {

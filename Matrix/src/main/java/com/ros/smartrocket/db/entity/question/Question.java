@@ -3,6 +3,7 @@ package com.ros.smartrocket.db.entity.question;
 import android.database.Cursor;
 
 import com.google.gson.annotations.SerializedName;
+import com.ros.smartrocket.db.CustomFieldImageUrlDbSchema;
 import com.ros.smartrocket.db.QuestionDbSchema;
 import com.ros.smartrocket.db.entity.BaseEntity;
 import com.ros.smartrocket.db.entity.task.TaskLocation;
@@ -67,7 +68,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private Integer waveId;
     @SerializedName("TaskId")
     private Integer taskId;
-    @SerializedName("QuestionFormatted")
+    @SerializedName("Question")
     private String question = "";
     @SerializedName("Type")
     private Integer type;
@@ -81,6 +82,8 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private Boolean showBackButton;
     @SerializedName("AllowMultiplyPhotos")
     private Boolean allowMultiplyPhotos;
+    @SerializedName("isCompressionphoto")
+    private Boolean isCompressionphoto;
     @SerializedName("MinValue")
     private Double minValue;
     @SerializedName("MaxValue")
@@ -103,6 +106,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     private String presetValidationText;
     private transient Integer previousQuestionOrderId;
     private transient Integer nextAnsweredQuestionId;
+
 
     // [START Mass Audit]
     @SkipFieldInContentValues
@@ -139,6 +143,10 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
     @SkipFieldInContentValues
     @SerializedName("Answers")
     private List<Answer> answers;
+    @SkipFieldInContentValues
+    @SerializedName("ImagesQuestion")
+    private List<CustomFieldImageUrls> customFieldImages;
+
 
     private transient String instructionFileUri;
 
@@ -182,7 +190,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setPhotoSource(c.getInt(QuestionDbSchema.Query.PHOTO_SOURCE));
             result.setVideoUrl(c.getString(QuestionDbSchema.Query.VIDEO_URL));
             result.setPhotoUrl(c.getString(QuestionDbSchema.Query.PHOTO_URL));
-
+//            result.setCustomFieldImagesJson(c.getString(QuestionDbSchema.Query.CUSTOM_FIELD_IMAGE_URL));
             result.setRouting(c.getInt(QuestionDbSchema.Query.ROUTING));
             result.setInstructionFileUri(c.getString(QuestionDbSchema.Query.INSTRUCTION_FILE_URI));
 
@@ -192,12 +200,15 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
             result.setTaskLocationObject(TaskLocation.getTaskLocation(result.getTaskLocation()));
 
             result.setParentQuestionId(c.getInt(QuestionDbSchema.Query.PARENT_QUESTION_ID));
+
             result.setCategories(c.getString(QuestionDbSchema.Query.CATEGORIES));
             result.setCategoriesArray(Category.getCategoryArray(result.getCategories()));
+
             result.setAction(c.getInt(QuestionDbSchema.Query.ACTION));
             result.setRequired(c.getInt(QuestionDbSchema.Query.IS_REQUIRED) == 1);
             result.setProductId(c.getInt(QuestionDbSchema.Query.PRODUCT_ID));
             result.setRedo(c.getInt(QuestionDbSchema.Query.IS_REDO) == 1);
+            result.setCompressionphoto(c.getInt(QuestionDbSchema.Query.IS_COMPRESS) == 1);
         }
 
         return result;
@@ -235,6 +246,13 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.answers = answers;
     }
 
+    public List<CustomFieldImageUrls> getCustomFieldImages() {
+        return customFieldImages;
+    }
+
+    public void setCustomFieldImages(List<CustomFieldImageUrls> customFieldImages) {
+        this.customFieldImages = customFieldImages;
+    }
 
     public Integer getType() {
         return type;
@@ -416,6 +434,7 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
         this.taskLocation = taskLocation;
     }
 
+
     public String getInstructionFileUri() {
         return instructionFileUri;
     }
@@ -478,6 +497,14 @@ public class Question extends BaseEntity implements Serializable, Comparable<Que
 
     public void setRequired(Boolean isRequired) {
         this.isRequired = isRequired;
+    }
+
+    public Boolean getCompressionphoto() {
+        return isCompressionphoto;
+    }
+
+    public void setCompressionphoto(Boolean compressionphoto) {
+        isCompressionphoto = compressionphoto;
     }
 
     public void setFirstAnswer(String value) {

@@ -410,4 +410,6 @@
     <string name="task_claimed_message">المهمة لم تعد متاحة</string>
     <string name="task_claimed_ok_button">موافق</string>
 
+    <string name="show_images">عرض الصورة</string>
+
 </resources>

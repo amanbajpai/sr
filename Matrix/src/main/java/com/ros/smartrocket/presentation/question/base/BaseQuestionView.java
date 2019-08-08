@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
@@ -29,6 +30,9 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
     public TextView validationComment;
     @BindView(R.id.questionText)
     public TextView questionText;
+//    @BindView(R.id.tv_show_images)
+//    public TextView tvShowImages;
+
     private CustomProgressDialog progressDialog;
     protected P presenter;
     protected Bundle state;
@@ -55,6 +59,7 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
 
     public abstract int getLayoutResId();
 
+
     @Override
     public void validateView(Question question) {
         questionText.setMovementMethod(LinkMovementMethod.getInstance());
@@ -73,6 +78,8 @@ public abstract class BaseQuestionView<P extends BaseQuestionMvpPresenter> exten
             validationComment.setText(Html.fromHtml(question.getValidationComment()));
             validationComment.setVisibility(View.VISIBLE);
         }
+
+//        tvShowImages.setOnClickListener(v -> Toast.makeText(getContext(), "Show Images", Toast.LENGTH_SHORT).show());
     }
 
     @Override

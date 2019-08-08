@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DatabaseHelper extends AppSQLiteOpenHelper {
     private static final String TAG = "DatabaseHelper";
-    private static final int DB_VERSION = 52;
+    private static final int DB_VERSION = 53;
     private static final String DB_NAME = "matrix_db";
     private static DatabaseHelper instance;
 
@@ -117,6 +117,7 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                         c.close();
                     }
 
+
                     db.execSQL("DROP TABLE IF EXISTS " + table.getName());
 
                     StringBuilder sql = new StringBuilder(1024);
@@ -129,6 +130,18 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
                     for (ContentValues contentValues : tableContent) {
                         L.i(TAG, "Insert contentValues: " + contentValues.toString());
                         db.insert(table.getName(), null, contentValues);
+                    }
+
+                    try {
+
+                        if (newVersion > 52) {
+                            db.execSQL("ALTER TABLE " + Table.QUESTION.getName() + " ADD COLUMN " + QuestionDbSchema.Columns.IS_COMPRESS.getName() + " " + DBType.NUMERIC + " DEFAULT 0 , "
+                            + QuestionDbSchema.Columns.CUSTOM_FIELD_IMAGE_URL +" "+ DBType.TEXT+" , "+ QuestionDbSchema.Columns.IMAGES_GALLERY+" "
+                                    + DBType.TEXT);
+
+                        }
+                    }catch (Exception ex){
+                        ex.printStackTrace();
                     }
 
                 }

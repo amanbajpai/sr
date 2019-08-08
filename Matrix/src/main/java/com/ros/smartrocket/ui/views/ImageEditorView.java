@@ -82,6 +82,7 @@ public class ImageEditorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         canvas.drawBitmap(bitmap, matrix, bitmapPaint);
+
     }
 
     @Override

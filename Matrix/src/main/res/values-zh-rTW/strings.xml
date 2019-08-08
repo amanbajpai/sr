@@ -407,5 +407,6 @@
     <string name="task_claimed_message">這個任務已經被其他隊員認領</string>
     <string name="task_claimed_ok_button">確定</string>
 
+    <string name="show_images">查看圖片</string>
 
 </resources>

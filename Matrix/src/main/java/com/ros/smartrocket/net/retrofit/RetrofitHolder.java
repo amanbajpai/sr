@@ -55,7 +55,7 @@ public class RetrofitHolder {
         matrixApi = retrofit.create(MatrixApi.class);
     }
 
-    private OkHttpClient getOkHttpClient() {
+    public OkHttpClient getOkHttpClient() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.readTimeout(TIMEOUT, TimeUnit.SECONDS)
                 .connectTimeout(TIMEOUT, TimeUnit.SECONDS)

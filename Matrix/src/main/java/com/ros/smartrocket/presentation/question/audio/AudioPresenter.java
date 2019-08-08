@@ -134,8 +134,8 @@ public class AudioPresenter<V extends AudioMvpView> extends BaseQuestionPresente
 
     @Override
     public void deleteAnswer() {
-        isAudioAdded = false;
         FileUtils.deleteFile(filePath);
         if (isAudioAdded) deleteAnswer(question.getAnswers().get(0));
+        isAudioAdded = false;
     }
 }

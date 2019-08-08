@@ -21,9 +21,15 @@ public class Category extends BaseEntity {
 
     public static Category[] getCategoryArray(String jsonArrayString) {
         Category[] categories = new Category[]{};
-        if (!TextUtils.isEmpty(jsonArrayString)) {
-            categories = new Gson().fromJson(jsonArrayString, Category[].class);
+        try {
+
+            if (!TextUtils.isEmpty(jsonArrayString)) {
+                categories = new Gson().fromJson(jsonArrayString, Category[].class);
+            }
+        }catch (Exception e){
+
         }
+
         return categories;
     }
 

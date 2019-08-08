@@ -7,8 +7,11 @@ import android.view.View;
 
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
+import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.presentation.question.choose.AnswerChooseBaseAdapter;
 import com.ros.smartrocket.presentation.question.choose.BaseChooseView;
+
+import java.util.List;
 
 public class MultipleChooseView extends BaseChooseView {
     public MultipleChooseView(Context context) {
@@ -40,5 +43,10 @@ public class MultipleChooseView extends BaseChooseView {
         MultipleChooseAdapter.ViewHolder viewHolder = (MultipleChooseAdapter.ViewHolder) item.getTag();
         viewHolder.getCheckBox().setChecked(answer.getChecked());
         presenter.refreshNextButton(adapter.getData());
+    }
+
+    @Override
+    public void fillViewWithCustomFieldImageUrls(List<CustomFieldImageUrls> customFieldImageUrlsList) {
+
     }
 }

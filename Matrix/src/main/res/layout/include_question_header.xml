@@ -4,13 +4,15 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
     <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/questionText"
         style="@style/QuestionText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp" />
+
 
     <com.ros.smartrocket.ui.views.CustomTextView
         android:id="@+id/presetValidationComment"
@@ -25,4 +27,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_show_images"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_marginTop="10dp"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:background="@color/red_light"-->
+        <!--android:padding="10dp"-->
+        <!--android:text="@string/show_images"-->
+        <!--android:textColor="@color/white"-->
+        <!--android:visibility="visible" />-->
+
 </LinearLayout>
