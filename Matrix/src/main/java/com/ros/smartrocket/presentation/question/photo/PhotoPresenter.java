@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 
 import com.ros.smartrocket.App;
@@ -57,9 +60,10 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     isBitmapAdded = event.image.bitmap != null;
                     isBitmapConfirmed = false;
                     getMvpView().setBitmap(event.image.bitmap);
+                    getMvpView().hideLoading();
                     if (event.image.bitmap != null)
                         onPhotoConfirmed(getMvpView().getCurrentPos());
-                    getMvpView().hideLoading();
+
                     refreshButtons();
                     refreshNextButton(isPhotosAdded());
                 }
@@ -116,6 +120,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     getMvpView().hideLoading();
                     saveAnswer(location, photoPos);
                     PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+
                 }
             }
 
@@ -175,25 +180,48 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     }
 
     private void saveAnswer(Location location, int photoPos) {
-        File resultImageFile = SelectImageManager.getScaledFile(lastPhotoFile, SelectImageManager.SIZE_IN_PX_2_MP);
-        if (resultImageFile.exists() && question.getAnswers().size() > photoPos) {
-            Answer answer = question.getAnswers().get(photoPos);
-            boolean needAddEmptyAnswer = !answer.getChecked();
-            answer.setChecked(true);
-            answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
-            answer.setFileSizeB(resultImageFile.length());
-            answer.setFileName(resultImageFile.getName());
-            answer.setValue(resultImageFile.getName());
-            answer.setLatitude(location.getLatitude());
-            answer.setLongitude(location.getLongitude());
-            if (!isPreview()) saveQuestion();
-            if (needAddEmptyAnswer && question.getAnswers().size() < question.getMaximumPhotos())
-                addEmptyAnswer();
-            getMvpView().refreshPhotoGallery(question.getAnswers());
-            isBitmapConfirmed = true;
-            refreshButtons();
-            refreshNextButton(isPhotosAdded());
-        }
+
+        new AsyncTask<Void,Void ,File>(){
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+                  getMvpView().showLoading(false);
+            }
+
+            @Override
+            protected File doInBackground(Void... voids) {
+                File file = SelectImageManager.getScaledFile(lastPhotoFile, SelectImageManager.SIZE_IN_PX_2_MP);
+
+                return file;
+            }
+
+            @Override
+            protected void onPostExecute(File resultImageFile) {
+                super.onPostExecute(resultImageFile);
+                if (resultImageFile.exists() && question.getAnswers().size() > photoPos) {
+                    Answer answer = question.getAnswers().get(photoPos);
+                    boolean needAddEmptyAnswer = !answer.getChecked();
+                    answer.setChecked(true);
+                    answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
+                    answer.setFileSizeB(resultImageFile.length());
+                    answer.setFileName(resultImageFile.getName());
+                    answer.setValue(resultImageFile.getName());
+                    answer.setLatitude(location.getLatitude());
+                    answer.setLongitude(location.getLongitude());
+                    if (!isPreview()) saveQuestion();
+                    if (needAddEmptyAnswer && question.getAnswers().size() < question.getMaximumPhotos())
+                        addEmptyAnswer();
+                    getMvpView().refreshPhotoGallery(question.getAnswers());
+                    isBitmapConfirmed = true;
+                    refreshButtons();
+                    refreshNextButton(isPhotosAdded());
+                }
+                getMvpView().hideLoading();
+            }
+        }.execute();
+
+
     }
 
     @Override

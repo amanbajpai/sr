@@ -4,8 +4,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.CustomFieldImageUrlBL;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
@@ -14,6 +16,7 @@ import com.ros.smartrocket.presentation.details.claim.MediaDownloader;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.utils.FileProcessingManager;
 import com.ros.smartrocket.utils.PhotoLoader;
+import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -103,7 +106,10 @@ public class InstructionPresenter<V extends InstructionMvpView> extends BaseQues
 
             @Override
             public void onBitmapFailed(Exception e, Drawable errorDrawable) {
-
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    UIUtils.showSimpleToast(App.getInstance(), R.string.invalid_url);
+                }
             }
 
             @Override
