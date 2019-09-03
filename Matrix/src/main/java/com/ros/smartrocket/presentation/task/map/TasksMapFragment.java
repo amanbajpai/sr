@@ -2,12 +2,16 @@ package com.ros.smartrocket.presentation.task.map;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -69,11 +73,14 @@ import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
 import com.twotoasters.clusterkraf.Options;
 
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,6 +137,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private boolean isNeedRefresh = true;
     private static View view;
     Context context;
+    private Map<String,String> bucketMap;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -152,6 +160,14 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         taskPresenter = new MapTaskPresenter<>();
         wavePresenter = new WavePresenter<>();
         context = getActivity();
+
+        bucketMap = new HashMap<>();
+
+       List<Bucket> bucketsList = getImageBuckets(context);
+       Log.d("list",bucketsList+"");
+
+        List<String> buckets  = getImagesByBucket(bucketsList.get(0).firstImageContainedPath);
+        Log.d("list",buckets+"");
         return view;
     }
 
@@ -681,6 +697,80 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
                 toggleFilterPanel();
                 loadData(true);
                 break;
+        }
+    }
+
+
+
+    /*..........................anils work................................................*/
+
+
+
+    public  List<Bucket> getImageBuckets(Context mContext){
+        List<Bucket> buckets = new ArrayList<>();
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String [] projection = {MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA};
+
+        Cursor cursor = mContext.getContentResolver().query(uri, projection, null, null, null);
+        if(cursor != null){
+            File file;
+            while (cursor.moveToNext()){
+                String bucketPath = cursor.getString(cursor.getColumnIndex(projection[0]));
+                String fisrtImage = cursor.getString(cursor.getColumnIndex(projection[1]));
+                file = new File(fisrtImage);
+                if (file.exists() && !bucketMap.containsKey(bucketPath)) {
+                    buckets.add(new Bucket(bucketPath, fisrtImage,0));
+                    bucketMap.put(bucketPath,fisrtImage);
+                }
+            }
+            cursor.close();
+        }
+        return buckets;
+    }
+
+    public List<String> getImagesByBucket(@NonNull String bucketPath){
+
+        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+        String [] projection = {MediaStore.Images.Media.DATA};
+        String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME+" =?";
+        String orderBy = MediaStore.Images.Media.DATE_ADDED+" DESC";
+
+        List<String> images = new ArrayList<>();
+
+        Cursor cursor = context.getContentResolver().query(uri, projection, selection,new String[]{bucketPath}, orderBy);
+
+        if(cursor != null){
+            File file;
+            while (cursor.moveToNext()){
+                String path = cursor.getString(cursor.getColumnIndex(projection[0]));
+                file = new File(path);
+                if (file.exists() && !images.contains(path)) {
+                    images.add(path);
+                }
+            }
+            cursor.close();
+        }
+        return images;
+    }
+
+    public class Bucket {
+
+        private String name;
+        private String firstImageContainedPath;
+        private int mediaCount;
+
+        public Bucket(String name, String firstImageContainedPath,int mediaCount) {
+            this.name = name;
+            this.firstImageContainedPath = firstImageContainedPath;
+            this.mediaCount = mediaCount;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getFirstImageContainedPath() {
+            return firstImageContainedPath;
         }
     }
 }

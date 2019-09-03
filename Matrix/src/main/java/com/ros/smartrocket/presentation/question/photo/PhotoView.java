@@ -1,6 +1,7 @@
 package com.ros.smartrocket.presentation.question.photo;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
 import android.text.Html;
@@ -18,6 +19,7 @@ import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
+import com.ros.smartrocket.ui.gallery.ImageDirectoryActivity;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.image.SelectImageManager;
@@ -154,6 +156,12 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         } else {
             photo.setBackgroundResource(R.drawable.camera_icon);
         }
+
+        photo.setOnClickListener(v -> {
+            Intent intent = new Intent(getContext(), ImageDirectoryActivity.class);
+            //getContext()
+
+        } );
 
         if (position == currentSelectedPhoto) imageFrame.setVisibility(View.VISIBLE);
         convertView.setOnClickListener(v -> {

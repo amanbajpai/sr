@@ -8,46 +8,40 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
-
-    <!-- Location -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" /> <!-- Location -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
-    <uses-feature android:name="android.hardware.location.gps" />
-    <!-- JPUSH Required -->
+    <uses-feature android:name="android.hardware.location.gps" /> <!-- JPUSH Required -->
     <permission
         android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE"
         android:protectionLevel="signature" />
 
     <uses-permission android:name="com.ros.smartrocket.permission.JPUSH_MESSAGE" />
-    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" />
-    <!-- <uses-permission android:name="android.permission.WAKE_LOCK" />-->
+    <uses-permission android:name="android.permission.RECEIVE_USER_PRESENT" /> <!-- <uses-permission android:name="android.permission.WAKE_LOCK" /> -->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-    <!-- JPUSH Optional -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" /> <!-- JPUSH Optional -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
-    <!-- Global receiver -->
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" /> <!-- Global receiver -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <!-- &lt;!&ndash; Cloud to Device Messaging permissions &ndash;&gt;
+    <!--
+ &lt;!&ndash; Cloud to Device Messaging permissions &ndash;&gt;
      <permission
          android:name="${applicationId}.permission.C2D_MESSAGE"
          android:protectionLevel="signature" />
 
      <uses-permission android:name="${applicationId}.permission.C2D_MESSAGE" />
-     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />-->
+     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    -->
     <!-- Map -->
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-    <!-- App must have this permission to use the library -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <!-- Crach loger -->
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" /> <!-- App must have this permission to use the library -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" /> <!-- Crach loger -->
     <uses-permission android:name="android.permission.READ_LOGS" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -65,6 +59,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="allowBackup, label">
+        <activity android:name=".ui.gallery.ImageDirectoryActivity"></activity>
 
         <provider
             android:name=".MatrixFileProvider"
@@ -74,12 +69,11 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-        </provider>
-
-        <!-- FB -->
+        </provider> <!-- FB -->
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true"
@@ -92,8 +86,7 @@
 
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
-        </activity>
-        <!-- QQ -->
+        </activity> <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -107,20 +100,18 @@
                 <data android:scheme="tencent1104291659" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.tencent.connect.common.AssistActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <!-- App -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- App -->
         <activity
             android:name=".presentation.launch.LaunchActivity"
             android:label="@string/app_name"
-
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -204,6 +195,7 @@
             android:parentActivityName=".presentation.main.MainActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppThemeGreen">
+
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -334,9 +326,9 @@
         <provider
             android:name=".db.AppContentProvider"
             android:authorities="${applicationId}"
-            android:exported="false" />
-        <!-- GCM -->
-        <!--<receiver
+            android:exported="false" /> <!-- GCM -->
+        <!--
+<receiver
             android:name="com.ros.smartrocket.net.gcm.GCMBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND">
             <intent-filter>
@@ -346,11 +338,12 @@
                 <category android:name="${applicationId}" />
             </intent-filter>
         </receiver>
--->
-        <!-- <service
+        -->
+        <!--
+ <service
              android:name="com.ros.smartrocket.net.gcm.GCMIntentService"
              android:permission="android.permission.BIND_JOB_SERVICE" />
- -->
+        -->
         <receiver
             android:name=".net.GlobalReceiver"
             android:exported="true">
@@ -360,11 +353,13 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
+
                 <data
                     android:path="com.ros.smartrocket"
                     android:scheme="package" />
             </intent-filter>
         </receiver>
+
         <service
             android:name=".net.TaskReminderService"
             android:exported="true" />
@@ -375,15 +370,14 @@
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
             android:value="${googleApiKey}" />
-
-        <!--<meta-data
+        <!--
+<meta-data
             android:name="io.futurestud.tutorials.glide.MyAppGlideModule.UnsafeOkHttpClient"
-            android:value="GlideModule" />-->
-
+            android:value="GlideModule" />
+        -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="${baiduApiKey}" />
-        <!-- Upload file services -->
+            android:value="${baiduApiKey}" /> <!-- Upload file services -->
         <service
             android:name=".net.UploadFileService"
             android:exported="false" />
@@ -391,18 +385,16 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote" />
-
-        <!--  For Ciklum
+        <!--
+  For Ciklum
          <meta-data
               android:name="com.crashlytics.ApiKey"
-              android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />-->
-
-        <!--For CDN Sol-->
+              android:value="f152c4fd189e2f82c7a154e39585c2694e2b30fc" />
+        -->
+        <!-- For CDN Sol -->
         <meta-data
             android:name="com.crashlytics.ApiKey"
-            android:value="0b2a50fa30c096f0b61aae2622ab361081013c2f" />
-
-        <!-- JPUSH Required SDK [START] -->
+            android:value="0b2a50fa30c096f0b61aae2622ab361081013c2f" /> <!-- JPUSH Required SDK [START] -->
         <activity
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -430,14 +422,14 @@
                 <action android:name="cn.jpush.android.intent.PushService" />
                 <action android:name="cn.jpush.android.intent.PUSH_TIME" />
             </intent-filter>
-        </service>
-        <!-- JPUSH Required SDK -->
+        </service> <!-- JPUSH Required SDK -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter android:priority="1000">
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
+
                 <category android:name="com.ros.smartrocket" />
             </intent-filter>
             <intent-filter>
@@ -451,12 +443,10 @@
 
                 <data android:scheme="package" />
             </intent-filter>
-        </receiver>
-        <!-- JPUSH Required SDK -->
+        </receiver> <!-- JPUSH Required SDK -->
         <receiver
             android:name="cn.jpush.android.service.AlarmReceiver"
-            android:exported="false" />
-        <!-- User defined.  For test only  用户自定义的广播接收器 -->
+            android:exported="false" /> <!-- User defined.  For test only  用户自定义的广播接收器 -->
         <receiver
             android:name=".JPushReceiver"
             android:enabled="true">
@@ -476,9 +466,7 @@
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <category android:name="com.ros.smartrocket" />
             </intent-filter>
-        </receiver>
-        <!-- JPUSH Required SDK [END] -->
-
+        </receiver> <!-- JPUSH Required SDK [END] -->
         <!-- Required  . Enable it you can get statistics data with channel -->
         <meta-data
             android:name="JPUSH_CHANNEL"
@@ -486,7 +474,6 @@
         <meta-data
             android:name="JPUSH_APPKEY"
             android:value="${jPushAppKey}" />
-
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
             android:value="false" />
@@ -494,27 +481,24 @@
             android:name="firebase_analytics_collection_enabled"
             android:value="true" />
 
-
         <service
             android:name=".service.CleanFilesIntentService"
-            android:exported="false" />
-
-        <!--FCM service registration-->
+            android:exported="false" /> <!-- FCM service registration -->
         <service android:name=".net.fcm.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".net.fcm.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".net.fcm.DeleteTokenService" />
 
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
+
 </manifest>

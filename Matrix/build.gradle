@@ -266,7 +266,7 @@ dependencies {
 
     // Cluster map's pins
     implementation project(':libs:clusterkraf')
-   // implementation project(':libs:BaiduClusterkraf')
+    // implementation project(':libs:BaiduClusterkraf')
 
     // other
     implementation 'com.romandanylyk:pageindicatorview:0.0.8'
@@ -298,8 +298,8 @@ dependencies {
     androidTestImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support:multidex-instrumentation:1.0.3'
 
-    implementation fileTree(excludes: [ 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
-   // implementation fileTree(excludes: ['baidumapapi_base_v4_1_0.jar', 'baidumapapi_map_v4_1_0.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
+    implementation fileTree(excludes: ['locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
+    // implementation fileTree(excludes: ['baidumapapi_base_v4_1_0.jar', 'baidumapapi_map_v4_1_0.jar', 'locSDK_6.13.jar'], include: '*.jar', dir: '../libs')
     chinaProductionImplementation fileTree(include: '*.jar', dir: '../libsChina')
     chinaDevImplementation fileTree(include: '*.jar', dir: '../libsChina')
     chinaStagingImplementation fileTree(include: '*.jar', dir: '../libsChina')
@@ -320,5 +320,3 @@ repositories {
         name 'Google'
     }
 }
-
-
