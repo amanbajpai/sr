@@ -23,5 +23,5 @@ public class Config {
     public static String GEOCODER_URL = BuildConfig.GEOCODER_URL;
 
     public static boolean LOG_ENABLED = BuildConfig.LOG_ENABLED;
-    public static boolean USE_BAIDU = BuildConfig.CHINESE;
+    public static boolean USE_BAIDU = false; // false for always disabled Baidu map
 }

@@ -12,7 +12,7 @@ import org.json.JSONObject;
 public class BaseUIListenerQQ implements IUiListener {
     private Context context;
 
-    public BaseUIListenerQQ(Context context) {
+    protected BaseUIListenerQQ(Context context) {
         this.context = context;
     }
 

@@ -606,9 +606,6 @@ public class Task extends BaseEntity {
         return new LatLng(this.latitude, this.longitude);
     }
 
-    public com.baidu.mapapi.model.LatLng getBaiduLatLng() {
-        return new com.baidu.mapapi.model.LatLng(this.latitude, this.longitude);
-    }
 
     @Override
     public String toString() {

@@ -42,12 +42,16 @@ final class GeoCoder {
 
         if (longitude < -180.0 || longitude > 180.0)
             throw new IllegalArgumentException("longitude == " + longitude);
-        if (!Config.USE_BAIDU) {
+
+        String url = getGoogleGeoCodingUrl(location);
+        sendGetRequest(url, location, callback);
+
+       /* if (!Config.USE_BAIDU) {
             String url = getGoogleGeoCodingUrl(location);
             sendGetRequest(url, location, callback);
         } else {
             callback.onUpdate(null);
-        }
+        }*/
     }
 
     private String getGoogleGeoCodingUrl(Location location) {
@@ -129,7 +133,7 @@ final class GeoCoder {
                     if (addressTypeName.equals("country")) {
                         address.setCountryName(longName);
                     } else if (addressTypeName.equals("administrative_area_level_2")
-                            && (TextUtils.isEmpty(address.getSubLocality()) || Config.USE_BAIDU)) {
+                            && (TextUtils.isEmpty(address.getSubLocality()))) {
                         address.setSubLocality(longName);
                     } else if (addressTypeName.equals("sublocality_level_1")) {
                         address.setSubLocality(longName);

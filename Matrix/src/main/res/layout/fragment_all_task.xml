@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
     <FrameLayout
         android:id="@+id/map_list_content_frame"
         android:layout_width="match_parent"
-        android:paddingTop="43dp"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingTop="43dp" />
+
     <LinearLayout
         android:id="@+id/tabsLayout"
-        android:baselineAligned="true"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        android:background="@drawable/tabs_map_bg"
+        android:baselineAligned="true"
         android:orientation="horizontal"
-        android:paddingBottom="5dp"
-        android:background="@drawable/tabs_map_bg" >
+        android:paddingBottom="5dp">
+
         <LinearLayout
             android:id="@+id/mapButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/tab_indicator_selector"
-            android:gravity="center"
-            android:layout_weight="1" >
+            android:gravity="center">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/map_tab_icon" />
-        </LinearLayout >
+        </LinearLayout>
+
         <View
             android:layout_width="1dp"
-            android:layout_gravity="center_vertical"
             android:layout_height="20dp"
+            android:layout_gravity="center_vertical"
             android:background="@color/red" />
+
         <LinearLayout
             android:id="@+id/listButton"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:background="@drawable/tab_indicator_selector"
-            android:gravity="center"
-            android:layout_weight="1" >
+            android:gravity="center">
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:src="@drawable/list_tab_icon" />
-        </LinearLayout >
-    </LinearLayout >
-</FrameLayout >
+        </LinearLayout>
+    </LinearLayout>
+</FrameLayout>
 

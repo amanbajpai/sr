@@ -8,6 +8,7 @@ import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import android.util.Log;
 
+
 import com.baidu.mapapi.SDKInitializer;
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
@@ -183,7 +184,6 @@ public class App extends Application {
 
 
     public void clearPositionData() {
-        locationManager.setLastBaiduPosition(null);
         locationManager.setLastGooglePosition(null);
         locationManager.setZoomLevel(0);
     }

@@ -352,10 +352,7 @@ public class Clusterkraf {
             clusteringOnCameraChangeListener.setDirty(0);
         }
 
-        /**
-         * @see com.google.android.gms.maps.GoogleMap.OnMarkerClickListener#onMarkerClick
-         * (com.google.android.gms.maps.model.Marker)
-         */
+
         @Override
         public boolean onMarkerClick(Marker marker) {
             boolean handled = false;

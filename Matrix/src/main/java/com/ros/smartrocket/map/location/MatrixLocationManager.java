@@ -17,14 +17,11 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Log;
 
-import com.baidu.location.BDLocation;
-import com.baidu.location.BDLocationListener;
-import com.baidu.location.LocationClientOption;
-import com.baidu.mapapi.model.LatLng;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
@@ -43,12 +40,12 @@ import java.util.Queue;
 
 public final class MatrixLocationManager implements com.google.android.gms.location.LocationListener,
         android.location.LocationListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener, BDLocationListener {
+        GoogleApiClient.OnConnectionFailedListener {
 
     private static final String TAG = MatrixLocationManager.class.getSimpleName();
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private Context context;
-    private com.baidu.location.LocationClient baiduLocationClient;
+    //private com.baidu.location.LocationClient baiduLocationClient;
     private boolean isConnected;
     private Location lastLocation;
     private Queue<ILocationUpdate> requested;
@@ -58,7 +55,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     private LocationManager locationManager;
     private DistancesUpdateListener distancesUpdatedListener;
     private com.google.android.gms.maps.model.LatLng lastGooglePosition;
-    private LatLng lastBaiduPosition;
     private float zoomLevel;
     private GoogleApiClient mGoogleApiClient;
 
@@ -75,11 +71,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
     }
 
     private void startLocationClient() {
-        if (!Config.USE_BAIDU) {
-            startGoogleLocationClient();
-        } else {
-            startBaiduLocationClient();
-        }
+        startGoogleLocationClient();
     }
 
     private void startGoogleLocationClient() {
@@ -94,24 +86,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             mGoogleApiClient.connect();
 
         }
-    }
-
-    private void startBaiduLocationClient() {
-        L.d(TAG, "startBaiduLocationClient");
-
-        baiduLocationClient = new com.baidu.location.LocationClient(context);
-        baiduLocationClient.registerLocationListener(this);
-        LocationClientOption option = new LocationClientOption();
-        option.setOpenGps(true);
-        option.setCoorType("wgs84");
-        option.setScanSpan((int) Keys.UPDATE_INTERVAL);
-        baiduLocationClient.setLocOption(option);
-        baiduLocationClient.start();
-        baiduLocationClient.requestLocation();
-
-        this.isConnected = true;
-
-        notifyAllRequestedLocation();
     }
 
     @SuppressLint("MissingPermission")
@@ -197,24 +171,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
 
     /**
-     * BAIDU location listeners
-     */
-
-    @Override
-    public void onReceiveLocation(BDLocation baiduLocation) {
-        if (baiduLocation != null) {
-            L.i(TAG, "onReceiveLocation() Source location [ " + baiduLocation.getLatitude() + ", " + baiduLocation.getLongitude() + "]");
-            Location location = convertBaiduLocationToLocation(baiduLocation);
-
-            ChinaTransformLocation.transformFromChinaToBaiduLocation(location);
-            L.i(TAG, "onReceiveLocation() Baidu location [ " + location.getLatitude() + ", " + location.getLongitude() + "]");
-
-            lastLocation = location;
-            notifyAllRequestedLocation();
-        }
-    }
-
-    /**
      * Get Last known location.
      *
      * @return null if not connected to Google Play Service or
@@ -226,12 +182,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
                 this.lastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             }
             ChinaTransformLocation.transformFromWorldToChinaLocation(lastLocation);
-
-        } else {
-            if (baiduLocationClient != null && baiduLocationClient.isStarted()) {
-                this.lastLocation = convertBaiduLocationToLocation(baiduLocationClient.getLastKnownLocation());
-            }
-            ChinaTransformLocation.transformFromChinaToBaiduLocation(lastLocation);
         }
 
         if (lastLocation != null) {
@@ -240,8 +190,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
             if (preferencesManager.getUseLocationServices() && lastLocation.getTime()
                     < new Date().getTime() - DateUtils.MINUTE_IN_MILLIS * 2
-                    && ((!Config.USE_BAIDU && (mGoogleApiClient == null || !mGoogleApiClient.isConnected()))
-                    || (Config.USE_BAIDU && (baiduLocationClient == null || !baiduLocationClient.isStarted())))) {
+                    && (((mGoogleApiClient == null || !mGoogleApiClient.isConnected())))) {
                 lastLocation = null;
                 startLocationClient();
             }
@@ -351,9 +300,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
 
         Location location = lm.getLocation();
         if (location != null && !force) {
-            if (Config.USE_BAIDU) {
-                ChinaTransformLocation.transformFromBaiduToWorldLocation(location);
-            }
             currentLocationListener.getLocationSuccess(location);
         } else {
             currentLocationListener.getLocationInProcess();
@@ -365,19 +311,11 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
             });
             L.i(TAG, "onDisconnected()");
             if (lm.isConnected()) {
-                if (!Config.USE_BAIDU) {
-                    if (lm.mGoogleApiClient.isConnected() && MatrixLocationManager.isPermissionGuaranteed()) {
-                        LocationServices.FusedLocationApi.requestLocationUpdates(
-                                lm.mGoogleApiClient, lm.locationRequest, lm);
-                    } else {
-                        lm.startGoogleLocationClient();
-                    }
+                if (lm.mGoogleApiClient.isConnected() && MatrixLocationManager.isPermissionGuaranteed()) {
+                    LocationServices.FusedLocationApi.requestLocationUpdates(
+                            lm.mGoogleApiClient, lm.locationRequest, lm);
                 } else {
-                    if (lm.baiduLocationClient.isStarted()) {
-                        lm.baiduLocationClient.requestLocation();
-                    } else {
-                        lm.startBaiduLocationClient();
-                    }
+                    lm.startGoogleLocationClient();
                 }
             }
 
@@ -425,17 +363,6 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         });
     }
 
-    private static Location convertBaiduLocationToLocation(BDLocation location) {
-        Location resultLocation = null;
-
-        if (location != null) {
-            resultLocation = new Location(LocationManager.NETWORK_PROVIDER);
-            resultLocation.setLatitude(location.getLatitude());
-            resultLocation.setLongitude(location.getLongitude());
-        }
-
-        return resultLocation;
-    }
 
     public void disconnect() {
         if (!Config.USE_BAIDU) {
@@ -445,9 +372,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         } else {
             if (isConnected) {
                 isConnected = false;
-                if (baiduLocationClient != null) {
-                    baiduLocationClient.stop();
-                }
+
             }
         }
     }
@@ -505,9 +430,7 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         return lastGooglePosition;
     }
 
-    public LatLng getLastBaiduPositionPosition() {
-        return lastBaiduPosition;
-    }
+
 
     public float getZoomLevel() {
         return zoomLevel;
@@ -517,17 +440,10 @@ public final class MatrixLocationManager implements com.google.android.gms.locat
         lastGooglePosition = position;
     }
 
-    public void setLastBaiduPosition(LatLng position) {
-        lastBaiduPosition = position;
-    }
-
     public void setZoomLevel(float zoomLevel) {
         this.zoomLevel = zoomLevel;
     }
 
-    public boolean isLastLocationSaved() {
-        return lastBaiduPosition != null || lastGooglePosition != null;
-    }
 
     public static boolean isPermissionGuaranteed() {
         return !(ActivityCompat.checkSelfPermission(App.getInstance(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(App.getInstance(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED);

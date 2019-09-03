@@ -89,13 +89,8 @@ public final class CommonUtilities {
         L.i(TAG, "Device registered, FCM registration ID=" + registrationId);
 
         String finalRegistrationId = registrationId;
-        if (!Config.USE_BAIDU) {
-            L.d(TAG, "Send registered to server: regId = " + finalRegistrationId);
-            new FcmRegistrar().registerFCMId(finalRegistrationId, 0);
-            //TODO uncomment after new GCM implementation
-            //Core.registerDeviceToken(App.getInstance(), registrationId);
-            // PreferencesManager.getInstance().setFCMRegistrationId(registrationId);
-        }
+        L.d(TAG, "Send registered to server: regId = " + finalRegistrationId);
+        new FcmRegistrar().registerFCMId(finalRegistrationId, 0);
     }
 
 

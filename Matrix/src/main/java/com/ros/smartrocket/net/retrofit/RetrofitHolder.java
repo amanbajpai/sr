@@ -82,11 +82,7 @@ public class RetrofitHolder {
             try {
                 JSONObject settingJsonObject = new JSONObject();
                 settingJsonObject.put("CurrentVersion", BuildConfig.VERSION_NAME);
-                if (Config.USE_BAIDU) {
-                    settingJsonObject.put(REGION_HEADER, ASIA_CHINA_REGION);
-                } else {
-                    settingJsonObject.put(REGION_HEADER, ASIA_REGION);
-                }
+                settingJsonObject.put(REGION_HEADER, ASIA_REGION);
                 byte[] settingsByteArray = settingJsonObject.toString().getBytes("UTF-8");
                 builder.addHeader(SETTINGS_HEADER, Base64.encodeToString(settingsByteArray, Base64.NO_WRAP));
             } catch (Exception e) {

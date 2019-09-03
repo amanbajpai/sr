@@ -17,13 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.BaiduMap;
-import com.baidu.mapapi.map.BaiduMapOptions;
-import com.baidu.mapapi.map.BitmapDescriptor;
-import com.baidu.mapapi.map.BitmapDescriptorFactory;
-import com.baidu.mapapi.map.MapStatus;
-import com.baidu.mapapi.map.MyLocationConfiguration;
-import com.baidu.mapapi.map.MyLocationConfiguration.LocationMode;
 import com.google.android.gms.maps.GoogleMap;
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
@@ -31,12 +24,10 @@ import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.task.Task;
-import com.ros.smartrocket.presentation.map.TransparentSupportBaiduMapFragment;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.baiduclusterkraf.OnShowInfoWindowListener;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
@@ -64,87 +55,21 @@ public class MapHelper {
     private static final int CLUSTER_SIZE_100 = 100;
     private static final int CLUSTER_SIZE_1000 = 1000;
 
-    public static BaiduMap getBaiduMap(FragmentActivity activity, BaiduMap.OnMapStatusChangeListener listener) {
-        BaiduMap baiduMap = null;
-        MapStatus ms = new MapStatus.Builder().build();
-
-        BaiduMapOptions uiSettings = new BaiduMapOptions();
-        uiSettings.mapStatus(ms);
-        uiSettings.compassEnabled(false);
-        uiSettings.zoomControlsEnabled(false);
-        uiSettings.zoomGesturesEnabled(true);
-        uiSettings.scaleControlEnabled(true);
-
-        TransparentSupportBaiduMapFragment mapFragment = (TransparentSupportBaiduMapFragment) activity
-                .getSupportFragmentManager().findFragmentById(R.id.map);
-
-        if (mapFragment != null) {
-            baiduMap = mapFragment.getBaiduMap();
-            if (baiduMap != null) {
-                baiduMap.setMapType(BaiduMap.MAP_TYPE_NORMAL);
-                BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.location_icon_small);
-                baiduMap.setMyLocationConfigeration(
-                        new MyLocationConfiguration(LocationMode.NORMAL, true, mCurrentMarker));
-                baiduMap.setMyLocationEnabled(true);
-                baiduMap.setOnMapStatusChangeListener(listener);
-            }
-        }
-
-        return baiduMap;
-    }
 
 
-    public static boolean isMapNotNull(GoogleMap googleMap, BaiduMap baiduMap) {
+    public static boolean isMapNotNull(GoogleMap googleMap) {
         boolean result;
-        if (Config.USE_BAIDU) {
-            result = baiduMap != null;
-        } else {
-            result = googleMap != null;
-        }
+        result = googleMap != null;
         return result;
     }
 
-    public static void mapChooser(GoogleMap googleMap, BaiduMap baiduMap, SelectMapInterface selectMapInterface) {
-        if (isMapNotNull(googleMap, baiduMap)) {
-            if (Config.USE_BAIDU) {
-                selectMapInterface.useBaiduMap(baiduMap);
-            } else {
-                selectMapInterface.useGoogleMap(googleMap);
-            }
+    public static void mapChooser(GoogleMap googleMap, SelectMapInterface selectMapInterface) {
+        if (isMapNotNull(googleMap)) {
+            selectMapInterface.useGoogleMap(googleMap);
         }
     }
 
-    public static com.twotoasters.baiduclusterkraf.Options getBaiduClusterkrafOptions(Activity activity, Keys
-            .MapViewMode mode, OnShowInfoWindowListener onShowInfoWindowListener, com.twotoasters.baiduclusterkraf.OnMarkerClickDownstreamListener onMarkerClickListener) {
-        com.twotoasters.baiduclusterkraf.Options options = new com.twotoasters.baiduclusterkraf.Options(activity);
 
-        if (activity != null) {
-            options.setTransitionDuration(MapHelper.TRANSITION_DURATION);
-            options.setTransitionInterpolator(new LinearInterpolator());
-
-            options.setPixelDistanceToJoinCluster(UIUtils.getPxFromDp(activity, DIP_DISTANCE_TO_JOIN_CLUSTER));
-            options.setZoomToBoundsAnimationDuration(MapHelper.ZOOM_TO_BOUNDS_ANIMATION_DURATION);
-            options.setShowInfoWindowAnimationDuration(MapHelper.SHOW_INFO_WINDOW_ANIMATION_DURATION);
-            options.setExpandBoundsFactor(MapHelper.EXPAND_BOUNDS_FACTOR);
-            options.setSinglePointClickBehavior(com.twotoasters.baiduclusterkraf.Options.SinglePointClickBehavior
-                    .SHOW_INFO_WINDOW);
-            options.setClusterClickBehavior(com.twotoasters.baiduclusterkraf.Options.ClusterClickBehavior
-                    .ZOOM_TO_BOUNDS);
-            options.setClusterInfoWindowClickBehavior(com.twotoasters.baiduclusterkraf.Options
-                    .ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
-
-            /*Live hack from library developers ^)*/
-            options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin)
-                    .getIntrinsicHeight());
-            options.setMarkerOptionsChooser(new TaskBaiduOptionsChooser(activity));
-            options.setOnMarkerClickDownstreamListener(onMarkerClickListener);
-
-            //options.setOnInfoWindowClickListener(onInfoWindowClickListener);
-            options.setOnShowInfoWindowListener(onShowInfoWindowListener);
-            //options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
-        }
-        return options;
-    }
 
     public static Options getGoogleClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
                                                       OnInfoWindowClickDownstreamListener onInfoWindowClickListener,
@@ -289,38 +214,6 @@ public class MapHelper {
     /**
      * Check coordinates of pins and change it if they are equals
      */
-    public static ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> getBaiduMapInputPointList(List<Task> list,
-                                                                                                   Location location) {
-        ArrayList<com.twotoasters.baiduclusterkraf.InputPoint> inputPoints = new ArrayList<com.twotoasters
-                .baiduclusterkraf.InputPoint>();
-        Map<String, String> markerLocationMap = new HashMap<String, String>();
-
-        for (int i = 0; i < list.size(); i++) {
-            Task item = list.get(i);
-            Double latitude = item.getLatitude();
-            Double longitude = item.getLongitude();
-
-            if (location != null && (latitude == null || longitude == null)) {
-                latitude = location.getLatitude() + MapHelper.BAIDU_MAP_COORDINATE_OFFSET;
-                longitude = location.getLongitude() + MapHelper.BAIDU_MAP_COORDINATE_OFFSET;
-            }
-
-            if (latitude != null && longitude != null) {
-                Double[] newTaskCoordinate = MapHelper.getEditedTaskCoordinate(list.size(),
-                        latitude, longitude, MapHelper.BAIDU_MAP_COORDINATE_OFFSET, markerLocationMap);
-                if (newTaskCoordinate != null) {
-                    item.setLatitude(newTaskCoordinate[0]);
-                    item.setLongitude(newTaskCoordinate[1]);
-                }
-
-                inputPoints.add(new com.twotoasters.baiduclusterkraf.InputPoint(item.getBaiduLatLng(), item));
-            }
-        }
-
-        Log.i(TAG, "[tasks.size=" + inputPoints.size() + "]");
-
-        return inputPoints;
-    }
 
     /**
      * Check coordinates of pins and change it if they are equals
@@ -490,6 +383,6 @@ public class MapHelper {
     public interface SelectMapInterface {
         void useGoogleMap(GoogleMap googleMap);
 
-        void useBaiduMap(BaiduMap baiduMap);
+
     }
 }
