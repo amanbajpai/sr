@@ -7,7 +7,7 @@
     tools:context=".ui.gallery.GalleryActivity">
 
     <RelativeLayout
-        android:id="@+id/action_bar"
+        android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/green">
@@ -66,7 +66,7 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
-        android:layout_below="@+id/action_bar"
+        android:layout_below="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

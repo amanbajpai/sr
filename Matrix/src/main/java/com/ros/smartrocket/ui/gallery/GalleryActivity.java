@@ -30,10 +30,10 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
     private String folderName = "";
     private GalleryAdapter galleryAdapter;
     private RecyclerView recyclerview;
-    private Map<Integer,String> selectedImgPath;
-        private ImageView iv_back;
-        private TextView tv_ok,tv_count;
-        private RelativeLayout ly_select_image;
+    private Map<Integer, String> selectedImgPath;
+    private ImageView iv_back;
+    private TextView tv_ok, tv_count;
+    private RelativeLayout ly_select_image;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,7 +47,8 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
         recyclerview = findViewById(R.id.recyclerview);
         ly_select_image = findViewById(R.id.ly_select_image);
 
-        if(getIntent() != null){
+
+        if (getIntent() != null) {
             folderName = getIntent().getStringExtra("folderName");
 
             List<GalleryInfo> galleryList = getImagesByBucket(folderName);
@@ -55,19 +56,20 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
             galleryAdapter = new GalleryAdapter(galleryList, this, new GalleryClick() {
                 @Override
                 public void onNormalClick(int adapterPosition, GalleryInfo galleryInfo) {
-                    if(selectedImgPath.size()>0){
-                        if(galleryList.get(adapterPosition).isSelected){
+                    if (selectedImgPath.size() > 0) {
+                        if (galleryList.get(adapterPosition).isSelected) {
                             galleryList.get(adapterPosition).isSelected = false;
                             selectedImgPath.remove(adapterPosition);
-                        }else {
-                            if(selectedImgPath.size()>=10) {
+                        } else {
+                            if (selectedImgPath.size() >= 10) {
                                 Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             galleryList.get(adapterPosition).isSelected = true;
-                            selectedImgPath.put(adapterPosition,galleryInfo.imagePath);
+                            selectedImgPath.put(adapterPosition, galleryInfo.imagePath);
                         }
-
+                        if (selectedImgPath.size() == 0) ly_select_image.setVisibility(View.GONE);
+                        tv_count.setText((selectedImgPath.size()) + "");
                         galleryAdapter.notifyItemChanged(adapterPosition);
                     }
 
@@ -75,24 +77,25 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
 
                 @Override
                 public void onLongPress(int adapterPosition, GalleryInfo galleryInfo) {
-                    if(galleryList.get(adapterPosition).isSelected){
+                    if (galleryList.get(adapterPosition).isSelected) {
                         galleryList.get(adapterPosition).isSelected = false;
                         selectedImgPath.remove(adapterPosition);
-                    }else {
-                        if(selectedImgPath.size()>=10) {
+                    } else {
+                        if (selectedImgPath.size() >= 10) {
                             Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                             return;
                         }
                         ly_select_image.setVisibility(View.VISIBLE);
                         galleryList.get(adapterPosition).isSelected = true;
-                        selectedImgPath.put(adapterPosition,galleryInfo.imagePath);
+                        selectedImgPath.put(adapterPosition, galleryInfo.imagePath);
                     }
-
+                    if (selectedImgPath.size() == 0) ly_select_image.setVisibility(View.GONE);
+                    tv_count.setText((selectedImgPath.size()) + "");
                     galleryAdapter.notifyItemChanged(adapterPosition);
 
                 }
             });
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(this,4);
+            GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 4);
             recyclerview.setLayoutManager(gridLayoutManager);
             recyclerview.setAdapter(galleryAdapter);
 
@@ -100,19 +103,19 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    public List<GalleryInfo> getImagesByBucket(@NonNull String bucketPath){
+    public List<GalleryInfo> getImagesByBucket(@NonNull String bucketPath) {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String [] projection = {MediaStore.Images.Media.DATA};
-        String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME+" =?";
-        String orderBy = MediaStore.Images.Media.DATE_ADDED+" DESC";
+        String[] projection = {MediaStore.Images.Media.DATA};
+        String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME + " =?";
+        String orderBy = MediaStore.Images.Media.DATE_ADDED + " DESC";
 
         List<GalleryInfo> images = new ArrayList<>();
 
-        Cursor cursor = getContentResolver().query(uri, projection, selection,new String[]{bucketPath}, orderBy);
+        Cursor cursor = getContentResolver().query(uri, projection, selection, new String[]{bucketPath}, orderBy);
 
-        if(cursor != null){
+        if (cursor != null) {
             File file;
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 String path = cursor.getString(cursor.getColumnIndex(projection[0]));
                 file = new File(path);
                 if (file.exists() && !images.contains(path)) {
@@ -129,7 +132,7 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_back:
                 onBackPressed();
                 break;
