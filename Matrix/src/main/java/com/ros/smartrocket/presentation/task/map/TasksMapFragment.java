@@ -137,7 +137,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private boolean isNeedRefresh = true;
     private static View view;
     Context context;
-    private Map<String,String> bucketMap;
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -161,13 +161,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         wavePresenter = new WavePresenter<>();
         context = getActivity();
 
-        bucketMap = new HashMap<>();
-
-       List<Bucket> bucketsList = getImageBuckets(context);
-       Log.d("list",bucketsList+"");
-
-        List<String> buckets  = getImagesByBucket(bucketsList.get(0).firstImageContainedPath);
-        Log.d("list",buckets+"");
         return view;
     }
 
@@ -259,8 +252,13 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     }
 
     private void storeZoomAndRadius() {
-        lm.setZoomLevel(googleMap.getCameraPosition().zoom);
-        lm.setLastGooglePosition(googleMap.getCameraPosition().target);
+        try {
+            lm.setZoomLevel(googleMap.getCameraPosition().zoom);
+            lm.setLastGooglePosition(googleMap.getCameraPosition().target);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -697,80 +695,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
                 toggleFilterPanel();
                 loadData(true);
                 break;
-        }
-    }
-
-
-
-    /*..........................anils work................................................*/
-
-
-
-    public  List<Bucket> getImageBuckets(Context mContext){
-        List<Bucket> buckets = new ArrayList<>();
-        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String [] projection = {MediaStore.Images.Media.BUCKET_DISPLAY_NAME, MediaStore.Images.Media.DATA};
-
-        Cursor cursor = mContext.getContentResolver().query(uri, projection, null, null, null);
-        if(cursor != null){
-            File file;
-            while (cursor.moveToNext()){
-                String bucketPath = cursor.getString(cursor.getColumnIndex(projection[0]));
-                String fisrtImage = cursor.getString(cursor.getColumnIndex(projection[1]));
-                file = new File(fisrtImage);
-                if (file.exists() && !bucketMap.containsKey(bucketPath)) {
-                    buckets.add(new Bucket(bucketPath, fisrtImage,0));
-                    bucketMap.put(bucketPath,fisrtImage);
-                }
-            }
-            cursor.close();
-        }
-        return buckets;
-    }
-
-    public List<String> getImagesByBucket(@NonNull String bucketPath){
-
-        Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
-        String [] projection = {MediaStore.Images.Media.DATA};
-        String selection = MediaStore.Images.Media.BUCKET_DISPLAY_NAME+" =?";
-        String orderBy = MediaStore.Images.Media.DATE_ADDED+" DESC";
-
-        List<String> images = new ArrayList<>();
-
-        Cursor cursor = context.getContentResolver().query(uri, projection, selection,new String[]{bucketPath}, orderBy);
-
-        if(cursor != null){
-            File file;
-            while (cursor.moveToNext()){
-                String path = cursor.getString(cursor.getColumnIndex(projection[0]));
-                file = new File(path);
-                if (file.exists() && !images.contains(path)) {
-                    images.add(path);
-                }
-            }
-            cursor.close();
-        }
-        return images;
-    }
-
-    public class Bucket {
-
-        private String name;
-        private String firstImageContainedPath;
-        private int mediaCount;
-
-        public Bucket(String name, String firstImageContainedPath,int mediaCount) {
-            this.name = name;
-            this.firstImageContainedPath = firstImageContainedPath;
-            this.mediaCount = mediaCount;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public String getFirstImageContainedPath() {
-            return firstImageContainedPath;
         }
     }
 }

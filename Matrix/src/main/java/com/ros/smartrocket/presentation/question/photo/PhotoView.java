@@ -159,7 +159,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
         photo.setOnClickListener(v -> {
             Intent intent = new Intent(getContext(), ImageDirectoryActivity.class);
-            //getContext()
+            getContext().startActivity(intent);
 
         } );
 
