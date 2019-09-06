@@ -1,60 +1,75 @@
 package com.ros.smartrocket.ui.gallery;
 
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
+import android.view.View;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.ui.gallery.adapter.ImageDirectoryAdapter;
-import com.ros.smartrocket.ui.gallery.listner.BucketClick;
 import com.ros.smartrocket.ui.gallery.model.BucketInfo;
-
-import java.io.File;
+import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ImageDirectoryActivity extends BaseActivity {
-
+    @BindView(R.id.recyclerview)
     RecyclerView recyclerview;
 
     private ImageDirectoryAdapter directoryAdapter;
     private List<BucketInfo> imageBucketList;
+    private HashMap<Integer, GalleryInfo> selectedImgPath;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_image_directory);
+        ButterKnife.bind(this);
         hideActionBar();
-        recyclerview = findViewById(R.id.recyclerview);
+
         imageBucketList = new ArrayList<>();
 
-        directoryAdapter = new ImageDirectoryAdapter(this, imageBucketList, bucketInfo ->{
-            Intent  intent = new Intent(this,GalleryActivity.class);
-            intent.putExtra("folderName",bucketInfo.getName());
+        directoryAdapter = new ImageDirectoryAdapter(this, imageBucketList, bucketInfo -> {
+            Intent intent = new Intent(this, GalleryActivity.class);
+            intent.putExtra("folderName", bucketInfo.getName());
             startActivityForResult(intent, 101);
         }
-                );
+        );
 
-        GridLayoutManager manager = new GridLayoutManager(this,2);
+        GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerview.setLayoutManager(manager);
         recyclerview.setAdapter(directoryAdapter);
 
         getImageAlbumList();
 
+    }
+
+    @OnClick(R.id.iv_back)
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.iv_back:
+                onBackPressed();
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK && requestCode == 101){
+            selectedImgPath = (HashMap<Integer, GalleryInfo>) data.getSerializableExtra("selectedImgPath");
+            Intent intent = getIntent();
+            intent.putExtra("selectedImgPath",selectedImgPath);
+            setResult(RESULT_OK,intent);
+            finish();
+        }
     }
 
     private int photoCountByAlbum(String bucketName) {

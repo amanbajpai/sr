@@ -16,5 +16,7 @@ public interface PhotoHelper {
 
     void startGallery(Integer orderId);
 
+    void openGallery(Integer orderId);
+
     void onActivityResult(int requestCode, int resultCode, Intent intent);
 }

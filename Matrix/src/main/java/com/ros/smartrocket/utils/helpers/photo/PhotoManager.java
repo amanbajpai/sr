@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
+
+import com.ros.smartrocket.ui.gallery.ImageDirectoryActivity;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
@@ -12,6 +14,7 @@ import java.io.File;
 public class PhotoManager implements PhotoHelper {
     private Fragment fragment;
     private SelectImageManager selectImageManager;
+
 
     public PhotoManager(Fragment fragment) {
         this.fragment = fragment;
@@ -50,6 +53,12 @@ public class PhotoManager implements PhotoHelper {
         if (fragment != null && fragment.isAdded()) {
             SelectImageManager.startGallery(fragment, orderId);
         }
+    }
+
+    @Override
+    public void openGallery(Integer orderId) {
+        Intent intent = new Intent(fragment.getContext(), ImageDirectoryActivity.class);
+        fragment.startActivityForResult(intent,102);
     }
 
     @Override

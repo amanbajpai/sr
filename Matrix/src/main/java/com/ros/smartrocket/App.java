@@ -9,7 +9,7 @@ import android.text.format.DateUtils;
 import android.util.Log;
 
 
-import com.baidu.mapapi.SDKInitializer;
+
 import com.crashlytics.android.Crashlytics;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
@@ -102,7 +102,7 @@ public class App extends Application {
 
     private void initSDKs() {
         if (Config.USE_BAIDU) {
-            SDKInitializer.initialize(getApplicationContext());
+            //SDKInitializer.initialize(getApplicationContext());
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         } else {
             FacebookSdk.sdkInitialize(getApplicationContext());

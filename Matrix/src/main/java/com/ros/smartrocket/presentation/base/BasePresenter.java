@@ -7,7 +7,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
-public class BasePresenter<V extends MvpView> implements MvpPresenter<V> {
+public class BasePresenter< V extends MvpView> implements MvpPresenter<V> {
     private V mvpView;
     private CompositeDisposable compositeDisposable;
 

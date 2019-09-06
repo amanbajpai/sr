@@ -29,6 +29,7 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
     private OnAnswerPageLoadingFinishedListener answerPageLoadingFinishedListener;
     private Unbinder unbinder;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final Context contextThemeWrapper = new ContextThemeWrapper(getActivity(), R.style.FragmentTheme);
@@ -66,6 +67,8 @@ public abstract class BaseQuestionFragment<P extends BaseQuestionMvpPresenter<V>
         mvpView.onStart();
         LocaleUtils.setCurrentLanguage();
     }
+
+
 
     @Override
     public void onStop() {

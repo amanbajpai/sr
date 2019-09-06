@@ -264,9 +264,7 @@ dependencies {
 
     implementation 'com.helpshift:android-helpshift-aar:6.3.0'
 
-    // Cluster map's pins
-    implementation project(':libs:clusterkraf')
-    // implementation project(':libs:BaiduClusterkraf')
+
 
     // other
     implementation 'com.romandanylyk:pageindicatorview:0.0.8'

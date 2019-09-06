@@ -1,5 +1,7 @@
 package com.ros.smartrocket.presentation.question.photo;
 
+import android.content.Intent;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionFragment;
 import com.ros.smartrocket.utils.helpers.photo.PhotoManager;
@@ -20,6 +22,11 @@ public class QuestionPhotoFragment extends BaseQuestionFragment<PhotoMvpPresente
     public PhotoMvpView getMvpView() {
         photoView.setPresenter(presenter);
         return photoView;
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

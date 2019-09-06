@@ -1,7 +1,10 @@
 package com.ros.smartrocket.ui.gallery;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Binder;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -21,32 +24,37 @@ import com.ros.smartrocket.ui.gallery.listner.GalleryClick;
 import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GalleryActivity extends BaseActivity implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class GalleryActivity extends BaseActivity  {
     private String folderName = "";
     private GalleryAdapter galleryAdapter;
-    private RecyclerView recyclerview;
-    private Map<Integer, String> selectedImgPath;
-    private ImageView iv_back;
-    private TextView tv_ok, tv_count;
-    private RelativeLayout ly_select_image;
+
+    private HashMap<String, GalleryInfo> selectedImgPath;
+
+    @BindView(R.id.tv_ok)
+    TextView tv_ok;
+    @BindView(R.id.tv_count)
+    TextView tv_count;
+    @BindView(R.id.ly_select_image)
+    RelativeLayout ly_select_image;
+    @BindView(R.id.recyclerview)
+    RecyclerView recyclerview;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gallery);
+        ButterKnife.bind(this);
         hideActionBar();
-
-        tv_ok = findViewById(R.id.tv_ok);
-        tv_count = findViewById(R.id.tv_count);
-        iv_back = findViewById(R.id.iv_back);
-        recyclerview = findViewById(R.id.recyclerview);
-        ly_select_image = findViewById(R.id.ly_select_image);
-
 
         if (getIntent() != null) {
             folderName = getIntent().getStringExtra("folderName");
@@ -59,14 +67,15 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
                     if (selectedImgPath.size() > 0) {
                         if (galleryList.get(adapterPosition).isSelected) {
                             galleryList.get(adapterPosition).isSelected = false;
-                            selectedImgPath.remove(adapterPosition);
+                            selectedImgPath.remove(galleryInfo.imagePath);
                         } else {
                             if (selectedImgPath.size() >= 10) {
                                 Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                                 return;
                             }
                             galleryList.get(adapterPosition).isSelected = true;
-                            selectedImgPath.put(adapterPosition, galleryInfo.imagePath);
+                            galleryInfo.id = adapterPosition;
+                            selectedImgPath.put(galleryInfo.imagePath, galleryInfo);
                         }
                         if (selectedImgPath.size() == 0) ly_select_image.setVisibility(View.GONE);
                         tv_count.setText((selectedImgPath.size()) + "");
@@ -79,7 +88,7 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
                 public void onLongPress(int adapterPosition, GalleryInfo galleryInfo) {
                     if (galleryList.get(adapterPosition).isSelected) {
                         galleryList.get(adapterPosition).isSelected = false;
-                        selectedImgPath.remove(adapterPosition);
+                        selectedImgPath.remove(galleryInfo.imagePath);
                     } else {
                         if (selectedImgPath.size() >= 10) {
                             Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
@@ -87,7 +96,8 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
                         }
                         ly_select_image.setVisibility(View.VISIBLE);
                         galleryList.get(adapterPosition).isSelected = true;
-                        selectedImgPath.put(adapterPosition, galleryInfo.imagePath);
+                        galleryInfo.id = adapterPosition;
+                        selectedImgPath.put(galleryInfo.imagePath, galleryInfo);
                     }
                     if (selectedImgPath.size() == 0) ly_select_image.setVisibility(View.GONE);
                     tv_count.setText((selectedImgPath.size()) + "");
@@ -130,15 +140,21 @@ public class GalleryActivity extends BaseActivity implements View.OnClickListene
         return images;
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
+    @OnClick({R.id.iv_back, R.id.tv_ok})
+    public void onClick(View view) {
+        switch (view.getId()) {
             case R.id.iv_back:
                 onBackPressed();
                 break;
-
             case R.id.tv_ok:
+                Intent intent = getIntent();
+                intent.putExtra("selectedImgPath", selectedImgPath);
+                setResult(RESULT_OK,intent);
+                finish();
                 break;
         }
     }
+
+
+
 }

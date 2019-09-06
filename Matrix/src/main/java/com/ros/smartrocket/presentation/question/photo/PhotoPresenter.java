@@ -13,18 +13,21 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.db.geocoding.Result;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
+import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
-
 import java.io.File;
-import java.security.Key;
+import java.util.HashMap;
 import java.util.List;
+
+import static android.app.Activity.RESULT_OK;
 
 public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresenter<V> implements PhotoMvpPresenter<V> {
     private File mCurrentPhotoFile;
@@ -33,6 +36,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     private boolean isBitmapConfirmed = false;
     private boolean isImageRequested;
     private PhotoHelper photoQuestionHelper;
+
 
     public PhotoPresenter(Question question, PhotoHelper photoHelper) {
         super(question);
@@ -179,6 +183,11 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         isImageRequested = true;
     }
 
+    @Override
+    public void onGalleryPhotoRequested(int photoPos) {
+        photoQuestionHelper.openGallery(question.getOrderId());
+    }
+
     private void saveAnswer(Location location, int photoPos) {
 
         new AsyncTask<Void,Void ,File>(){
@@ -226,6 +235,12 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        if(resultCode == RESULT_OK && requestCode == 102){
+            HashMap<String,GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
+            getMvpView().getSelectedImgPath(selectedImgPath);
+        }
+
         if (isImageRequested) {
             if (mCurrentPhotoFile != null) {
                 intent = new Intent();

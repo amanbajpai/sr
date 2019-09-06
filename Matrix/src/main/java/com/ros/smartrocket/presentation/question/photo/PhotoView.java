@@ -1,37 +1,45 @@
 package com.ros.smartrocket.presentation.question.photo;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.bumptech.glide.Glide;
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
+import com.ros.smartrocket.presentation.question.adapter.HorizonalImgAdapter;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
-import com.ros.smartrocket.ui.gallery.ImageDirectoryActivity;
+import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 import com.ros.smartrocket.utils.DialogUtils;
 import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>> implements PhotoMvpView {
+public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>> implements PhotoMvpView,HorizonalImgAdapter.OnClickImage {
 
     @BindView(R.id.galleryLayout)
     LinearLayout galleryLayout;
@@ -43,7 +51,14 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     ImageButton deletePhotoButton;
     @BindView(R.id.confirmButton)
     ImageButton confirmButton;
+    @BindView(R.id.recyclerview_gallery)
+    RecyclerView recyclerview_gallery;
+
+    private HorizonalImgAdapter horizonalImgAdapter;
+    private List<GalleryInfo> imageList = new ArrayList<>();
+
     private int currentSelectedPhoto = 0;
+    private int selectedImgIndex = 0;
 
     public PhotoView(Context context) {
         super(context);
@@ -98,13 +113,27 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.photo:
-                presenter.onPhotoClicked(currentSelectedPhoto);
+               // presenter.onPhotoClicked(currentSelectedPhoto);
                 break;
             case R.id.rePhotoButton:
-                presenter.onPhotoRequested(currentSelectedPhoto);
+                //presenter.onPhotoRequested(currentSelectedPhoto);
                 break;
             case R.id.deletePhotoButton:
-                presenter.onPhotoDeleted(currentSelectedPhoto);
+                if(imageList.size() >0){
+                    imageList.remove(selectedImgIndex);
+                    horizonalImgAdapter.notifyDataSetChanged();
+
+                    if(imageList.size() != 0){
+                        Glide.with(getContext()).load(imageList.get(selectedImgIndex).imagePath).into(photo);
+                    }
+
+                    if(selectedImgIndex == 0){
+
+                    }else selectedImgIndex = selectedImgIndex-1;
+                }
+
+
+               // presenter.onPhotoDeleted(currentSelectedPhoto);
                 break;
             case R.id.confirmButton:
                 presenter.onPhotoConfirmed(currentSelectedPhoto);
@@ -158,8 +187,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         }
 
         photo.setOnClickListener(v -> {
-            Intent intent = new Intent(getContext(), ImageDirectoryActivity.class);
-            getContext().startActivity(intent);
+            presenter.onGalleryPhotoRequested(currentSelectedPhoto);
 
         } );
 
@@ -219,19 +247,47 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
     @Override
     public void refreshRePhotoButton(boolean isPhotoAdded) {
-        if (isPhotoAdded) {
+        /*if (isPhotoAdded) {
             rePhotoButton.setVisibility(View.VISIBLE);
         } else {
             rePhotoButton.setVisibility(View.GONE);
-        }
+        }*/
     }
 
     @Override
     public void refreshDeletePhotoButton(boolean isPhotoAdded) {
-        if (isPhotoAdded) {
+       /* if (isPhotoAdded) {
             deletePhotoButton.setVisibility(View.VISIBLE);
         } else {
             deletePhotoButton.setVisibility(View.GONE);
+        }*/
+    }
+
+    @Override
+    public void getSelectedImgPath(HashMap<String, GalleryInfo> selectedPath) {
+        List<GalleryInfo> values = new ArrayList<>(selectedPath.values());
+
+        imageList.addAll(values);
+
+        horizonalImgAdapter = new HorizonalImgAdapter(imageList,getContext());
+        recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
+                , LinearLayoutManager.HORIZONTAL, true));
+        recyclerview_gallery.setAdapter(horizonalImgAdapter);
+
+        if (selectedPath.size()>0) {
+            deletePhotoButton.setVisibility(View.VISIBLE);
+            Glide.with(getContext()).load(imageList.get(0).imagePath).into(photo);
+        } else {
+            deletePhotoButton.setVisibility(View.GONE);
         }
+
+        horizonalImgAdapter.setListner(this::onItemClick);
+    }
+
+
+    @Override
+    public void onItemClick(GalleryInfo galleryInfo,int pos) {
+        selectedImgIndex = pos;
+        Glide.with(getContext()).load(galleryInfo.imagePath).into(photo);
     }
 }

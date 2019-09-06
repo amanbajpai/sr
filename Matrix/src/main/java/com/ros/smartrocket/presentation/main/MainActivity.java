@@ -116,9 +116,9 @@ public class MainActivity extends BaseSlidingMenuActivity {
 
     @Override
     protected void onPause() {
-        super.onPause();
         if (BuildConfig.CHINESE)
             JPushInterface.onPause(this);
+        super.onPause();
     }
 
     @Override
