@@ -1,10 +1,10 @@
-package com.twotoasters.clusterkraf;
+package com.ros.smartrocket.clusterutils;
 
 import android.graphics.Point;
 
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.model.LatLng;
-import com.twotoasters.clusterkraf.util.Distance;
+
 
 abstract class BasePoint {
 
@@ -40,8 +40,8 @@ abstract class BasePoint {
 		this.screenPosition = screenPosition;
 	}
 
-	double getPixelDistanceFrom(BasePoint otherPoint) {
+	/*double getPixelDistanceFrom(BasePoint otherPoint) {
 		return Distance.from(screenPosition, otherPoint.screenPosition);
-	}
+	}*/
 
 }

@@ -22,16 +22,14 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.clusterutils.InputPoint;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.utils.FontUtils;
 import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.clusterkraf.InputPoint;
-import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
-import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
-import com.twotoasters.clusterkraf.Options;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -71,7 +69,7 @@ public class MapHelper {
 
 
 
-    public static Options getGoogleClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
+    /*public static Options getGoogleClusterkrafOptions(Activity activity, Keys.MapViewMode mode,
                                                       OnInfoWindowClickDownstreamListener onInfoWindowClickListener,
                                                       OnMarkerClickDownstreamListener onMarkerClickListener) {
         Options options = new Options();
@@ -88,7 +86,7 @@ public class MapHelper {
             options.setClusterClickBehavior(Options.ClusterClickBehavior.ZOOM_TO_BOUNDS);
             options.setClusterInfoWindowClickBehavior(Options.ClusterInfoWindowClickBehavior.ZOOM_TO_BOUNDS);
 
-            /*Live hack from library developers ^)*/
+            *//*Live hack from library developers ^)*//*
             options.setZoomToBoundsPadding(activity.getResources().getDrawable(R.drawable.ic_map_cluster_pin)
                     .getIntrinsicHeight());
             options.setMarkerOptionsChooser(new TaskOptionsChooser(activity));
@@ -98,7 +96,7 @@ public class MapHelper {
 //            options.setInfoWindowDownstreamAdapter(new CustomInfoMapWindowAdapter(activity, mode));
         }
         return options;
-    }
+    }*/
 
     public static void setMapOverlayView(Activity activity, View view, Task task) {
         LinearLayout mainLayout = (LinearLayout) view.findViewById(R.id.mainLayout);

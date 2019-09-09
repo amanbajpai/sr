@@ -1,6 +1,6 @@
-package com.twotoasters.baiduclusterkraf;
+package com.ros.smartrocket.clusterutils;
 
-import com.baidu.mapapi.model.LatLng;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Models a single unique point that is to be processed for clustering

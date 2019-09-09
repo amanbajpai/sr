@@ -41,6 +41,7 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.clusterutils.InputPoint;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
@@ -62,12 +63,12 @@ import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
-import com.twotoasters.clusterkraf.ClusterPoint;
+/*import com.twotoasters.clusterkraf.ClusterPoint;
 import com.twotoasters.clusterkraf.Clusterkraf;
 import com.twotoasters.clusterkraf.InputPoint;
 import com.twotoasters.clusterkraf.OnInfoWindowClickDownstreamListener;
 import com.twotoasters.clusterkraf.OnMarkerClickDownstreamListener;
-import com.twotoasters.clusterkraf.Options;
+import com.twotoasters.clusterkraf.Options;*/
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -80,8 +81,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveMvpView, SwitchCheckedChangeListener,
-        OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener {
+public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveMvpView, SwitchCheckedChangeListener
+        /*, OnMarkerClickDownstreamListener, OnInfoWindowClickDownstreamListener*/ {
     private static final String TAG = TasksMapFragment.class.getSimpleName();
     private static final String MY_LOCATION = "MyLoc";
     // 1% = 200m => Max = 20km
@@ -114,7 +115,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     private CameraPosition cameraPositionByRadiusAndLocation;
     private LatLngBounds cameraBoundsByPins;
     private Display display;
-    private Clusterkraf clusterkraf;
+    /*private Clusterkraf clusterkraf;*/
     private Keys.MapViewMode mode;
     private Marker currentLocationMarker;
     private Circle circle;
@@ -498,7 +499,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
      * Methods for Clusters pins display on the map
      * ============================================== */
 
-    @Override
+    /*@Override
     public boolean onMarkerClick(Marker marker, ClusterPoint clusterPoint) {
         return mode == Keys.MapViewMode.SINGLE_TASK;
     }
@@ -517,7 +518,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
                 L.e(TAG, "Error info vindow click" + e, e);
             }
         return false;
-    }
+    }*/
 
     private void restoreCameraPositionByPins(Location location, ArrayList<InputPoint> inputPoints) {
         if (location != null) {
