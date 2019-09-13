@@ -19,29 +19,42 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/item_height"
-            android:layout_marginBottom="5dp"
-            android:scrollbars="none">
+            android:layout_height="70dp">
 
-            <LinearLayout
-                android:id="@+id/galleryLayout"
-                android:layout_width="65dp"
-                android:layout_height="match_parent"
-                android:orientation="horizontal"
-               />
+            <HorizontalScrollView
+                android:id="@+id/horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/item_height"
+                android:layout_marginBottom="5dp"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/galleryLayout"
+                    android:layout_width="65dp"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+
+
+            </HorizontalScrollView>
+
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerview_gallery"
-                android:layout_toRightOf="@+id/galleryLayout"
+                android:layout_toRightOf="@+id/horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:divider="@null"
                 android:orientation="horizontal"
                 app:reverseLayout="true"
-            />
-
+                android:visibility="gone"/>
 
         </RelativeLayout>
+
+
+
+
+
+
 
 
 
@@ -76,8 +89,8 @@
                 android:layout_width="42dp"
                 android:layout_height="42dp"
                 android:layout_gravity="top|start"
-                android:layout_marginStart="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="55dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/btn_square_active"
                 android:contentDescription="@string/app_name"
                 android:padding="10dp"

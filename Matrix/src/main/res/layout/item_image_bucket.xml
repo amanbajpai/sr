@@ -9,7 +9,15 @@
         android:id="@+id/iv_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:src="@drawable/woman"
         android:scaleType="centerCrop"/>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient"/>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -23,8 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14dp"
+            android:fontFamily="serif-monospace"
             />
 
         <TextView
@@ -32,12 +41,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="14dp"
+            android:fontFamily="serif-monospace"
             android:layout_alignParentBottom="true"/>
 
 
     </LinearLayout>
+
 
 
 

@@ -8,12 +8,14 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.ImageColumns;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Base64;
@@ -21,8 +23,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 import com.ros.smartrocket.utils.BytesBitmap;
 import com.ros.smartrocket.utils.FileProcessingManager;
 import com.ros.smartrocket.utils.IntentUtils;
@@ -41,7 +48,10 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 
 import de.greenrobot.event.EventBus;
@@ -249,8 +259,16 @@ public class SelectImageManager {
     private static ImageFileClass getBitmapFromGallery(Intent intent, Context context) {
         Bitmap resultBitmap = null;
         File lastFile = null;
+        boolean isEligible = false;
+        if (intent.getSerializableExtra("selectedImgPath") != null) {
+            HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
+            isEligible = true;
+            List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
+            String imagesStr =values.get(0).imagePath;
+        }
+
         try {
-            if (intent != null && intent.getData() != null) {
+            if ((intent != null && intent.getData() != null)|| isEligible) {
                 final String prefix = intent.getStringExtra(EXTRA_PREFIX);
                 Uri uri = intent.getData();
                 if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
@@ -546,8 +564,38 @@ public class SelectImageManager {
         @Override
         protected void onPostExecute(ImageFileClass image) {
             if (image != null && image.bitmap != null && image.imageFile != null) {
+
+                if (intent.getSerializableExtra("selectedImgPath") != null) {
+                    HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
+                    List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
+                    image.imageFile  = new File(values.get(0).imagePath);
+                }
+
                 onImageCompleteLoading(image, requestCode);
             } else {
+
+                if (intent.getSerializableExtra("selectedImgPath") != null) {
+                    HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
+                    List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
+                    image.imageFile  = new File(values.get(0).imagePath);
+                }
+
+                Glide.with(context)
+                        .asBitmap()
+                        .load(image.imageFile)
+                        .into(new CustomTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                image.bitmap = resource;
+                                onImageCompleteLoading(image, requestCode);
+                            }
+
+                            @Override
+                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                            }
+                        });
+
+
                 onImageErrorLoading();
             }
         }
@@ -566,8 +614,8 @@ public class SelectImageManager {
     }
 
     public static class ImageFileClass {
-        public final Bitmap bitmap;
-        public final File imageFile;
+        public Bitmap bitmap;
+        public File imageFile;
 
         public ImageFileClass(Bitmap bitmap, File imageFile) {
             this.bitmap = bitmap;

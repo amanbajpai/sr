@@ -40,6 +40,8 @@ import com.ros.smartrocket.utils.eventbus.UploadProgressEvent;
 import com.ros.smartrocket.utils.helpers.FileParser;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -144,7 +146,17 @@ public class UploadFileService extends Service {
 
     private void sendFile(NotUploadedFile notUploadedFile) {
         FileParser fp = new FileParser();
-        List<File> sendFiles = fp.getFileChunks(notUploadedFile);
+        List<File> sendFiles = new ArrayList<>();
+        if(notUploadedFile.getFileUri().contains(",")){
+            String[] elements = notUploadedFile.getFileUri().split(",");
+            List<String> list = Arrays.asList(elements);
+            for(int i=0;i<list.size();i++){
+                sendFiles.add(new File(list.get(i)));
+            }
+        }
+        else sendFiles = fp.getFileChunks(notUploadedFile);
+
+
         if (sendFiles != null)
             startFileSendingMultipart(sendFiles, notUploadedFile, fp);
         else

@@ -18,6 +18,8 @@ public interface PhotoMvpView extends BaseQuestionMvpView {
 
     void setBitmap(Bitmap bitmap);
 
+    void setImagePath(String commaSeperator);
+
     int getCurrentPos();
 
     void setCurrentPos(int pos);

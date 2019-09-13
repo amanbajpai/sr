@@ -27,6 +27,7 @@ public class ImageDirectoryActivity extends BaseActivity {
     private ImageDirectoryAdapter directoryAdapter;
     private List<BucketInfo> imageBucketList;
     private HashMap<Integer, GalleryInfo> selectedImgPath;
+    private int imageListsize;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,13 @@ public class ImageDirectoryActivity extends BaseActivity {
 
         imageBucketList = new ArrayList<>();
 
+        if(getIntent() != null){
+            imageListsize = getIntent().getIntExtra("imageListsize",10);
+        }
+
         directoryAdapter = new ImageDirectoryAdapter(this, imageBucketList, bucketInfo -> {
             Intent intent = new Intent(this, GalleryActivity.class);
+            intent.putExtra("imageListsize", imageListsize);
             intent.putExtra("folderName", bucketInfo.getName());
             startActivityForResult(intent, 101);
         }

@@ -37,6 +37,7 @@ import butterknife.OnClick;
 public class GalleryActivity extends BaseActivity  {
     private String folderName = "";
     private GalleryAdapter galleryAdapter;
+    private int imageListsize;
 
     private HashMap<String, GalleryInfo> selectedImgPath;
 
@@ -57,6 +58,7 @@ public class GalleryActivity extends BaseActivity  {
         hideActionBar();
 
         if (getIntent() != null) {
+            imageListsize = getIntent().getIntExtra("imageListsize",10);
             folderName = getIntent().getStringExtra("folderName");
 
             List<GalleryInfo> galleryList = getImagesByBucket(folderName);
@@ -69,10 +71,11 @@ public class GalleryActivity extends BaseActivity  {
                             galleryList.get(adapterPosition).isSelected = false;
                             selectedImgPath.remove(galleryInfo.imagePath);
                         } else {
-                            if (selectedImgPath.size() >= 10) {
+                            if (imageListsize+selectedImgPath.size() >= 10) {
                                 Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                                 return;
                             }
+
                             galleryList.get(adapterPosition).isSelected = true;
                             galleryInfo.id = adapterPosition;
                             selectedImgPath.put(galleryInfo.imagePath, galleryInfo);
@@ -90,10 +93,11 @@ public class GalleryActivity extends BaseActivity  {
                         galleryList.get(adapterPosition).isSelected = false;
                         selectedImgPath.remove(galleryInfo.imagePath);
                     } else {
-                        if (selectedImgPath.size() >= 10) {
+                        if (imageListsize+selectedImgPath.size() >= 10) {
                             Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                             return;
                         }
+
                         ly_select_image.setVisibility(View.VISIBLE);
                         galleryList.get(adapterPosition).isSelected = true;
                         galleryInfo.id = adapterPosition;

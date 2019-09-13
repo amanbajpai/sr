@@ -5,15 +5,11 @@ import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.Question;
-import com.ros.smartrocket.db.geocoding.Result;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionPresenter;
 import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
@@ -24,6 +20,7 @@ import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -88,6 +85,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()));
             getMvpView().selectGalleryPhoto(position);
             getMvpView().setBitmap(bitmap);
+            getMvpView().setImagePath(answer.getFileUri());
             refreshButtons();
         } else {
             isBitmapAdded = false;
@@ -175,7 +173,9 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
             photoQuestionHelper.startCamera(mCurrentPhotoFile, question.getOrderId());
         } else if (question.getPhotoSource() == 1) {
-            photoQuestionHelper.startGallery(question.getOrderId());
+            //anil
+            //photoQuestionHelper.startGallery(question.getOrderId());
+            photoQuestionHelper.openGallery(question.getOrderId(),0);
         } else {
             mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
             photoQuestionHelper.showSelectImageDialog(false, mCurrentPhotoFile, question.getOrderId());
@@ -184,8 +184,13 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     }
 
     @Override
-    public void onGalleryPhotoRequested(int photoPos) {
-        photoQuestionHelper.openGallery(question.getOrderId());
+    public void onGalleryPhotoRequested(int photoPos, int imageListsize) {
+        if(question.getPhotoSource() == 0){
+
+        }else  if(question.getPhotoSource() == 1){
+            photoQuestionHelper.openGallery(question.getOrderId(),imageListsize);
+        }
+
     }
 
     private void saveAnswer(Location location, int photoPos) {
@@ -233,13 +238,83 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
     }
 
+    //anil
+    public void handleResults(File resultImageFile, String imagesStr){
+
+        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
+                .GetCurrentLocationListener() {
+            @Override
+            public void getLocationStart() {
+                getMvpView().showLoading(false);
+            }
+
+            @Override
+            public void getLocationInProcess() {
+            }
+
+            @Override
+            public void getLocationSuccess(Location location) {
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+
+                    if (resultImageFile.exists()) {
+                        Answer answer = question.getAnswers().get(0);
+                        boolean needAddEmptyAnswer = !answer.getChecked();
+                        answer.setChecked(true);
+                        answer.setFileUri(imagesStr);
+                        answer.setFileSizeB(resultImageFile.length());
+                        answer.setFileName(resultImageFile.getName());
+                        answer.setValue(resultImageFile.getName());
+                        answer.setLatitude(location.getLatitude());
+                        answer.setLongitude(location.getLongitude());
+                        if (!isPreview()) saveQuestion();
+                        if (needAddEmptyAnswer && question.getAnswers().size() < question.getMaximumPhotos())
+                            addEmptyAnswer();
+                        getMvpView().refreshPhotoGallery(question.getAnswers());
+                        isBitmapConfirmed = true;
+                        refreshButtons();
+                        refreshNextButton(isPhotosAdded());
+                    }
+                    getMvpView().hideLoading();
+
+
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+
+                }
+            }
+
+            @Override
+            public void getLocationFail(String errorText) {
+                if (isViewAttached()) {
+                    getMvpView().hideLoading();
+                    UIUtils.showSimpleToast(App.getInstance(), errorText);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+                }
+            }
+        });
+    }
+
+    String getCommonSeperatedString(List<GalleryInfo> actionObjects) {
+        StringBuffer sb = new StringBuffer();
+        for (GalleryInfo actionObject : actionObjects){
+            sb.append(actionObject.imagePath).append(",");
+        }
+        sb.deleteCharAt(sb.lastIndexOf(","));
+        return sb.toString();
+    }
+
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
-
-        if(resultCode == RESULT_OK && requestCode == 102){
+        //anil
+       /* if(resultCode == RESULT_OK && requestCode == 102){
             HashMap<String,GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
             getMvpView().getSelectedImgPath(selectedImgPath);
-        }
+
+            List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
+            String imagesStr =  getCommonSeperatedString(values);
+
+            handleResults(new File(values.get(0).imagePath),imagesStr);
+        }*/
 
         if (isImageRequested) {
             if (mCurrentPhotoFile != null) {
@@ -249,7 +324,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 photoQuestionHelper.onActivityResult(requestCode, resultCode, intent);
                 isImageRequested = false;
                 return true;
-            } else if (intent != null && intent.getData() != null) {
+            } else if (intent != null) { //anil
                 intent.putExtra(SelectImageManager.EXTRA_PREFIX, question.getTaskId().toString());
                 photoQuestionHelper.onActivityResult(requestCode, resultCode, intent);
                 isImageRequested = false;

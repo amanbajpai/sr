@@ -56,9 +56,10 @@ public class PhotoManager implements PhotoHelper {
     }
 
     @Override
-    public void openGallery(Integer orderId) {
+    public void openGallery(Integer orderId, int imageListsize) {
         Intent intent = new Intent(fragment.getContext(), ImageDirectoryActivity.class);
-        fragment.startActivityForResult(intent,102);
+        intent.putExtra("imageListsize",imageListsize);
+        fragment.startActivityForResult(intent,65);
     }
 
     @Override

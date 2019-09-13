@@ -391,10 +391,10 @@
         <service
             android:name=".net.UploadFileService"
             android:exported="false" />
-        <service
+       <!-- <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote" />-->
         <!--
   For Ciklum
          <meta-data
