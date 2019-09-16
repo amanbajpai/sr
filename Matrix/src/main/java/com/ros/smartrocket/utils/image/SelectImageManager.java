@@ -577,26 +577,31 @@ public class SelectImageManager {
                 if (intent.getSerializableExtra("selectedImgPath") != null) {
                     HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
                     List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
-                    image.imageFile  = new File(values.get(0).imagePath);
+
+
+                    for(int i=0;i<values.size();i++){
+                        image.imageFile  = new File(values.get(i).imagePath);
+                        Glide.with(context)
+                                .asBitmap()
+                                .load(values.get(i).imagePath)
+                                .into(new CustomTarget<Bitmap>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                        image.bitmap = resource;
+                                        onImageCompleteLoading(image, requestCode);
+                                    }
+
+                                    @Override
+                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                    }
+                                });
+
+                    }
                 }
 
-                Glide.with(context)
-                        .asBitmap()
-                        .load(image.imageFile)
-                        .into(new CustomTarget<Bitmap>() {
-                            @Override
-                            public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                image.bitmap = resource;
-                                onImageCompleteLoading(image, requestCode);
-                            }
-
-                            @Override
-                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                            }
-                        });
 
 
-                onImageErrorLoading();
+              //  onImageErrorLoading();
             }
         }
     }
