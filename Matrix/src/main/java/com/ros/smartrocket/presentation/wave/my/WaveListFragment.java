@@ -185,7 +185,7 @@ public class WaveListFragment extends BaseFragment implements OnItemClickListene
 
     public void initRefreshButton(ActionBar actionBar) {
         View view = actionBar.getCustomView();
-        refreshButton = view.findViewById(R.id.refreshButton);
+        refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
         if (refreshButton != null) refreshButton.setOnClickListener(v -> refreshData());
     }
 

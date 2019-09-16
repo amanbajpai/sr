@@ -129,6 +129,7 @@ public interface Keys {
 
     //NotUploadFile Service
     String ACTION_CHECK_NOT_UPLOADED_FILES = "check_not_uploaded_files";
+    String GET_KEY_FROM_WORKER = "get_key_from_worker";
 
 
     /* ------------ Location parameters -----------------------*/

@@ -3,8 +3,12 @@ package com.ros.smartrocket.net;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.content.ContextCompat;
 
 import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.WorkManager.UploadFileServiceWorker;
+import com.ros.smartrocket.WorkManager.WorkManagerScheduler;
 import com.ros.smartrocket.utils.PreferencesManager;
 import com.ros.smartrocket.utils.UIUtils;
 
@@ -32,16 +36,25 @@ public class GlobalReceiver extends BroadcastReceiver {
     }
 
     public void startTaskReminderService(Context context) {
-        if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder())
-            context.startService(
-                    new Intent(context, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
-        else
-            context.stopService(new Intent(context, TaskReminderService.class));
+        if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
+
+
+            WorkManagerScheduler.callWorkManager(Keys.ACTION_START_REMINDER_TIMER);
+
+
+        } else {
+
+            WorkManagerScheduler.callWorkManager(Keys.ACTION_STOP_REMINDER_TIMER);
+
+        }
     }
 
     public void startUploadFileService(Context context) {
-        if (UploadFileService.canUploadNextFile(context))
-            context.startService(new Intent(context, UploadFileService.class).setAction(Keys.
-                    ACTION_CHECK_NOT_UPLOADED_FILES));
+        if (UploadFileServiceWorker.canUploadNextFile(context)) {
+
+            WorkManagerScheduler.callWorkManager(Keys.ACTION_CHECK_NOT_UPLOADED_FILES);
+
+        }
+
     }
 }

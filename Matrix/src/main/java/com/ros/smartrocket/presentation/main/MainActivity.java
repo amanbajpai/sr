@@ -8,22 +8,17 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.messaging.FirebaseMessaging;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
-import com.ros.smartrocket.net.TaskReminderService;
-import com.ros.smartrocket.net.UploadFileService;
+import com.ros.smartrocket.WorkManager.WorkManagerScheduler;
 import com.ros.smartrocket.net.fcm.CommonUtilities;
 import com.ros.smartrocket.presentation.task.AllTaskFragment;
 import com.ros.smartrocket.utils.UIUtils;
 import com.ros.smartrocket.utils.eventbus.LogOutAction;
 import com.ros.smartrocket.utils.helpers.FragmentHelper;
-
 
 import cn.jpush.android.api.JPushInterface;
 import de.greenrobot.event.EventBus;
@@ -38,7 +33,7 @@ public class MainActivity extends BaseSlidingMenuActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initStartFragment();
-        startServices();
+        startUploadingActionManager();
         initPushMessaging();
         initReceiver();
 
@@ -68,10 +63,15 @@ public class MainActivity extends BaseSlidingMenuActivity {
         fragmentHelper.startFragmentFromStack(this, fragment);
     }
 
-    private void startServices() {
-        startService(new Intent(this, UploadFileService.class).setAction(Keys.ACTION_CHECK_NOT_UPLOADED_FILES));
-        startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
+    private void startUploadingActionManager() {
+        WorkManagerScheduler.callWorkManager(Keys.ACTION_CHECK_NOT_UPLOADED_FILES);
+        // TODO Need to change with Worker
+
+        WorkManagerScheduler.callWorkManager(Keys.ACTION_START_REMINDER_TIMER);
+
+        //startService(new Intent(this, TaskReminderService.class).setAction(Keys.ACTION_START_REMINDER_TIMER));
     }
+
 
     private void initPushMessaging() {
         if (!Config.USE_BAIDU)

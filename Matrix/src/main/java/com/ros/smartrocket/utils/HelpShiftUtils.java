@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.helpshift.Core;
+import com.helpshift.HelpshiftUser;
 import com.helpshift.campaigns.Campaigns;
 import com.helpshift.support.ApiConfig;
 import com.helpshift.support.Metadata;
@@ -30,7 +31,14 @@ public class HelpShiftUtils {
     }
 
     private static void initHS() {
-        Core.login(String.valueOf(account.getId()), account.getSingleName(), PreferencesManager.getInstance().getLastEmail());
+
+        HelpshiftUser helpshiftUser = new HelpshiftUser.Builder(String.valueOf(account.getId()), PreferencesManager.getInstance().getLastEmail())
+                .setName(account.getSingleName())
+                .build();
+
+        Core.login(helpshiftUser);
+
+        //Core.login(String.valueOf(account.getId()), account.getSingleName(), PreferencesManager.getInstance().getLastEmail());
         Campaigns.addProperty(AGENT_ID, account.getId());
         Campaigns.addProperty(AGENT_RANK_LEVEL, account.getLevelNumber());
         Campaigns.addProperty(ROCKET_POINTS, account.getExperience());

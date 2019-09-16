@@ -18,13 +18,13 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.Config;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.WorkManager.WorkManagerScheduler;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.db.entity.task.Task;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
-import com.ros.smartrocket.net.UploadFileService;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.presentation.validation.local.ValidationLocalMvpPresenter;
 import com.ros.smartrocket.presentation.validation.local.ValidationLocalMvpView;
@@ -180,8 +180,7 @@ public class TaskValidationActivity extends BaseActivity implements ValidationLo
 
     public void setFilesToUploadDbAndStartUpload(Boolean use3G) {
         localPresenter.saveFilesToUpload(task, use3G);
-        startService(new Intent(TaskValidationActivity.this, UploadFileService.class).setAction(Keys
-                .ACTION_CHECK_NOT_UPLOADED_FILES));
+        WorkManagerScheduler.callWorkManager(Keys.ACTION_CHECK_NOT_UPLOADED_FILES);
     }
 
     public void sendTextAnswers() {
@@ -190,6 +189,7 @@ public class TaskValidationActivity extends BaseActivity implements ValidationLo
         } else {
             DialogUtils.showTurnOnWifiDialog(this);
         }
+
     }
 
     private void sendAnswerTextsSuccess() {

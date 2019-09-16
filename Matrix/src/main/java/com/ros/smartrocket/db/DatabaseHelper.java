@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 
 import com.ros.smartrocket.utils.L;
 
@@ -154,5 +155,10 @@ public class DatabaseHelper extends AppSQLiteOpenHelper {
             }
 
         }
+    }
+
+    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        throw new SQLiteException("Can't downgrade database from version " +
+                oldVersion + " to " + newVersion);
     }
 }

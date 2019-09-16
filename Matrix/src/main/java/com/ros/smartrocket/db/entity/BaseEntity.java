@@ -15,6 +15,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public abstract class BaseEntity implements Serializable {
@@ -68,7 +69,7 @@ public abstract class BaseEntity implements Serializable {
                 if (field.getType().isAssignableFrom(Class.forName("[B"))) {
                     cls = Class.forName("[B");
                 } else {
-                    cls = Class.forName(field.getType().getCanonicalName());
+                    cls = Class.forName(Objects.requireNonNull(field.getType().getCanonicalName()));
                 }
                 FieldType key = FieldType.fromClass(cls);
                 field.setAccessible(true);

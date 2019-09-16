@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
+import android.os.Handler;
 import android.support.multidex.MultiDex;
 import android.text.format.DateUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
@@ -24,6 +26,7 @@ import com.ros.smartrocket.db.entity.error.ErrorResponse;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
 import com.ros.smartrocket.net.retrofit.MatrixApi;
 import com.ros.smartrocket.net.retrofit.RetrofitHolder;
+import com.ros.smartrocket.utils.IntentUtils;
 import com.ros.smartrocket.utils.L;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -66,6 +69,17 @@ public class App extends Application {
 //        intiFirebaseAnalytics();
         clearMonthLimitIfNeed();
 
+
+      /*  new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+
+               android.os.Process.killProcess(android.os.Process.myPid());
+               System.exit(0);
+
+            }
+        }, 60000);*/
+
     }
 
     private void initRetrofit() {
@@ -101,7 +115,7 @@ public class App extends Application {
 
     private void initSDKs() {
         if (Config.USE_BAIDU) {
-           // SDKInitializer.initialize(getApplicationContext());
+            // SDKInitializer.initialize(getApplicationContext());
             JPushInterface.setDebugMode(BuildConfig.DEBUG);
         } else {
             FacebookSdk.sdkInitialize(getApplicationContext());

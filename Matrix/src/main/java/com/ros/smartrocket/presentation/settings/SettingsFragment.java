@@ -25,11 +25,11 @@ import com.ros.smartrocket.App;
 import com.ros.smartrocket.BuildConfig;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.R;
+import com.ros.smartrocket.WorkManager.WorkManagerScheduler;
 import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.entity.account.MyAccount;
 import com.ros.smartrocket.interfaces.BaseNetworkError;
 import com.ros.smartrocket.interfaces.SwitchCheckedChangeListener;
-import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.fcm.CommonUtilities;
 import com.ros.smartrocket.presentation.base.BaseFragment;
 import com.ros.smartrocket.ui.dialog.DefaultInfoDialog;
@@ -250,10 +250,18 @@ public class SettingsFragment extends BaseFragment implements SwitchCheckedChang
 
     public void changeTaskReminderServiceStatus() {
         if (preferencesManager.getUsePushMessages() || preferencesManager.getUseDeadlineReminder()) {
-            getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
-                    .ACTION_START_REMINDER_TIMER));
+
+          //  getActivity().startService(new Intent(getActivity(), TaskReminderService.class).setAction(Keys
+           //         .ACTION_START_REMINDER_TIMER));
+
+            WorkManagerScheduler.callWorkManager(Keys.ACTION_START_REMINDER_TIMER);
+
+
         } else {
-            getActivity().stopService(new Intent(getActivity(), TaskReminderService.class));
+            //getActivity().stopService(new Intent(getActivity(), TaskReminderService.class));
+
+            WorkManagerScheduler.callWorkManager(Keys.ACTION_STOP_REMINDER_TIMER);
+
         }
     }
 

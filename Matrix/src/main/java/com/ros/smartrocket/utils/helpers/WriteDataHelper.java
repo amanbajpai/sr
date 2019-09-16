@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.ros.smartrocket.App;
+import com.ros.smartrocket.Keys;
+import com.ros.smartrocket.WorkManager.WorkManagerScheduler;
 import com.ros.smartrocket.db.bl.AnswersBL;
 import com.ros.smartrocket.db.bl.NotificationBL;
 import com.ros.smartrocket.db.bl.QuestionsBL;
 import com.ros.smartrocket.db.bl.TasksBL;
 import com.ros.smartrocket.db.bl.WavesBL;
 import com.ros.smartrocket.db.entity.account.MyAccount;
-import com.ros.smartrocket.net.TaskReminderService;
 import com.ros.smartrocket.net.fcm.DeleteTokenService;
 import com.ros.smartrocket.utils.LocaleUtils;
 import com.ros.smartrocket.utils.PreferencesManager;
@@ -29,9 +30,15 @@ public class WriteDataHelper {
         preferencesManager.removeToken();
         preferencesManager.setTokenForUploadFile("");
         preferencesManager.setTokenUpdateDate(0);
+
         context.startService(new Intent(context, DeleteTokenService.class));
+
+
         clearDb(context);
-        context.stopService(new Intent(context, TaskReminderService.class));
+        //context.stopService(new Intent(context, TaskReminderService.class));
+
+        WorkManagerScheduler.callWorkManager(Keys.ACTION_STOP_REMINDER_TIMER);
+
     }
 
     public static void prepareLogin(Context context, String currentEmail) {

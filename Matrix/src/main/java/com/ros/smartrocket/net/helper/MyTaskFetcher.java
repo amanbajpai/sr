@@ -1,5 +1,6 @@
 package com.ros.smartrocket.net.helper;
 
+import android.annotation.SuppressLint;
 import android.util.Log;
 
 import com.ros.smartrocket.App;
@@ -9,6 +10,7 @@ import com.ros.smartrocket.utils.PreferencesManager;
 import io.reactivex.schedulers.Schedulers;
 
 public class MyTaskFetcher {
+    @SuppressLint("CheckResult")
     public void getMyTasksFromServer() {
         App.getInstance().getApi()
                 .getMyTasks(PreferencesManager.getInstance().getLanguageCode())

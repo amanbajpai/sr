@@ -141,9 +141,21 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         try {
-            view = inflater.inflate(R.layout.fragment_map, null);
-            LinearLayout mapLayout = view.findViewById(R.id.mapLayout);
-            setUpMap(mapLayout);
+
+            if (view != null) {
+                ViewGroup parent = (ViewGroup) view.getParent();
+                if (parent != null)
+                    parent.removeView(view);
+            }
+            try {
+                view = inflater.inflate(R.layout.fragment_map, null);
+                LinearLayout mapLayout = (LinearLayout) view.findViewById(R.id.mapLayout);
+                setUpMap(mapLayout);
+            } catch (InflateException e) {
+                /* map is already there, just return view as it is */
+            }
+
+
         } catch (InflateException e) {
             /* map is already there, just return view as it is */
         }
@@ -244,8 +256,10 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     }
 
     private void storeZoomAndRadius() {
-        lm.setZoomLevel(googleMap.getCameraPosition().zoom);
-        lm.setLastGooglePosition(googleMap.getCameraPosition().target);
+        if (lm != null && googleMap != null) {
+            lm.setZoomLevel(googleMap.getCameraPosition().zoom);
+            lm.setLastGooglePosition(googleMap.getCameraPosition().target);
+        }
     }
 
     @Override
@@ -265,7 +279,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
 
     private void initMap() {
         if (!MapHelper.isMapNotNull(googleMap)) {
-                loadGoogleMap();
+            loadGoogleMap();
         }
     }
 
@@ -471,7 +485,6 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
     };
 
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         initRefreshButton();
@@ -483,7 +496,7 @@ public class TasksMapFragment extends BaseFragment implements TaskMvpView, WaveM
         if (refreshButton == null && actionBar != null) {
             View view = actionBar.getCustomView();
             if (view != null) {
-                refreshButton = view.findViewById(R.id.refreshButton);
+                refreshButton = (ImageView) view.findViewById(R.id.refreshButton);
                 if (refreshButton != null) refreshButton.setOnClickListener(v -> onRefreshClick());
             }
         }

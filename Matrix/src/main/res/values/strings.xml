@@ -50,6 +50,8 @@
     <string name="registration_form">SmartRocket registration</string>
     <!-- MAIN MENU ACTIVITY -->
     <string name="find_mission">New missions</string>
+
+    <string name="syncing">"SmartRocket is syncing"</string>
     <string name="my_missions">My missions</string>
     <string name="my_portal">MyPortal</string>
     <string name="notifications">Notifications</string>

@@ -28,12 +28,12 @@ public class NetworkError implements BaseNetworkError {
     public static final int MAXIMUM_MISSION_ERROR_CODE = 10022;
     private static final int MAXIMUM_CLAIM_PER_MISSION_ERROR_CODE = 10032;
     public static final int HALF_CLAIM_PER_MISSION_CODE = 20000;
-    static final int TASK_NOT_FOUND_ERROR_CODE = 10014;
-    static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;
+    public static final int TASK_NOT_FOUND_ERROR_CODE = 10014;
+    public static final int FILE_ALREADY_UPLOADED_ERROR_CODE = 10053;
     public static final int USER_NOT_FOUND_ERROR_CODE = 10004;
     public static final int USER_ALREADY_EXIST_ERROR_CODE = 10006;
     private static final int YOUR_VERSION_OUTDATED_ERROR_CODE = 10089;
-    static final int FILE_NOT_FOUND = 10091;
+    public static final int FILE_NOT_FOUND = 10091;
     public static final int MAXIMUM_CLAIMS_ERROR_CODE = 10126;
     private static final int AUTHORIZATION_ERROR = 401;
     public static final int EMAIL_SENT_ERROR = 10145;

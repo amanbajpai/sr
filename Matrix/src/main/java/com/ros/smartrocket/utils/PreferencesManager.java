@@ -416,5 +416,4 @@ public class PreferencesManager {
         setString(Keys.LAST_AUDIO_RECORDED_LENGTH, audioLength);
     }
 
-
 }

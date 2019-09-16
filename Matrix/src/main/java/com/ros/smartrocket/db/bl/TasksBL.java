@@ -30,9 +30,7 @@ public class TasksBL {
         Cursor c;
         if (missionId == null || missionId == 0) {
             c = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
-                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL",
-                    new String[]{String.valueOf(taskId)},
-                    TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
+                    TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + " IS NULL", new String[]{String.valueOf(taskId)}, TaskDbSchema.SORT_ORDER_DESC_LIMIT_1);
         } else {
             c = resolver.query(TaskDbSchema.CONTENT_URI, TaskDbSchema.Query.All.PROJECTION,
                     TaskDbSchema.Columns.ID + "=? and " + TaskDbSchema.Columns.MISSION_ID + "=?",

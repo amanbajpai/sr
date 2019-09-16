@@ -42,8 +42,7 @@ public class BaseSlidingMenuActivity extends BaseActivity {
                 this,
                 mDrawerLayout,
                 R.string.app_name,
-                R.string.app_name
-        ) {
+                R.string.app_name) {
             public void onDrawerClosed(View view) {
                 supportInvalidateOptionsMenu();
             }

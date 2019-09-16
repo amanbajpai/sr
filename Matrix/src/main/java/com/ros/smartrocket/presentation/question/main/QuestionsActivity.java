@@ -2,6 +2,7 @@ package com.ros.smartrocket.presentation.question.main;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
@@ -254,29 +255,35 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
                     if (currentQuestion.getType() == QuestionType.REJECT.getTypeId()) {
                         startValidationActivity();
                     } else {
-                        Question question = getQuestion(currentQuestion);
-                        if (question != null && question.getType() != QuestionType.VALIDATION.getTypeId()) {
-                            if (!isPreview) {
-                                preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
-                                        task.getMissionId(), question.getOrderId());
-                            }
-                            question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
-                            QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
 
-                            if (currentQuestion.getNextAnsweredQuestionId() != null &&
-                                    currentQuestion.getNextAnsweredQuestionId() != 0 &&
-                                    !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
-                                Stream.of(questions)
-                                        .filter(q -> q.getOrderId() > currentQuestion.getOrderId())
-                                        .forEach(q ->
-                                                AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), q.getId()));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                Question question = getQuestion(currentQuestion);
+                                if (question != null && question.getType() != QuestionType.VALIDATION.getTypeId()) {
+                                    if (!isPreview) {
+                                        preferencesManager.setLastNotAnsweredQuestionOrderId(task.getWaveId(), task.getId(),
+                                                task.getMissionId(), question.getOrderId());
+                                    }
+                                    question.setPreviousQuestionOrderId(currentQuestion.getOrderId());
+                                    QuestionsBL.updatePreviousQuestionOrderId(question.getId(), question.getPreviousQuestionOrderId());
+
+                                    if (currentQuestion.getNextAnsweredQuestionId() != null &&
+                                            currentQuestion.getNextAnsweredQuestionId() != 0 &&
+                                            !question.getId().equals(currentQuestion.getNextAnsweredQuestionId())) {
+                                        Stream.of(questions)
+                                                .filter(q -> q.getOrderId() > currentQuestion.getOrderId())
+                                                .forEach(q ->
+                                                        AnswersBL.clearAnswersInDB(task.getId(), task.getMissionId(), q.getId()));
+                                    }
+                                    currentQuestion.setNextAnsweredQuestionId(question.getId());
+                                    QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
+                                    startFragment(question);
+                                } else {
+                                    startValidationActivity();
+                                }
                             }
-                            currentQuestion.setNextAnsweredQuestionId(question.getId());
-                            QuestionsBL.updateNextAnsweredQuestionId(currentQuestion.getId(), question.getId());
-                            startFragment(question);
-                        } else {
-                            startValidationActivity();
-                        }
+                        },500);
                     }
                 }
             }
@@ -469,7 +476,7 @@ public class QuestionsActivity extends BaseActivity implements OnAnswerSelectedL
             actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayShowCustomEnabled(true);
             View view = actionBar.getCustomView();
-            TextView title = view.findViewById(R.id.titleTextView);
+            TextView title = (TextView) view.findViewById(R.id.titleTextView);
             if (isPreview) {
                 title.setTextColor(getResources().getColor(R.color.red));
                 title.setText(getString(R.string.preview_mode));

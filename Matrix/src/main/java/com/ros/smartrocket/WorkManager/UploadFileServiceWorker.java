@@ -1,10 +1,9 @@
-package com.ros.smartrocket.net;
+package com.ros.smartrocket.WorkManager;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,8 +11,8 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
@@ -30,6 +29,7 @@ import com.ros.smartrocket.db.entity.file.TaskFileToUpload;
 import com.ros.smartrocket.db.entity.task.SendTaskId;
 import com.ros.smartrocket.db.entity.task.WaitingUploadTask;
 import com.ros.smartrocket.map.location.MatrixLocationManager;
+import com.ros.smartrocket.net.NetworkError;
 import com.ros.smartrocket.net.helper.MyTaskFetcher;
 import com.ros.smartrocket.presentation.main.MainActivity;
 import com.ros.smartrocket.utils.L;
@@ -46,6 +46,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import androidx.work.Data;
+import androidx.work.Worker;
+import androidx.work.WorkerParameters;
 import de.greenrobot.event.EventBus;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -56,11 +59,12 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 
-public class UploadFileService extends Service {
-    private static final String TAG = UploadFileService.class.getSimpleName();
-    public static final int CHECK_NOT_UPLOADED_FILE_PERIOD = 600;
-    public static final int NOTIFICATION_NOT_UPLOADED_FILE_PERIOD = 300;
-    public static final int INITIAL_DELAY = 5;
+public class UploadFileServiceWorker extends Worker {
+
+    private static final String TAG = UploadFileServiceWorker.class.getSimpleName();
+    public static final int CHECK_NOT_UPLOADED_FILE_PERIOD = 900;
+    public static final int NOTIFICATION_NOT_UPLOADED_FILE_PERIOD = 600;
+    public static final int INITIAL_DELAY = 10;
     private PreferencesManager preferencesManager = PreferencesManager.getInstance();
     private Disposable uploadFilesDisposable;
     private Disposable showNotificationsDisposable;
@@ -72,31 +76,41 @@ public class UploadFileService extends Service {
     private static final int MINUTE_IN_MILLISECONDS_30 = 1000 * 60 * 30;
     private static final int MINUTE_IN_MILLISECONDS_60 = 1000 * 60 * 60;
 
-    public static final int SERVICE_NOTIFICATION_ID = 101;
 
-    public UploadFileService() {
+    private Context mContext;
+    private Data outputData;
+
+
+    public UploadFileServiceWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
+        super(context, workerParams);
     }
 
+    @NonNull
     @Override
-    public void onCreate() {
-        L.i(TAG, "onCreate");
-    }
+    public Result doWork() {
 
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && Keys.ACTION_CHECK_NOT_UPLOADED_FILES.equals(intent.getAction())) {
-//            if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                // only for Oreo and newer versions
-//                setForegroundNotification();
-//            } else {
+
+        mContext = getApplicationContext();
+
+        String inputKey = getInputData().getString(Keys.GET_KEY_FROM_WORKER);
+
+        if (Keys.ACTION_CHECK_NOT_UPLOADED_FILES.equals(inputKey)) {
+            System.out.println("taskDesc = " + inputKey);
+            Log.e(TAG, "Working in BackGround");
+
             startCheckNotUploadedFilesTimer();
-//            }
 
             startNotificationTimer();
-        }
-        return START_STICKY;
-    }
 
+        }
+
+        outputData = new Data.Builder()
+                .putString(Keys.GET_KEY_FROM_WORKER, inputKey)
+                .build();
+
+
+        return Result.success(outputData);
+    }
 
     private void startNotificationTimer() {
         if (showNotificationsDisposable != null) showNotificationsDisposable.dispose();
@@ -120,14 +134,14 @@ public class UploadFileService extends Service {
                         .interval(INITIAL_DELAY, CHECK_NOT_UPLOADED_FILE_PERIOD, TimeUnit.SECONDS, Schedulers.io())
                         .subscribe(__ ->
                         {
-                            if (!uploadingFiles && canUploadNextFile(UploadFileService.this))
+                            if (!uploadingFiles && canUploadNextFile(mContext))
                                 getFirstFileForUpload(0);
                         }, this::onError);
     }
 
     private void getFirstFileForUpload(long id) {
         Log.e("UPLOAD", "Get first start");
-        addDisposable(FilesBL.firstNotUploadedFileObservable(id, UIUtils.is3G(UploadFileService.this))
+        addDisposable(FilesBL.firstNotUploadedFileObservable(id, UIUtils.is3G(mContext))
                 .observeOn(Schedulers.computation())
                 .subscribe(this::onNotUploadedFileLoadedFromDb, this::onError));
     }
@@ -213,14 +227,14 @@ public class UploadFileService extends Service {
                 deleteNotUploadedFileFromDb(notUploadedFile.getId());
                 break;
             default:
-                new Handler(Looper.getMainLooper()).post(() -> UIUtils.showSimpleToast(UploadFileService.this, networkError.getErrorMessageRes()));
+                new Handler(Looper.getMainLooper()).post(() -> UIUtils.showSimpleToast(mContext, networkError.getErrorMessageRes()));
                 break;
         }
         checkForNext(notUploadedFile);
     }
 
     private void checkForNext(NotUploadedFile notUploadedFile) {
-        if (UIUtils.isOnline(UploadFileService.this) && canUploadNextFile(this))
+        if (UIUtils.isOnline(mContext) && canUploadNextFile(mContext))
             getFirstFileForUpload(notUploadedFile.get_id());
         else
             uploadingFiles = false;
@@ -246,7 +260,7 @@ public class UploadFileService extends Service {
     }
 
     private void updateShowNotificationStep(NotUploadedFile notUploadedFile) {
-        NotificationUtils.startFileNotUploadedNotificationActivity(UploadFileService.this,
+        NotificationUtils.startFileNotUploadedNotificationActivity(mContext,
                 notUploadedFile.getTaskName());
         FilesBL.updateShowNotificationStep(notUploadedFile);
     }
@@ -258,7 +272,7 @@ public class UploadFileService extends Service {
     }
 
     private void validateWaitingTasks(List<WaitingUploadTask> waitingUploadTasks) {
-        Stream.of(waitingUploadTasks).forEach(UploadFileService.this::validateTask);
+        Stream.of(waitingUploadTasks).forEach(UploadFileServiceWorker.this::validateTask);
     }
 
     private void getCountOfNotUploadedFiles() {
@@ -341,23 +355,6 @@ public class UploadFileService extends Service {
         return (UIUtils.is3G(context) && !preferencesManager.getUseOnlyWiFiConnaction()) || UIUtils.isWiFi(context);
     }
 
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
-
-    @Override
-    public void onDestroy() {
-        stopShowNotificationTimer();
-        stopUploadedFilesTimer();
-        stopWaitingTaskTimer();
-        unDispose();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            stopForeground(true);
-        }
-        super.onDestroy();
-    }
 
     private void onError(Throwable t) {
         Log.e(TAG, "Error on TaskRemainderServiceWorker", t);
@@ -397,30 +394,26 @@ public class UploadFileService extends Service {
 
     public void setForegroundNotification() {
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(App.getInstance(), 101, new Intent(App.getInstance(), MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(Keys.CHANNEL_NAME_BACKGROUND, "Fetching", NotificationManager.IMPORTANCE_HIGH);
-            channel.setSound(null, null);
-            App.getInstance().getSystemService(NotificationManager.class).createNotificationChannel(channel);
+            assert notificationManager != null;
+            notificationManager.createNotificationChannel(channel);
         }
-        Notification notification = new NotificationCompat.Builder(App.getInstance(), Keys.CHANNEL_NAME_BACKGROUND)
-                .setContentText("SmartRocket is syncing")
-                .setAutoCancel(true)
-                .setChannelId(Keys.CHANNEL_NAME_BACKGROUND)
-                .setSound(null)
-                .setContentIntent(pendingIntent)
-                .setSmallIcon(R.drawable.ic_notification)
-                .setColor(getResources().getColor(R.color.colorAccent))
-                .setShowWhen(true)
-                .setOnlyAlertOnce(true)
-                .setColor(Color.BLUE)
-                .setLocalOnly(true)
-                .build();
-        startForeground(SERVICE_NOTIFICATION_ID, notification);
 
-        startCheckNotUploadedFilesTimer();
+        NotificationCompat.Builder notification = new NotificationCompat.Builder(getApplicationContext(), Keys.CHANNEL_NAME_BACKGROUND)
+                .setContentTitle(mContext.getResources().getString(R.string.app_name))
+                .setContentText(mContext.getResources().getString(R.string.syncing));
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            notification.setSmallIcon(R.drawable.ic_notification);
+            notification.setColor(mContext.getResources().getColor(R.color.colorAccent));
+        } else {
+            notification.setSmallIcon(R.drawable.ic_notification);
+        }
+
+        assert notificationManager != null;
+        notificationManager.notify(1, notification.build());
     }
-
 
 }

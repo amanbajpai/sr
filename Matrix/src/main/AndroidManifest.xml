@@ -194,9 +194,9 @@
         <activity
             android:name=".presentation.notification.NotificationActivity"
             android:configChanges="orientation|keyboardHidden|screenSize|locale"
-            android:screenOrientation="portrait"
+            android:screenOrientation="unspecified"
             android:theme="@style/CustomNotification.Theme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
             android:name=".presentation.map.MapActivity"
             android:configChanges="locale"
@@ -365,9 +365,10 @@
                     android:scheme="package" />
             </intent-filter>
         </receiver>
-        <service
+
+       <!-- <service
             android:name=".net.TaskReminderService"
-            android:exported="true" />
+            android:exported="true" />-->
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -384,13 +385,13 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="${baiduApiKey}" />
         <!-- Upload file services -->
-        <service
+   <!-- <service
             android:name=".net.UploadFileService"
-            android:exported="false" />
-        <service
+            android:exported="false" />&ndash;&gt;-->
+       <!-- <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote" />
+            android:process=":remote" />-->
 
         <!--  For Ciklum
          <meta-data

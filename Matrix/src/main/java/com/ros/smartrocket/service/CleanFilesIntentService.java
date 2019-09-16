@@ -41,5 +41,6 @@ public class CleanFilesIntentService extends IntentService {
         Intent intent = new Intent(context, CleanFilesIntentService.class);
         intent.putExtra(EXTRA_PARAM_PREFIX, prefix);
         context.startService(intent);
+
     }
 }

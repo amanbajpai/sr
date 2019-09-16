@@ -36,6 +36,8 @@ public class BaseActivity extends AppCompatActivity implements MvpView {
         preferences.setString(KEY_SAVED_ACTIVITY_INTENT, getIntent().toUri(0));
     }
 
+
+
     @Override
     protected void onResume() {
         super.onResume();
