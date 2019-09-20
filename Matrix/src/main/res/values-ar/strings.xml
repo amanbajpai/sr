@@ -410,6 +410,14 @@
     <string name="task_claimed_message">المهمة لم تعد متاحة</string>
     <string name="task_claimed_ok_button">موافق</string>
 
-    <string name="show_images">عرض الصورة</string>
+
+
+    <string name="show_images">عرض الصور</string>
+    <string name="invalid_url">URL غير صالح</string>
+    <string name="cant_select_more_then_10_img">يمكنك اختيار فقط</string>
+    <string name="imagesText"> صور</string>
+    <string name="gallery">صالة عرض</string>
+
+
 
 </resources>

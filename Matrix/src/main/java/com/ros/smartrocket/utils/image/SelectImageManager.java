@@ -91,6 +91,8 @@ public class SelectImageManager {
     private static final Random RANDOM = new Random();
 
     private File file;
+    ArrayList<File> fileList = new ArrayList<File>();
+
 
     /// ======================================================================================================= ///
     /// ============================================= PUBLIC METHODS ========================================== ///
@@ -286,7 +288,7 @@ public class SelectImageManager {
                         }
                     } catch (FileNotFoundException e) {
                         L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
-                       // return new ImageFileClass(null, 0);
+                        // return new ImageFileClass(null, 0);
                     }
                 }
 
@@ -581,44 +583,19 @@ public class SelectImageManager {
 
                 if (intent.getSerializableExtra("selectedImgPath") != null) {
                     HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
-                    List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
-                    ArrayList<File> fileList = new ArrayList<File>();
-
+                    ArrayList<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
 
                     for (int i = 0; i < values.size(); i++) {
-                        // image.imageFile = new File(values.get(i).imagePath);
 
                         file = new File(values.get(i).imagePath);
                         fileList.add(file);
-
                     }
 
-
                     image = new ImageFileClass(image.bitmap, fileList);
-
                     onImageCompleteLoading(image, requestCode);
-
-
-/*
-                    Glide.with(context)
-                            .asBitmap()
-                            .load(values.get(0).imagePath)
-                            .into(new CustomTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                    image.bitmap = resource;
-                                }
-
-                                @Override
-                                public void onLoadCleared(@Nullable Drawable placeholder) {
-                                }
-                            });*/
-
 
                 }
 
-
-                //  onImageErrorLoading();
             }
         }
     }
@@ -640,7 +617,7 @@ public class SelectImageManager {
         public File imageFile;
         public ArrayList<File> mSelectedFileList;
 
-        public ImageFileClass(Bitmap bitmap,ArrayList<File> aSelectedFileList) {
+        public ImageFileClass(Bitmap bitmap, ArrayList<File> aSelectedFileList) {
             this.bitmap = bitmap;
             this.mSelectedFileList = aSelectedFileList;
         }

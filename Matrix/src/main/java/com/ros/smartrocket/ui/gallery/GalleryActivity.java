@@ -72,16 +72,6 @@ public class GalleryActivity extends BaseActivity {
                             galleryList.get(adapterPosition).isSelected = false;
                             selectedImgPath.remove(galleryInfo.imagePath);
                         } else {
-
-
-                            System.out.println("selectedImgPath.size() = " + selectedImgPath.size());
-
-
-                           /* if (imageListsize + selectedImgPath.size() >= 10) {
-                                Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
-                                return;
-                            }*/
-
                             if (imageListsize > 0) {
                                 if (selectedImgPath.size() >= imageListsize) {
                                     String strText = getResources().getString(R.string.cant_select_more_then_10_img) + imageListsize + getResources().getString(R.string.imagesText);
@@ -107,17 +97,11 @@ public class GalleryActivity extends BaseActivity {
                         galleryList.get(adapterPosition).isSelected = false;
                         selectedImgPath.remove(galleryInfo.imagePath);
                     } else {
-                        /*if (imageListsize + selectedImgPath.size() >= 10) {
-                            Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
-                            return;
-                        }*/
 
-
-                        System.out.println("selectedImgPath.size() = " + selectedImgPath.size());
 
                         if (imageListsize > 0) {
                             if (selectedImgPath.size() >= imageListsize) {
-                                String strText = getResources().getString(R.string.cant_select_more_then_10_img) + imageListsize + getResources().getString(R.string.imagesText);
+                                String strText = getResources().getString(R.string.cant_select_more_then_10_img) + "  " + imageListsize + "  " + getResources().getString(R.string.imagesText);
                                 Toast.makeText(GalleryActivity.this, strText, Toast.LENGTH_SHORT).show();
                                 return;
                             }

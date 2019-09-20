@@ -55,11 +55,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
     private HorizonalImgAdapter horizonalImgAdapter;
     private List<GalleryInfo> imageList = new ArrayList<>();
-
-    private List<File> mFileList = new ArrayList<>();
-
     private int currentSelectedPhoto = 0;
-    private int selectedImgIndex = 0;
 
     public PhotoView(Context context) {
         super(context);
@@ -87,7 +83,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
             questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion() + string));
         } else {
             questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion()));
-            //presenter.onQuestionCount(Integer.parseInt(question.getQuestion()));
+            presenter.onQuestionCount(question.getMaximumPhotos());
 
         }
         presenter.loadAnswers();
@@ -232,7 +228,6 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
                 , LinearLayoutManager.HORIZONTAL, true));
         recyclerview_gallery.setAdapter(horizonalImgAdapter);
-
         horizonalImgAdapter.setListner(this::onItemClick);
     }
 
@@ -284,27 +279,23 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
     @Override
     public void getSelectedImgPath(ArrayList<File> selectedPath) {
-
-        mFileList = selectedPath;
-
         photo.setImageURI(Uri.fromFile(selectedPath.get(0)));
+       /// galleryLayout.removeAllViews();
+/*
 
-
-       /* galleryLayout.removeAllViews();
-
-        for (int i = 1; i < mFileList.size() - 1; i++) {
+        for (int i = 1; i < selectedPath.size() - 1; i++) {
             Answer answer = new Answer();
-
-            answer.setFileUri(mFileList.get(i).toString());
+            answer.setFileUri(selectedPath.get(i).toString());
             answer.setChecked(true);
             addItemToGallery(i, answer);
-        }*/
+        }
+*/
+
     }
 
 
     @Override
     public void onItemClick(GalleryInfo galleryInfo, int pos) {
-        selectedImgIndex = pos;
         Glide.with(getContext()).load(galleryInfo.imagePath).into(photo);
     }
 }

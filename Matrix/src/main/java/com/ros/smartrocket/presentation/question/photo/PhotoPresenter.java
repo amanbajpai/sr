@@ -59,9 +59,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 getMvpView().showLoading(false);
                 break;
             case IMAGE_COMPLETE:
-
                 //from Camera
-
                 if (event.requestCode == null || RequestCodeImageHelper.getBigPart(event.requestCode) == question.getOrderId()) {
                     lastPhotoFile = event.image.imageFile;
                     isBitmapAdded = event.image.bitmap != null;
@@ -69,54 +67,24 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     getMvpView().hideLoading();
                     if (event.image.bitmap != null) {
                         getMvpView().setBitmap(event.image.bitmap);
-
                         onPhotoConfirmed(getMvpView().getCurrentPos());
                     } else {
-
                         // from Gallery
-
-
                         ArrayList<File> mSelectedFileList = event.image.mSelectedFileList;
-
                         getMvpView().hideLoading();
-
                         isBitmapAdded = true;
                         isBitmapConfirmed = false;
-
                         if (mSelectedFileList.size() > 0) {
                             getMvpView().getSelectedImgPath(mSelectedFileList);
-
                             for (int j = 0; j < mSelectedFileList.size(); j++) {
                                 lastPhotoFile = mSelectedFileList.get(j).getAbsoluteFile();
                                 onPhotoConfirmed(j);
-
                             }
                         }
                     }
-
                     refreshButtons();
                     refreshNextButton(isPhotosAdded());
-                } /*else {
-                    ArrayList<File> mSelectedFileList = event.image.mSelectedFileList;
-
-                    getMvpView().hideLoading();
-
-                    isBitmapAdded = true;
-                    isBitmapConfirmed = false;
-
-                    if (mSelectedFileList.size() > 0) {
-                        getMvpView().getSelectedImgPath(mSelectedFileList);
-
-                        for (int j = 0; j < mSelectedFileList.size(); j++) {
-                            lastPhotoFile = mSelectedFileList.get(j).getAbsoluteFile();
-                            onPhotoConfirmed(j);
-                        }
-                    }
-
-                    refreshButtons();
-                    refreshNextButton(isPhotosAdded());
-
-                }*/
+                }
                 break;
             case SELECT_IMAGE_ERROR:
                 getMvpView().hideLoading();
@@ -222,8 +190,6 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
             photoQuestionHelper.startCamera(mCurrentPhotoFile, question.getOrderId());
         } else if (question.getPhotoSource() == 1) {
-            //anil
-            //photoQuestionHelper.startGallery(question.getOrderId());
             photoQuestionHelper.openGallery(question.getOrderId(), aQuesCount);
         } else {
             mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
@@ -291,70 +257,6 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         }.execute();
     }
 
-    //anil
-    public void handleResults(File resultImageFile, String imagesStr) {
-
-        MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
-                .GetCurrentLocationListener() {
-            @Override
-            public void getLocationStart() {
-                getMvpView().showLoading(false);
-            }
-
-            @Override
-            public void getLocationInProcess() {
-            }
-
-            @Override
-            public void getLocationSuccess(Location location) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-
-                    if (resultImageFile.exists()) {
-                        Answer answer = question.getAnswers().get(0);
-                        boolean needAddEmptyAnswer = !answer.getChecked();
-                        answer.setChecked(true);
-                        answer.setFileUri(imagesStr);
-                        answer.setFileSizeB(resultImageFile.length());
-                        answer.setFileName(resultImageFile.getName());
-                        answer.setValue(resultImageFile.getName());
-                        answer.setLatitude(location.getLatitude());
-                        answer.setLongitude(location.getLongitude());
-                        if (!isPreview()) saveQuestion();
-                        if (needAddEmptyAnswer && question.getAnswers().size() < question.getMaximumPhotos())
-                            addEmptyAnswer();
-                        getMvpView().refreshPhotoGallery(question.getAnswers());
-                        isBitmapConfirmed = true;
-                        refreshButtons();
-                        refreshNextButton(isPhotosAdded());
-                    }
-                    getMvpView().hideLoading();
-
-
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
-
-                }
-            }
-
-            @Override
-            public void getLocationFail(String errorText) {
-                if (isViewAttached()) {
-                    getMvpView().hideLoading();
-                    UIUtils.showSimpleToast(App.getInstance(), errorText);
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
-                }
-            }
-        });
-    }
-
-    String getCommonSeperatedString(List<GalleryInfo> actionObjects) {
-        StringBuffer sb = new StringBuffer();
-        for (GalleryInfo actionObject : actionObjects) {
-            sb.append(actionObject.imagePath).append(",");
-        }
-        sb.deleteCharAt(sb.lastIndexOf(","));
-        return sb.toString();
-    }
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {

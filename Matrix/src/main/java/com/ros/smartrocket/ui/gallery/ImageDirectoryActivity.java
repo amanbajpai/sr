@@ -142,14 +142,4 @@ public class ImageDirectoryActivity extends BaseActivity {
 
     }
 
-
-
-   /* @OnClick({R.id.recyclerview})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btnMyLocation:
-
-            break;
-        }
-    }*/
 }
