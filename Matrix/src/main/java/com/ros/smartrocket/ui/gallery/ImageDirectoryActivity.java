@@ -8,14 +8,17 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
 import com.ros.smartrocket.R;
 import com.ros.smartrocket.presentation.base.BaseActivity;
 import com.ros.smartrocket.ui.gallery.adapter.ImageDirectoryAdapter;
 import com.ros.smartrocket.ui.gallery.model.BucketInfo;
 import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,8 +41,8 @@ public class ImageDirectoryActivity extends BaseActivity {
 
         imageBucketList = new ArrayList<>();
 
-        if(getIntent() != null){
-            imageListsize = getIntent().getIntExtra("imageListsize",10);
+        if (getIntent() != null) {
+            imageListsize = getIntent().getIntExtra("imageListsize", -1);
         }
 
         directoryAdapter = new ImageDirectoryAdapter(this, imageBucketList, bucketInfo -> {
@@ -47,8 +50,7 @@ public class ImageDirectoryActivity extends BaseActivity {
             intent.putExtra("imageListsize", imageListsize);
             intent.putExtra("folderName", bucketInfo.getName());
             startActivityForResult(intent, 101);
-        }
-        );
+        });
 
         GridLayoutManager manager = new GridLayoutManager(this, 2);
         recyclerview.setLayoutManager(manager);
@@ -69,11 +71,11 @@ public class ImageDirectoryActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK && requestCode == 101){
+        if (resultCode == RESULT_OK && requestCode == 101) {
             selectedImgPath = (HashMap<Integer, GalleryInfo>) data.getSerializableExtra("selectedImgPath");
             Intent intent = getIntent();
-            intent.putExtra("selectedImgPath",selectedImgPath);
-            setResult(RESULT_OK,intent);
+            intent.putExtra("selectedImgPath", selectedImgPath);
+            setResult(RESULT_OK, intent);
             finish();
         }
     }

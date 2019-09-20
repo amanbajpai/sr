@@ -1,11 +1,13 @@
 package com.ros.smartrocket.presentation.question.photo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
 import com.ros.smartrocket.db.entity.question.Answer;
@@ -19,6 +21,7 @@ import com.ros.smartrocket.utils.eventbus.PhotoEvent;
 import com.ros.smartrocket.utils.helpers.photo.PhotoHelper;
 import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +36,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     private boolean isBitmapConfirmed = false;
     private boolean isImageRequested;
     private PhotoHelper photoQuestionHelper;
+    private int aQuesCount;
 
 
     public PhotoPresenter(Question question, PhotoHelper photoHelper) {
@@ -55,19 +59,64 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 getMvpView().showLoading(false);
                 break;
             case IMAGE_COMPLETE:
-                if (event.requestCode == null
-                        || RequestCodeImageHelper.getBigPart(event.requestCode) == question.getOrderId()) {
+
+                //from Camera
+
+                if (event.requestCode == null || RequestCodeImageHelper.getBigPart(event.requestCode) == question.getOrderId()) {
                     lastPhotoFile = event.image.imageFile;
                     isBitmapAdded = event.image.bitmap != null;
                     isBitmapConfirmed = false;
-                    getMvpView().setBitmap(event.image.bitmap);
                     getMvpView().hideLoading();
-                    if (event.image.bitmap != null)
+                    if (event.image.bitmap != null) {
+                        getMvpView().setBitmap(event.image.bitmap);
+
                         onPhotoConfirmed(getMvpView().getCurrentPos());
+                    } else {
+
+                        // from Gallery
+
+
+                        ArrayList<File> mSelectedFileList = event.image.mSelectedFileList;
+
+                        getMvpView().hideLoading();
+
+                        isBitmapAdded = true;
+                        isBitmapConfirmed = false;
+
+                        if (mSelectedFileList.size() > 0) {
+                            getMvpView().getSelectedImgPath(mSelectedFileList);
+
+                            for (int j = 0; j < mSelectedFileList.size(); j++) {
+                                lastPhotoFile = mSelectedFileList.get(j).getAbsoluteFile();
+                                onPhotoConfirmed(j);
+
+                            }
+                        }
+                    }
 
                     refreshButtons();
                     refreshNextButton(isPhotosAdded());
-                }
+                } /*else {
+                    ArrayList<File> mSelectedFileList = event.image.mSelectedFileList;
+
+                    getMvpView().hideLoading();
+
+                    isBitmapAdded = true;
+                    isBitmapConfirmed = false;
+
+                    if (mSelectedFileList.size() > 0) {
+                        getMvpView().getSelectedImgPath(mSelectedFileList);
+
+                        for (int j = 0; j < mSelectedFileList.size(); j++) {
+                            lastPhotoFile = mSelectedFileList.get(j).getAbsoluteFile();
+                            onPhotoConfirmed(j);
+                        }
+                    }
+
+                    refreshButtons();
+                    refreshNextButton(isPhotosAdded());
+
+                }*/
                 break;
             case SELECT_IMAGE_ERROR:
                 getMvpView().hideLoading();
@@ -121,7 +170,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
                     saveAnswer(location, photoPos);
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
 
                 }
             }
@@ -131,7 +180,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
                     UIUtils.showSimpleToast(App.getInstance(), errorText);
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
                 }
             }
         });
@@ -162,7 +211,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             }
             photoQuestionHelper.showFullScreenImage(filePath);
         } else {
-            PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,question.getCompressionphoto());
+            PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, question.getCompressionphoto());
             onPhotoRequested(photoPos);
         }
     }
@@ -175,7 +224,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         } else if (question.getPhotoSource() == 1) {
             //anil
             //photoQuestionHelper.startGallery(question.getOrderId());
-            photoQuestionHelper.openGallery(question.getOrderId(),0);
+            photoQuestionHelper.openGallery(question.getOrderId(), aQuesCount);
         } else {
             mCurrentPhotoFile = photoQuestionHelper.getTempFile(question.getTaskId().toString());
             photoQuestionHelper.showSelectImageDialog(false, mCurrentPhotoFile, question.getOrderId());
@@ -184,23 +233,29 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     }
 
     @Override
-    public void onGalleryPhotoRequested(int photoPos, int imageListsize) {
-        if(question.getPhotoSource() == 0){
+    public void onQuestionCount(int aCount) {
 
-        }else  if(question.getPhotoSource() == 1){
-            photoQuestionHelper.openGallery(question.getOrderId(),imageListsize);
+        aQuesCount = aCount;
+    }
+
+    @Override
+    public void onGalleryPhotoRequested(int photoPos, int imageListsize) {
+        if (question.getPhotoSource() == 0) {
+
+        } else if (question.getPhotoSource() == 1) {
+            photoQuestionHelper.openGallery(question.getOrderId(), imageListsize);
         }
 
     }
 
     private void saveAnswer(Location location, int photoPos) {
 
-        new AsyncTask<Void,Void ,File>(){
+        new AsyncTask<Void, Void, File>() {
 
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                  getMvpView().showLoading(false);
+                getMvpView().showLoading(false);
             }
 
             @Override
@@ -234,12 +289,10 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 getMvpView().hideLoading();
             }
         }.execute();
-
-
     }
 
     //anil
-    public void handleResults(File resultImageFile, String imagesStr){
+    public void handleResults(File resultImageFile, String imagesStr) {
 
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
                 .GetCurrentLocationListener() {
@@ -278,7 +331,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     getMvpView().hideLoading();
 
 
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
 
                 }
             }
@@ -288,7 +341,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
                     UIUtils.showSimpleToast(App.getInstance(), errorText);
-                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO,true);
+                    PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
                 }
             }
         });
@@ -296,7 +349,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
     String getCommonSeperatedString(List<GalleryInfo> actionObjects) {
         StringBuffer sb = new StringBuffer();
-        for (GalleryInfo actionObject : actionObjects){
+        for (GalleryInfo actionObject : actionObjects) {
             sb.append(actionObject.imagePath).append(",");
         }
         sb.deleteCharAt(sb.lastIndexOf(","));
@@ -305,16 +358,6 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
     @Override
     public boolean onActivityResult(int requestCode, int resultCode, Intent intent) {
-        //anil
-       /* if(resultCode == RESULT_OK && requestCode == 102){
-            HashMap<String,GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
-            getMvpView().getSelectedImgPath(selectedImgPath);
-
-            List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
-            String imagesStr =  getCommonSeperatedString(values);
-
-            handleResults(new File(values.get(0).imagePath),imagesStr);
-        }*/
 
         if (isImageRequested) {
             if (mCurrentPhotoFile != null) {

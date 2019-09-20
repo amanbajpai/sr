@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -34,7 +35,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class GalleryActivity extends BaseActivity  {
+public class GalleryActivity extends BaseActivity {
     private String folderName = "";
     private GalleryAdapter galleryAdapter;
     private int imageListsize;
@@ -58,7 +59,7 @@ public class GalleryActivity extends BaseActivity  {
         hideActionBar();
 
         if (getIntent() != null) {
-            imageListsize = getIntent().getIntExtra("imageListsize",10);
+            imageListsize = getIntent().getIntExtra("imageListsize", -1);
             folderName = getIntent().getStringExtra("folderName");
 
             List<GalleryInfo> galleryList = getImagesByBucket(folderName);
@@ -71,9 +72,22 @@ public class GalleryActivity extends BaseActivity  {
                             galleryList.get(adapterPosition).isSelected = false;
                             selectedImgPath.remove(galleryInfo.imagePath);
                         } else {
-                            if (imageListsize+selectedImgPath.size() >= 10) {
+
+
+                            System.out.println("selectedImgPath.size() = " + selectedImgPath.size());
+
+
+                           /* if (imageListsize + selectedImgPath.size() >= 10) {
                                 Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                                 return;
+                            }*/
+
+                            if (imageListsize > 0) {
+                                if (selectedImgPath.size() >= imageListsize) {
+                                    String strText = getResources().getString(R.string.cant_select_more_then_10_img) + imageListsize + getResources().getString(R.string.imagesText);
+                                    Toast.makeText(GalleryActivity.this, strText, Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
                             }
 
                             galleryList.get(adapterPosition).isSelected = true;
@@ -93,9 +107,20 @@ public class GalleryActivity extends BaseActivity  {
                         galleryList.get(adapterPosition).isSelected = false;
                         selectedImgPath.remove(galleryInfo.imagePath);
                     } else {
-                        if (imageListsize+selectedImgPath.size() >= 10) {
+                        /*if (imageListsize + selectedImgPath.size() >= 10) {
                             Toast.makeText(GalleryActivity.this, R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
                             return;
+                        }*/
+
+
+                        System.out.println("selectedImgPath.size() = " + selectedImgPath.size());
+
+                        if (imageListsize > 0) {
+                            if (selectedImgPath.size() >= imageListsize) {
+                                String strText = getResources().getString(R.string.cant_select_more_then_10_img) + imageListsize + getResources().getString(R.string.imagesText);
+                                Toast.makeText(GalleryActivity.this, strText, Toast.LENGTH_SHORT).show();
+                                return;
+                            }
                         }
 
                         ly_select_image.setVisibility(View.VISIBLE);
@@ -153,12 +178,9 @@ public class GalleryActivity extends BaseActivity  {
             case R.id.tv_ok:
                 Intent intent = getIntent();
                 intent.putExtra("selectedImgPath", selectedImgPath);
-                setResult(RESULT_OK,intent);
+                setResult(RESULT_OK, intent);
                 finish();
                 break;
         }
     }
-
-
-
 }

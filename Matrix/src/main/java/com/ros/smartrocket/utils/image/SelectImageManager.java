@@ -90,6 +90,8 @@ public class SelectImageManager {
     private static final int ONE_KB_IN_B = 1024;
     private static final Random RANDOM = new Random();
 
+    private File file;
+
     /// ======================================================================================================= ///
     /// ============================================= PUBLIC METHODS ========================================== ///
     /// ======================================================================================================= ///
@@ -260,15 +262,15 @@ public class SelectImageManager {
         Bitmap resultBitmap = null;
         File lastFile = null;
         boolean isEligible = false;
-        if (intent.getSerializableExtra("selectedImgPath") != null) {
+        /*if (intent.getSerializableExtra("selectedImgPath") != null) {
             HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
             isEligible = true;
             List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
             String imagesStr =values.get(0).imagePath;
         }
-
+*/
         try {
-            if ((intent != null && intent.getData() != null)|| isEligible) {
+            if ((intent != null && intent.getData() != null) || isEligible) {
                 final String prefix = intent.getStringExtra(EXTRA_PREFIX);
                 Uri uri = intent.getData();
                 if ("com.google.android.apps.photos.contentprovider".equals(uri.getAuthority())) {
@@ -284,7 +286,7 @@ public class SelectImageManager {
                         }
                     } catch (FileNotFoundException e) {
                         L.e(TAG, "GetBitmapFromGallery error" + e.getMessage(), e);
-                        return new ImageFileClass(null, null);
+                       // return new ImageFileClass(null, 0);
                     }
                 }
 
@@ -546,7 +548,9 @@ public class SelectImageManager {
             int littleRequestCode = getLittlePart(requestCode);
             onImageStartLoading();
             if (littleRequestCode == SelectImageManager.GALLERY) {
+
                 image = getBitmapFromGallery(intent, context);
+
             } else if (littleRequestCode == SelectImageManager.CAMERA
                     || littleRequestCode == SelectImageManager.CUSTOM_CAMERA) {
                 image = getBitmapFromCamera(intent, context);
@@ -568,40 +572,53 @@ public class SelectImageManager {
                 if (intent.getSerializableExtra("selectedImgPath") != null) {
                     HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
                     List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
-                    image.imageFile  = new File(values.get(0).imagePath);
+                    image.imageFile = new File(values.get(0).imagePath);
                 }
 
                 onImageCompleteLoading(image, requestCode);
+
             } else {
 
                 if (intent.getSerializableExtra("selectedImgPath") != null) {
                     HashMap<String, GalleryInfo> selectedImgPath = (HashMap<String, GalleryInfo>) intent.getSerializableExtra("selectedImgPath");
                     List<GalleryInfo> values = new ArrayList<>(selectedImgPath.values());
+                    ArrayList<File> fileList = new ArrayList<File>();
 
 
-                    for(int i=0;i<values.size();i++){
-                        image.imageFile  = new File(values.get(i).imagePath);
-                        Glide.with(context)
-                                .asBitmap()
-                                .load(values.get(i).imagePath)
-                                .into(new CustomTarget<Bitmap>() {
-                                    @Override
-                                    public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
-                                        image.bitmap = resource;
-                                        onImageCompleteLoading(image, requestCode);
-                                    }
+                    for (int i = 0; i < values.size(); i++) {
+                        // image.imageFile = new File(values.get(i).imagePath);
 
-                                    @Override
-                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                                    }
-                                });
+                        file = new File(values.get(i).imagePath);
+                        fileList.add(file);
 
                     }
+
+
+                    image = new ImageFileClass(image.bitmap, fileList);
+
+                    onImageCompleteLoading(image, requestCode);
+
+
+/*
+                    Glide.with(context)
+                            .asBitmap()
+                            .load(values.get(0).imagePath)
+                            .into(new CustomTarget<Bitmap>() {
+                                @Override
+                                public void onResourceReady(@NonNull Bitmap resource, @Nullable Transition<? super Bitmap> transition) {
+                                    image.bitmap = resource;
+                                }
+
+                                @Override
+                                public void onLoadCleared(@Nullable Drawable placeholder) {
+                                }
+                            });*/
+
+
                 }
 
 
-
-              //  onImageErrorLoading();
+                //  onImageErrorLoading();
             }
         }
     }
@@ -621,10 +638,16 @@ public class SelectImageManager {
     public static class ImageFileClass {
         public Bitmap bitmap;
         public File imageFile;
+        public ArrayList<File> mSelectedFileList;
 
-        public ImageFileClass(Bitmap bitmap, File imageFile) {
+        public ImageFileClass(Bitmap bitmap,ArrayList<File> aSelectedFileList) {
             this.bitmap = bitmap;
-            this.imageFile = imageFile;
+            this.mSelectedFileList = aSelectedFileList;
+        }
+
+        public ImageFileClass(Bitmap prepareBitmap, File file) {
+            this.bitmap = prepareBitmap;
+            this.imageFile = file;
         }
     }
 

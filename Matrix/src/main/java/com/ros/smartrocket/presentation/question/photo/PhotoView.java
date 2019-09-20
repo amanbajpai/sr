@@ -1,9 +1,9 @@
 package com.ros.smartrocket.presentation.question.photo;
 
-import android.app.Activity;
 import android.content.Context;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +11,11 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ros.smartrocket.R;
@@ -34,7 +32,6 @@ import com.ros.smartrocket.utils.image.SelectImageManager;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,6 +56,8 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     private HorizonalImgAdapter horizonalImgAdapter;
     private List<GalleryInfo> imageList = new ArrayList<>();
 
+    private List<File> mFileList = new ArrayList<>();
+
     private int currentSelectedPhoto = 0;
     private int selectedImgIndex = 0;
 
@@ -81,10 +80,15 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         String subQuestionNumber = TextUtils.isEmpty(question.getSubQuestionNumber())
                 ? "" : question.getSubQuestionNumber();
         if (question.getMaximumPhotos() > 1) {
+
+            presenter.onQuestionCount(question.getMaximumPhotos());
+
             String string = getContext().getString(R.string.maximum_photo, question.getMaximumPhotos());
             questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion() + string));
         } else {
             questionText.setText(Html.fromHtml(subQuestionNumber + question.getQuestion()));
+            //presenter.onQuestionCount(Integer.parseInt(question.getQuestion()));
+
         }
         presenter.loadAnswers();
     }
@@ -115,39 +119,13 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.photo:
-                 presenter.onPhotoClicked(currentSelectedPhoto);
+                presenter.onPhotoClicked(currentSelectedPhoto);
                 break;
             case R.id.rePhotoButton:
                 presenter.onPhotoRequested(currentSelectedPhoto);
                 break;
             case R.id.deletePhotoButton:
-                //anil
-                /*try {
-
-
-                    if (imageList.size() > 0) {
-                        imageList.remove(selectedImgIndex);
-                        horizonalImgAdapter.notifyDataSetChanged();
-
-                        if (imageList.size() != 0) {
-                            Glide.with(getContext()).load(imageList.get(selectedImgIndex).imagePath).into(photo);
-                        }else {
-                            deletePhotoButton.setVisibility(GONE);
-                            photo.setImageResource(0);
-                            photo.setBackgroundResource(R.drawable.camera_icon);
-                        }
-
-                        if (selectedImgIndex == 0) {
-
-                        } else selectedImgIndex = selectedImgIndex - 1;
-
-
-                    }
-
-                }catch (Exception e){
-
-                }*/
-                 presenter.onPhotoDeleted(currentSelectedPhoto);
+                presenter.onPhotoDeleted(currentSelectedPhoto);
                 break;
             case R.id.confirmButton:
                 presenter.onPhotoConfirmed(currentSelectedPhoto);
@@ -184,40 +162,35 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @Override
     public void refreshPhotoGallery(List<Answer> answers) {
         galleryLayout.removeAllViews();
-        for (int i = 0; i < answers.size(); i++) {
-            addItemToGallery(i, answers.get(i));
+        if (answers.size() > 0) {
+            for (int i = 0; i < answers.size(); i++) {
+                addItemToGallery(i, answers.get(i));
+            }
         }
     }
 
     private void addItemToGallery(final int position, Answer answer) {
         View convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_photo_gallery, null);
-        ImageView photo = convertView.findViewById(R.id.image);
+        ImageView imageView = convertView.findViewById(R.id.image);
         ImageView imageFrame = convertView.findViewById(R.id.imageFrame);
         if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
             Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100);
-            photo.setImageBitmap(bitmap);
-
-            //anil
-            //photo.setBackgroundResource(R.drawable.camera_icon);
+            imageView.setImageBitmap(bitmap);
 
         } else {
-            photo.setBackgroundResource(R.drawable.camera_icon);
+            imageView.setBackgroundResource(R.drawable.camera_icon);
         }
 
-        //anil
-        /*photo.setOnClickListener(v -> {
-            if (imageList.size() >= 10) {
-                Toast.makeText(getContext(), R.string.cant_select_more_then_10_img, Toast.LENGTH_SHORT).show();
-                return;
-            }
-            presenter.onGalleryPhotoRequested(currentSelectedPhoto, imageList.size());
 
-        });*/
+        if (position == currentSelectedPhoto) {
+            imageFrame.setVisibility(View.VISIBLE);
 
-        if (position == currentSelectedPhoto) imageFrame.setVisibility(View.VISIBLE);
+        }
         convertView.setOnClickListener(v -> {
             currentSelectedPhoto = position;
+
             presenter.selectGalleryPhoto(position);
+
         });
 
         galleryLayout.addView(convertView);
@@ -246,7 +219,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         String[] elements = commaSeperator.split(",");
         List<String> list = Arrays.asList(elements);
 
-        for(int i=0;i<list.size();i++){
+        for (int i = 0; i < list.size(); i++) {
             GalleryInfo galleryInfo = new GalleryInfo();
             galleryInfo.isSelected = true;
             galleryInfo.id = i;
@@ -259,14 +232,6 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
                 , LinearLayoutManager.HORIZONTAL, true));
         recyclerview_gallery.setAdapter(horizonalImgAdapter);
-
-        //anil
-        /*if (imageList.size() > 0) {
-            deletePhotoButton.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(imageList.get(0).imagePath).into(photo);
-        } else {
-            deletePhotoButton.setVisibility(View.GONE);
-        }*/
 
         horizonalImgAdapter.setListner(this::onItemClick);
     }
@@ -318,24 +283,22 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     }
 
     @Override
-    public void getSelectedImgPath(HashMap<String, GalleryInfo> selectedPath) {
-        List<GalleryInfo> values = new ArrayList<>(selectedPath.values());
+    public void getSelectedImgPath(ArrayList<File> selectedPath) {
 
-        imageList.addAll(values);
+        mFileList = selectedPath;
 
-        horizonalImgAdapter = new HorizonalImgAdapter(imageList, getContext());
-        recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
-                , LinearLayoutManager.HORIZONTAL, true));
-        recyclerview_gallery.setAdapter(horizonalImgAdapter);
+        photo.setImageURI(Uri.fromFile(selectedPath.get(0)));
 
-        if (selectedPath.size() > 0) {
-            deletePhotoButton.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(imageList.get(0).imagePath).into(photo);
-        } else {
-            deletePhotoButton.setVisibility(View.GONE);
-        }
 
-        horizonalImgAdapter.setListner(this::onItemClick);
+       /* galleryLayout.removeAllViews();
+
+        for (int i = 1; i < mFileList.size() - 1; i++) {
+            Answer answer = new Answer();
+
+            answer.setFileUri(mFileList.get(i).toString());
+            answer.setChecked(true);
+            addItemToGallery(i, answer);
+        }*/
     }
 
 

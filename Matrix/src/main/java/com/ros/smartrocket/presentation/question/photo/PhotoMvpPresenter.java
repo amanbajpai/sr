@@ -17,5 +17,7 @@ public interface PhotoMvpPresenter<V extends PhotoMvpView> extends BaseQuestionM
 
     void onPhotoRequested(int photoPos);
 
+    void onQuestionCount(int aCount);
+
     void onGalleryPhotoRequested(int photoPos, int size);
 }

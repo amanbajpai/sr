@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.ros.smartrocket.ui.gallery.ImageDirectoryActivity;
 import com.ros.smartrocket.utils.IntentUtils;
+import com.ros.smartrocket.utils.image.RequestCodeImageHelper;
 import com.ros.smartrocket.utils.image.SelectImageManager;
 
 import java.io.File;
@@ -15,6 +16,7 @@ public class PhotoManager implements PhotoHelper {
     private Fragment fragment;
     private SelectImageManager selectImageManager;
 
+    private static final int GALLERY = 0x1;
 
     public PhotoManager(Fragment fragment) {
         this.fragment = fragment;
@@ -56,10 +58,11 @@ public class PhotoManager implements PhotoHelper {
     }
 
     @Override
-    public void openGallery(Integer orderId, int imageListsize) {
+    public void openGallery(Integer orderId, int aTotalCount) {
         Intent intent = new Intent(fragment.getContext(), ImageDirectoryActivity.class);
-        intent.putExtra("imageListsize",imageListsize);
-        fragment.startActivityForResult(intent,65);
+        intent.putExtra("imageListsize", aTotalCount);
+        fragment.startActivityForResult(intent, RequestCodeImageHelper.makeRequestCode(orderId, GALLERY));
+
     }
 
     @Override

@@ -579,7 +579,8 @@
 
     <string name="show_images">Show Images</string>
     <string name="invalid_url">Invalid url</string>
-    <string name="cant_select_more_then_10_img">Can\'t select more then 10 images</string>
+    <string name="cant_select_more_then_10_img">Can\'t select more then</string>
+    <string name="imagesText"> images</string>
     <string name="gallery">Gallery</string>
 
 
