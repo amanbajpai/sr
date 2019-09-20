@@ -280,7 +280,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @Override
     public void getSelectedImgPath(ArrayList<File> selectedPath) {
         photo.setImageURI(Uri.fromFile(selectedPath.get(0)));
-       /// galleryLayout.removeAllViews();
+        /// galleryLayout.removeAllViews();
 /*
 
         for (int i = 1; i < selectedPath.size() - 1; i++) {
