@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="2.5dp"
         android:layout_marginRight="2.5dp"
-        android:src="@drawable/woman"
+        android:src="@drawable/camera_icon"
         android:padding="1dp"
         android:background="@drawable/photo_gallery_select_state"
         android:scaleType="fitXY"/>

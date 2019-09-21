@@ -44,19 +44,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:divider="@null"
+                android:nestedScrollingEnabled="false"
                 android:orientation="horizontal"
                 app:reverseLayout="true"
                 android:visibility="gone"/>
 
         </RelativeLayout>
-
-
-
-
-
-
-
-
 
         <FrameLayout
             android:layout_width="match_parent"

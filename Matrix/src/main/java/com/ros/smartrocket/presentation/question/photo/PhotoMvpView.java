@@ -12,7 +12,7 @@ import java.util.List;
 public interface PhotoMvpView extends BaseQuestionMvpView {
     void showPhotoCanNotBeAddDialog();
 
-    void refreshPhotoGallery(List<Answer> answers);
+    void refreshPhotoGallery(List<Answer> answers , int type);
 
     void selectGalleryPhoto(int position);
 

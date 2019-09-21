@@ -9,7 +9,7 @@ public interface PhotoMvpPresenter<V extends PhotoMvpView> extends BaseQuestionM
 
     void selectGalleryPhoto(int position);
 
-    void onPhotoConfirmed(int photoPos);
+    void onPhotoConfirmed(int photoPos , int type); // type 1: Camera , 2 : Gallery
 
     void onPhotoDeleted(int photoPos);
 
@@ -18,6 +18,7 @@ public interface PhotoMvpPresenter<V extends PhotoMvpView> extends BaseQuestionM
     void onPhotoRequested(int photoPos);
 
     void onQuestionCount(int aCount);
+
 
     void onGalleryPhotoRequested(int photoPos, int size);
 }

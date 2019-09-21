@@ -7,6 +7,7 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.ros.smartrocket.App;
 import com.ros.smartrocket.Keys;
@@ -49,7 +50,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         if (answers.isEmpty()) addEmptyAnswer();
         super.onAnswersLoadedFromDb(answers);
         if (!isBitmapAdded)
-            selectGalleryPhoto(0);
+            selectGalleryPhoto(1);
     }
 
     @Override
@@ -67,7 +68,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     getMvpView().hideLoading();
                     if (event.image.bitmap != null) {
                         getMvpView().setBitmap(event.image.bitmap);
-                        onPhotoConfirmed(getMvpView().getCurrentPos());
+                        onPhotoConfirmed(getMvpView().getCurrentPos(), 1);
                     } else {
                         // from Gallery
                         ArrayList<File> mSelectedFileList = event.image.mSelectedFileList;
@@ -78,7 +79,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                             getMvpView().getSelectedImgPath(mSelectedFileList);
                             for (int j = 0; j < mSelectedFileList.size(); j++) {
                                 lastPhotoFile = mSelectedFileList.get(j).getAbsoluteFile();
-                                onPhotoConfirmed(j);
+                                onPhotoConfirmed(j , 2);
                             }
                         }
                     }
@@ -121,7 +122,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
     }
 
     @Override
-    public void onPhotoConfirmed(int photoPos) {
+    public void onPhotoConfirmed(int photoPos , int type) {
         MatrixLocationManager.getCurrentLocation(false, new MatrixLocationManager
                 .GetCurrentLocationListener() {
             @Override
@@ -137,7 +138,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
             public void getLocationSuccess(Location location) {
                 if (isViewAttached()) {
                     getMvpView().hideLoading();
-                    saveAnswer(location, photoPos);
+                    saveAnswer(location, photoPos ,type );
                     PreferencesManager.getInstance().setBoolean(Keys.IS_COMPRESS_PHOTO, true);
 
                 }
@@ -162,7 +163,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
         } else {
             isBitmapAdded = false;
             refreshButtons();
-            getMvpView().refreshPhotoGallery(question.getAnswers());
+            getMvpView().refreshPhotoGallery(question.getAnswers() , 0);
             getMvpView().setBitmap(null);
         }
     }
@@ -214,7 +215,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
 
     }
 
-    private void saveAnswer(Location location, int photoPos) {
+    private void saveAnswer(Location location, int photoPos, int type) {
 
         new AsyncTask<Void, Void, File>() {
 
@@ -236,7 +237,7 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                 super.onPostExecute(resultImageFile);
                 if (resultImageFile.exists() && question.getAnswers().size() > photoPos) {
                     Answer answer = question.getAnswers().get(photoPos);
-                    boolean needAddEmptyAnswer = !answer.getChecked();
+                     boolean needAddEmptyAnswer = !answer.getChecked();
                     answer.setChecked(true);
                     answer.setFileUri(Uri.fromFile(resultImageFile).getPath());
                     answer.setFileSizeB(resultImageFile.length());
@@ -247,7 +248,10 @@ public class PhotoPresenter<V extends PhotoMvpView> extends BaseQuestionPresente
                     if (!isPreview()) saveQuestion();
                     if (needAddEmptyAnswer && question.getAnswers().size() < question.getMaximumPhotos())
                         addEmptyAnswer();
-                    getMvpView().refreshPhotoGallery(question.getAnswers());
+                    for (int i = 0; i < question.getAnswers().size(); i++) {
+                        Log.e("Richa0" , ""+question.getAnswers().get(i).getFileUri());
+                    }
+                    getMvpView().refreshPhotoGallery(question.getAnswers() , type);
                     isBitmapConfirmed = true;
                     refreshButtons();
                     refreshNextButton(isPhotosAdded());

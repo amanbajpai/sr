@@ -11,6 +11,7 @@ import android.text.Html;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageButton;
@@ -23,6 +24,7 @@ import com.ros.smartrocket.db.entity.question.Answer;
 import com.ros.smartrocket.db.entity.question.CustomFieldImageUrls;
 import com.ros.smartrocket.db.entity.question.Question;
 import com.ros.smartrocket.presentation.question.adapter.HorizonalImgAdapter;
+import com.ros.smartrocket.presentation.question.adapter.MultipleImgAdapter;
 import com.ros.smartrocket.presentation.question.base.BaseQuestionView;
 import com.ros.smartrocket.ui.gallery.model.GalleryInfo;
 import com.ros.smartrocket.utils.DialogUtils;
@@ -38,7 +40,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 
-public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>> implements PhotoMvpView, HorizonalImgAdapter.OnClickImage {
+public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>> implements PhotoMvpView, MultipleImgAdapter.OnClickImage {
 
     @BindView(R.id.galleryLayout)
     LinearLayout galleryLayout;
@@ -53,7 +55,8 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @BindView(R.id.recyclerview_gallery)
     RecyclerView recyclerview_gallery;
 
-    private HorizonalImgAdapter horizonalImgAdapter;
+    //private HorizonalImgAdapter multipleImgAdapter;
+    private MultipleImgAdapter multipleImgAdapter;
     private List<GalleryInfo> imageList = new ArrayList<>();
     private int currentSelectedPhoto = 0;
 
@@ -97,7 +100,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     @Override
     public void fillViewWithAnswers(List<Answer> answers) {
         if (answers.isEmpty()) presenter.addEmptyAnswer();
-        refreshPhotoGallery(answers);
+        refreshPhotoGallery(answers , 1);
         hideLoading();
     }
 
@@ -124,7 +127,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
                 presenter.onPhotoDeleted(currentSelectedPhoto);
                 break;
             case R.id.confirmButton:
-                presenter.onPhotoConfirmed(currentSelectedPhoto);
+                presenter.onPhotoConfirmed(currentSelectedPhoto, 1);
                 break;
         }
     }
@@ -156,13 +159,32 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
     }
 
     @Override
-    public void refreshPhotoGallery(List<Answer> answers) {
+    public void refreshPhotoGallery(List<Answer> answers , int type) {
         galleryLayout.removeAllViews();
-        if (answers.size() > 0) {
+        if (type == 1) {
             for (int i = 0; i < answers.size(); i++) {
                 addItemToGallery(i, answers.get(i));
             }
+        } else {
+
+            for (int i = 0; i < answers.size(); i++) {
+                Log.e("Richa1" , ""+answers.get(i).getFileUri());
+            }
+            renderMultipleList(answers);
         }
+    }
+
+    private void renderMultipleList(List<Answer> answers) {
+        for (int i = 0; i < answers.size(); i++) {
+            Log.e("Richa2" , ""+answers.get(i).getFileUri());
+        }
+        recyclerview_gallery.setVisibility(VISIBLE);
+        multipleImgAdapter = new MultipleImgAdapter(answers, getContext());
+        recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
+                , LinearLayoutManager.HORIZONTAL, true));
+        recyclerview_gallery.setAdapter(multipleImgAdapter);
+        multipleImgAdapter.setListner(this::onItemClick);
+
     }
 
     private void addItemToGallery(final int position, Answer answer) {
@@ -172,23 +194,17 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         if (!TextUtils.isEmpty(answer.getFileUri()) && answer.getChecked()) {
             Bitmap bitmap = SelectImageManager.prepareBitmap(new File(answer.getFileUri()), 100);
             imageView.setImageBitmap(bitmap);
-
         } else {
             imageView.setBackgroundResource(R.drawable.camera_icon);
         }
-
-
         if (position == currentSelectedPhoto) {
             imageFrame.setVisibility(View.VISIBLE);
 
         }
         convertView.setOnClickListener(v -> {
             currentSelectedPhoto = position;
-
             presenter.selectGalleryPhoto(position);
-
         });
-
         galleryLayout.addView(convertView);
     }
 
@@ -224,11 +240,11 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
         }
 
 
-        horizonalImgAdapter = new HorizonalImgAdapter(imageList, getContext());
+        /*multipleImgAdapter = new HorizonalImgAdapter(imageList, getContext());
         recyclerview_gallery.setLayoutManager(new LinearLayoutManager(getContext()
                 , LinearLayoutManager.HORIZONTAL, true));
-        recyclerview_gallery.setAdapter(horizonalImgAdapter);
-        horizonalImgAdapter.setListner(this::onItemClick);
+        recyclerview_gallery.setAdapter(multipleImgAdapter);
+        multipleImgAdapter.setListner(this::onItemClick);*/
     }
 
 
@@ -295,7 +311,7 @@ public class PhotoView extends BaseQuestionView<PhotoMvpPresenter<PhotoMvpView>>
 
 
     @Override
-    public void onItemClick(GalleryInfo galleryInfo, int pos) {
-        Glide.with(getContext()).load(galleryInfo.imagePath).into(photo);
+    public void onItemClick(Answer galleryInfo, int pos) {
+        Glide.with(getContext()).load(galleryInfo.getFileUri()).into(photo);
     }
 }
