@@ -62,8 +62,8 @@ android {
         targetSdkVersion 28
         compileSdkVersion 28
 //        versionCode buildNumber + 10000
-        versionCode 11458
-        versionName '2.7.5'
+        versionCode 11459
+        versionName '2.7.6'
         applicationId "com.ros.smartrocket"
         buildConfigField "boolean", "LOG_ENABLED", "!((\"production\".equals(FLAVOR) || \"chinaProduction\".equals" +
                 "(FLAVOR)) && \"release\".equals(BUILD_TYPE))"
